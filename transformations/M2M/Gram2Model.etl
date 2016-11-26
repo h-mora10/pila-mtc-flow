@@ -1,6 +1,14 @@
 pre{
 	var a: new ModelMM!Architecture;
 	var bm: new ModelMM!BusinessModel;
+	
+	bm.dataTypes.add(new ModelMM!String);
+	bm.dataTypes.add(new ModelMM!Integer);
+	bm.dataTypes.add(new ModelMM!Float);
+	bm.dataTypes.add(new ModelMM!Boolean);
+	bm.dataTypes.add(new ModelMM!Date);
+	bm.dataTypes.add(new ModelMM!Enum);
+	
 	a.businessModel = bm;
 }
 
@@ -70,6 +78,7 @@ rule StringAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name;
+			t.attType = bm.dataTypes[0];
 		}
 
 rule IntegerAttr2Attr
@@ -78,6 +87,7 @@ rule IntegerAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name;
+			t.attType = bm.dataTypes[1];
 		}
 
 rule BooleanAttr2Attr
@@ -86,6 +96,7 @@ rule BooleanAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name;
+			t.attType = bm.dataTypes[3];
 		}
 		
 rule FloatAttr2Attr
@@ -94,6 +105,7 @@ rule FloatAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name;
+			t.attType = bm.dataTypes[2];
 		}
 		
 rule DateAttr2Attr
@@ -102,6 +114,7 @@ rule DateAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name;
+			t.attType = bm.dataTypes[4];
 		}
 		
 rule EnumAttr2Attr
@@ -111,6 +124,7 @@ rule EnumAttr2Attr
 		t:ModelMM!Attribute{
 			t.name = s.name;
 			t.value = s.items;
+			t.attType = bm.dataTypes[5];
 		}
 
 rule ComplexAttr2Entity
@@ -121,9 +135,7 @@ rule ComplexAttr2Entity
 			t.name = s.name;
 			t.attributes = s.attributes.equivalent();			
 		}
-
-		
-		
+			
 operation GrammarMM!Calculate toBody(): ModelMM!Body{
 	var body : new ModelMM!Body;
 	var contents : String;
@@ -132,8 +144,8 @@ operation GrammarMM!Calculate toBody(): ModelMM!Body{
 	for (cond in self.conditions){
 		contents = cond.transformStatement(level);
 	}
-	body.contenido = contents;
-	body.contenido.println();
+	body.content = contents;
+	body.content.println();
 	return body;
 }
 
