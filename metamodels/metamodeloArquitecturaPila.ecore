@@ -139,6 +139,8 @@
         eType="#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="returnParam" eType="#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//FunctionBody"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ListItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSelected" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
@@ -150,7 +152,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Body">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contenido" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Radio" eSuperTypes="#//Input"/>
@@ -158,4 +160,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Date" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Select" eSuperTypes="#//ComplexComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionBody">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
 </ecore:EPackage>
