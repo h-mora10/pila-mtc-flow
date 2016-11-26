@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" xmlns:metamodeloArquitecturaPila="http://www.example.org/metamodeloArquitecturaPila" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.example.org/metamodeloArquitecturaPila metamodeloArquitecturaPila.ecore http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style" xmi:id="_NGRMgKQxEeanz-hj7QtO5A" selectedViews="_NKu1wKQxEeanz-hj7QtO5A _XqFR0KnJEeaa-rCfxi1wmw _XqdsUKnJEeaa-rCfxi1wmw _XueCkKnJEeaa-rCfxi1wmw" version="8.1.1">
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" xmlns:metamodeloArquitecturaPila="http://www.example.org/metamodeloArquitecturaPila" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style" xmi:id="_NGRMgKQxEeanz-hj7QtO5A" selectedViews="_NKu1wKQxEeanz-hj7QtO5A _XqFR0KnJEeaa-rCfxi1wmw _XqdsUKnJEeaa-rCfxi1wmw _XueCkKnJEeaa-rCfxi1wmw" version="8.1.1">
   <models xmi:type="ecore:EPackage" href="metamodeloArquitecturaPila.ecore#/"/>
   <models xmi:type="genmodel:GenModel" href="metamodeloArquitecturaPila.genmodel#/"/>
-  <models xmi:type="metamodeloArquitecturaPila:Architecture" href="ArchitecturePila.xmi#/"/>
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_NKu1wKQxEeanz-hj7QtO5A" initialized="true">
     <ownedRepresentations xmi:type="diagram:DSemanticDiagram" xmi:id="_NcJ88KQxEeanz-hj7QtO5A" name="metamodeloArquitecturaPila class diagram">
       <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_NdINUKQxEeanz-hj7QtO5A" source="GMF_DIAGRAMS">
@@ -237,6 +236,9 @@
             <children xmi:type="notation:Node" xmi:id="_EoGzwaQ5Eeanz-hj7QtO5A" type="7004">
               <children xmi:type="notation:Node" xmi:id="_FJG38KRNEeajk51QcwWLWg" type="3010" element="_FIt2YKRNEeajk51QcwWLWg">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_FJG38aRNEeajk51QcwWLWg"/>
+              </children>
+              <children xmi:type="notation:Node" xmi:id="_TuAqILQXEeaQmIkfjLlsSw" type="3010" element="_SwKh0LQXEeaQmIkfjLlsSw">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_TuAqIbQXEeaQmIkfjLlsSw"/>
               </children>
               <styles xmi:type="notation:SortingStyle" xmi:id="_EoGzwqQ5Eeanz-hj7QtO5A"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_EoGzw6Q5Eeanz-hj7QtO5A"/>
@@ -2422,12 +2424,12 @@
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
-        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_Gpa0IKRNEeajk51QcwWLWg" backgroundStyle="Liquid">
-          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_Gpa0IaRNEeajk51QcwWLWg"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_ACd3ILQYEeaQmIkfjLlsSw" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_ACd3IbQYEeaQmIkfjLlsSw"/>
           <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@style"/>
-          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_Gpa0IqRNEeajk51QcwWLWg"/>
-          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_Gpa0I6RNEeajk51QcwWLWg" red="255" green="255" blue="255"/>
-          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_Gpa0JKRNEeajk51QcwWLWg" red="255" green="252" blue="216"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_ACd3IrQYEeaQmIkfjLlsSw"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_ACd3I7QYEeaQmIkfjLlsSw" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_ACd3JLQYEeaQmIkfjLlsSw" red="255" green="252" blue="216"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_FIt2YKRNEeajk51QcwWLWg" name="name : String" tooltipText="">
@@ -2438,6 +2440,17 @@
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
             <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_GpdQYqRNEeajk51QcwWLWg"/>
             <color xmi:type="viewpoint:RGBValues" xmi:id="_GpdQY6RNEeajk51QcwWLWg"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_SwKh0LQXEeaQmIkfjLlsSw" name="value : AnySimpleType" tooltipText="&#xA;ERROR : The required feature 'eAttributeType' of 'org.eclipse.emf.ecore.impl.EAttributeImpl@4d27c8f9{platform:/resource/MetamodeloArquitecturaPila/model/metamodeloArquitecturaPila.ecore#//Attribute/newAttribute}' must be set&#xA;ERROR : The typed element must have a type">
+          <target xmi:type="ecore:EAttribute" href="metamodeloArquitecturaPila.ecore#//Attribute/value"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="metamodeloArquitecturaPila.ecore#//Attribute/value"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_ACqrcLQYEeaQmIkfjLlsSw" labelAlignment="LEFT">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_ACqrcbQYEeaQmIkfjLlsSw"/>
+            <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
+            <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_ACqrcrQYEeaQmIkfjLlsSw"/>
+            <color xmi:type="viewpoint:RGBValues" xmi:id="_ACqrc7QYEeaQmIkfjLlsSw"/>
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
@@ -3243,7 +3256,7 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_cCtg1Ks7EeaQ0u2_yPm59g" red="255" green="252" blue="216"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_aIjhQKs7EeaQ0u2_yPm59g" name="contenido : String" tooltipText="&#xA;ERROR : The required feature 'eAttributeType' of 'org.eclipse.emf.ecore.impl.EAttributeImpl@69b73668{platform:/resource/MetamodeloArquitecturaPila/model/metamodeloArquitecturaPila.ecore#//Body/newAttribute}' must be set&#xA;ERROR : The typed element must have a type">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_aIjhQKs7EeaQ0u2_yPm59g" name="contenido : String" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="metamodeloArquitecturaPila.ecore#//Body/contenido"/>
           <semanticElements xmi:type="ecore:EAttribute" href="metamodeloArquitecturaPila.ecore#//Body/contenido"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_cC3R0Ks7EeaQ0u2_yPm59g" labelAlignment="LEFT">
@@ -3478,5 +3491,6 @@
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_XueCkKnJEeaa-rCfxi1wmw" initialized="true">
     <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Generation']"/>
   </ownedViews>
+  <models xmi:type="metamodeloArquitecturaPila:Architecture" href="ArchitecturePila.xmi#/"/>
   <models xmi:type="metamodeloArquitecturaPila:Architecture" href="ModelPilaArchitecture.xmi#/"/>
 </viewpoint:DAnalysis>

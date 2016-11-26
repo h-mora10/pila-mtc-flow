@@ -89,6 +89,7 @@
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Attribute">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Attribute/attType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Attribute/value"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Method">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Method/entryParams"/>
