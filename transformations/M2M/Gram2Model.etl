@@ -1,0 +1,153 @@
+pre{
+	var a: new ModelMM!Architecture;
+	var bm: new ModelMM!BusinessModel;
+	a.businessModel = bm;
+}
+
+rule ServiceOp2Entity
+	transform
+		s:GrammarMM!ServiceOperator
+	to
+		t:ModelMM!Entity{
+			bm.entities.add(t);
+			t.name = s.name;
+			//t.childrenEntities = s.superEntities.equivalent();
+			t.childrenEntities = s.services.equivalent();
+			t.attributes = s.attributes.equivalent();
+		}
+		
+rule SuperEnt2Entity
+	transform
+		s:GrammarMM!SuperEntity
+	to
+		t:ModelMM!Entity{
+			t.name = s.name;
+			t.childrenEntities = s.entities.equivalent();
+			t.childrenEntities.add(s.pays.equivalent());
+			t.attributes = s.attributes.equivalent();
+		}
+		
+rule BusinessEnt2Entity
+	transform
+		s:GrammarMM!BusinessEntity
+	to
+		t:ModelMM!Entity{
+			t.name = s.name;
+			t.attributes = s.attributes.equivalent();
+		}
+		
+rule Pay2Entity
+	transform
+		s:GrammarMM!Pay
+	to
+		t:ModelMM!Entity{
+			t.name = s.name;
+			t.attributes = s.attributes.equivalent();
+		}
+		
+rule Service2Entity
+	transform
+		s:GrammarMM!Service
+	to
+		t:ModelMM!Entity{
+			t.name = s.name;
+			t.attributes = s.displayName.equivalent();
+			t.methods = s.calculate.equivalent();
+		}
+		
+rule Calculate2Method
+	transform
+		s:GrammarMM!Calculate
+	to
+		t:ModelMM!Method{
+			t.name = s.name;
+			t.body = s.toBody();
+						
+		}
+		
+operation GrammarMM!Calculate toBody(): ModelMM!Body{
+	var body : new ModelMM!Body;
+	var contents : String;
+	for (cond in self.conditions){
+		contents = cond.transformIf();
+	}
+	body.contenido = contents;
+	return body;
+}
+
+operation GrammarMM!If transformIf() : String{
+	var contents : String;
+	contents += "if ";
+	for (exp in self.expressions){
+		contents += exp.transformExpression();
+	}
+	contents += "\t";
+	for (st in self.statements){
+		if (st.isTypeOf(GrammarMM!Variable)){
+			contents += st.name;
+			contents += " = ";
+			contents += st.value;
+			contents += "\n";
+		}
+		if (st.isTypeOf(GrammarMM!Return)){
+			contents += "return ";
+			contents += st.value;
+			contents += "\n";
+		}
+	}
+	for (elf in self.elseIf){
+		for(exp in elf.expressions){
+			contents += exp.tranformExpression();
+		}
+	}
+	for (els in self.els){
+		
+	}
+	self.expressions.println();
+	return contents;
+}
+
+operation GrammarMM!Expression transformExpression() : String{
+	var contents : String;
+	
+	contents += self.elementLeft.element;
+	contents += " ";
+	contents += self.comparator;
+	contents += " ";
+	contents += self.elementRight.element;
+	contents += "\n";
+	
+	return contents;
+}
+		
+rule StringAttr2Attr
+	transform
+		s:GrammarMM!StringValue
+	to
+		t:ModelMM!Attribute{
+			t.name = s.name;
+		}
+
+rule IntegerAttr2Attr
+	transform
+		s:GrammarMM!IntegerValue
+	to
+		t:ModelMM!Attribute{
+			t.name = s.name;
+		}
+
+rule BooleanAttr2Attr
+	transform
+		s:GrammarMM!BooleanValue
+	to
+		t:ModelMM!Attribute{
+			t.name = s.name;
+		}
+		
+rule FloatAttr2Attr
+	transform
+		s:GrammarMM!FloatValue
+	to
+		t:ModelMM!Attribute{
+			t.name = s.name;
+		}

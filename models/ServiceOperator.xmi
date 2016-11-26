@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII"?>
+<casi:ServiceOperator
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:casi="http://www.edu.co/uniandes/miso/payments/Casi"
+    name="OperadorServicio">
+  <attributes
+      xsi:type="casi:StringValue"
+      name="nombre"/>
+  <superEntities
+      name="Aportante">
+    <attributes
+        xsi:type="casi:StringValue"
+        name="nombre"/>
+    <attributes
+        xsi:type="casi:Enum"
+        name="tipoPagador"/>
+    <entities
+        name="Pensionado">
+      <attributes
+          xsi:type="casi:StringValue"
+          name="nombre"/>
+      <attributes
+          xsi:type="casi:IntegerValue"
+          name="edad"/>
+      <attributes
+          xsi:type="casi:IntegerValue"
+          name="salario"/>
+    </entities>
+    <pays name="Pago">
+      <attributes
+          xsi:type="casi:StringValue"
+          name="beneficiario"/>
+    </pays>
+  </superEntities>
+</casi:ServiceOperator>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/MetamodeloArquitecturaPila/src" modelPluginID="MetamodeloArquitecturaPila"
+    modelName="MetamodeloArquitecturaPila" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>metamodeloArquitecturaPila.ecore</foreignModel>
+  <genPackages prefix="MetamodeloArquitecturaPila" disposableProviderFactory="true"
+      ecorePackage="metamodeloArquitecturaPila.ecore#/">
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Architecture">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/views"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/businessModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/services"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/serviceTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/logic"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//View">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//View/title"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//View/menu"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//View/forms"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//View/gComponents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//View/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//TitleBar">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//TitleBar/titleComponents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//TitleBar/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//TitleBar/id"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Menu">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Menu/items"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Menu/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Menu/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//MenuItem/menuItemComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Form">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Form/formComponents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Form/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Form/id"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//MenuItem">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//MenuItem/menuItemComponent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//MenuItem/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//MenuItem/id"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Button">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Button/action"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Input">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Input/action"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Label"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//SimpleComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//SimpleComponent/value"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//ComplexComponent"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//DropdownList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//DropdownList/items"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Grid">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Grid/cols"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Grid/rows"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//TextArea">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//TextArea/visibleLines"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//GraphicalComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/length"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/id"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Service">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Service/serviceType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Service/requestParams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Service/responseParam"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Service/dispatcher"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Service/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//BusinessModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessModel/entities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessModel/dataTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Entity">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Entity/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Entity/methods"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Entity/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Entity/childrenEntities"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Attribute">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Attribute/attType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Attribute/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Method">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Method/entryParams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Method/returnParam"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Method/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Method/body"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//DataType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//DataType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Integer"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Float"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Boolean"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//String"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Array"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Complex"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//BusinessLogic">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessLogic/functions"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//ServiceType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//ServiceType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Create"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Read"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Update"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Delete"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Function">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Function/entryParams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Function/returnParam"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Function/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//ListItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//ListItem/isSelected"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//ListItem/action"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Parameter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Parameter/paramType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Parameter/name"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Body">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Body/contenido"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Text"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Radio"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Check"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Number"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Date"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Select"/>
+  </genPackages>
+</genmodel:GenModel>

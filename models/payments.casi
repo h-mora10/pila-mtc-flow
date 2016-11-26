@@ -1,0 +1,151 @@
+OperadorServicio ServiceOperator {
+	Atributo Texto "nombre" DisplayName="Nombre";				
+	SuperEntidad Aportante {
+		Atributo Texto "nombre" DisplayName="Nombre";
+		Atributo Enum "tipoPagador" DisplayName="Tipo de pagador" [1, 2, 3, 4];
+		Entidad Pensionado {				 					
+			Atributo Texto "nombre" DisplayName="Nombre";
+			Atributo Entero "edad" DisplayName="Edad";
+			Atributo Entero "salario" DisplayName="Salario";
+							
+			Atributo Complejo "novedad" DisplayName="Novedad" {
+				Atributo Date "fechaInicio" DisplayName="Fecha de inicio";			
+				Atributo Date "fechaFin" DisplayName="Fecha de finalización";			
+				Atributo Entero "duracion" DisplayName="Duracion";					
+				Atributo Enum "tipo" DisplayName="Tipo" [1, 2, 3, 4, 5, 6, 7, 8]
+			};
+			
+			Atributo Enum "tipoPensionado" DisplayName="Tipo de pensionado" [1, 2, 3, 4, 5, 6, 7, 8, 9];
+			Atributo Enum "tipoPension" DisplayName="Tipo de pensión" [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 21];
+			Atributo Booleano "esAltoRiesgo" DisplayName="¿Es de alto riesgo?";	
+			Atributo Booleano "esCongresista" DisplayName="¿Es congresista?";
+			Atributo Booleano "esTrabajadorCTI" DisplayName="¿Es trabajador del CTI?";
+			Atributo Booleano "esAviador" DisplayName="¿Es aviador?";
+			Atributo Booleano "residenciaEnExterior" DisplayName="Residencia en el exterior";
+			Atributo Texto "tienGrupoFamiliarColombia" DisplayName="¿Tiene grupo familiar en Colombia?";
+			Atributo Enum "codigoCIU" DisplayName="Codigo CIU" [8022, 8513, 0117, 1541, 1592, 1743, 2101, 2322, 1431, 2321]
+		};
+
+		Pagos Pago {
+			Atributo Entero "idPensionado" DisplayName="Pensionado";
+			Atributo Real "valorSalud" DisplayName="Total salud";
+			Atributo Real "valorPension" DisplayName="Total pensión";
+			Atributo Real "valorRiesgos" DisplayName="Total riesgos";
+			Atributo Real "valorTotal" DisplayName="Total"				
+		}				
+	};	
+
+	Servicio Service {	
+		Atributo Texto "nombre" DisplayName="Nombre";	
+		Calculo AportePensiones {		
+			if Entidad == Pensionado{
+				
+				var ultimaNovedad = -Null-;
+				
+				if Entidad.novedad.size > 0{
+					var ultimaNovedad = novedad.ultimo;
+				}
+				
+				if Entidad.novedad.size == 0{
+					retorne Entidad.salario * 0.16;
+				} 
+				else_if ultimaNovedad == -NotNull- AND 
+						(Entidad.novedad.tipo == SuspensionTemporal OR
+						Entidad.novedad.tipo == LicenciaNoRemunerada OR
+						Entidad.novedad.tipo == ComisionServicios){														
+					if 	Entidad.novedad.duracion > 7{
+						retorne Entidad.salario * 0.16;
+					}
+					else_if Entidad.novedad.duracion > 3 AND Entidad.novedad.duracion <= 7{
+						retorne Entidad.salario * 0.12;
+					}
+					else_if Entidad.novedad.duracion >= 0 AND Entidad.novedad.duracion <= 3{
+						retorne 0;
+					}
+				}	
+				else_if Entidad.esAltoRiesgo == true{
+					retorne Entidad.salario * 0.26;
+				} 			
+				else_if Entidad.esCongresista == true{																			
+					retorne Entidad.salario * 0.255;					
+				}
+				else_if Entidad.esTrabajadorCTI == true{																			
+					retorne Entidad.salario * 0.35;					
+				}
+				else_if Entidad.esAviador == true{																			
+					retorne Entidad.salario * 0.21;					
+				}
+			}
+		};
+		Calculo AporteSeguridadSocialEnSalud {		
+			if Entidad == Pensionado{				
+				
+				var ultimaNovedad = -Null-;
+				
+				if Entidad.novedad.size > 0{
+					var ultimaNovedad = novedad.ultimo;
+				}
+				
+				if Entidad.residenciaEnExterior == true AND
+						Entidad.tienGrupoFamiliarColombia == true {
+					retorne 0;	
+				}				
+				else_if Entidad.novedad.size == 0{
+					retorne Entidad.salario * 0.12;	
+				}				
+				else {
+					if 	ultimaNovedad == -NotNull- AND
+						(Entidad.novedad.tipo == SuspensionTemporal OR
+						Entidad.novedad.tipo == LicenciaNoRemunerada OR
+						Entidad.novedad.tipo == ComisionServicios) {
+						
+						var duracion = Entidad.novedad.duracion;
+						
+						if duracion >= 0 AND duracion <= 3 {
+							retorne 0;	
+						}
+						
+						if duracion > 3 AND duracion <= 7{
+							retorne Entidad.salario * 0.12;	
+						}
+						
+						if duracion > 7{
+							retorne Entidad.salario * 0.16;	
+						}
+					}
+				}
+			
+			}
+		};
+		Calculo AporteRiesgosLaborales {		
+			if Entidad == Pensionado{								
+				var codigoCIU = Entidad.codigoCIU;
+				
+				if codigoCIU in [8022, 8513]{
+				
+					retorne Entidad.salario * 0.00522;	
+				}
+				
+				if codigoCIU in [0117, 1541]{
+				
+					retorne Entidad.salario * 0.01044;	
+				}
+				
+				if codigoCIU in [1592, 1743]{
+				
+					retorne Entidad.salario * 0.02436;	
+				}
+				
+				if codigoCIU in [2101, 2322]{
+				
+					retorne Entidad.salario * 0.04350;	
+				}
+				
+				if codigoCIU in [1431, 2321]{
+				
+					retorne Entidad.salario * 0.06960;						
+				}		
+			}
+		}
+	}
+}
