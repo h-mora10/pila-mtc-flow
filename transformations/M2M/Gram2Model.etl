@@ -11,8 +11,8 @@ rule ServiceOp2Entity
 		t:ModelMM!Entity{
 			bm.entities.add(t);
 			t.name = s.name;
-			//t.childrenEntities = s.superEntities.equivalent();
-			t.childrenEntities = s.services.equivalent();
+			t.childrenEntities = s.superEntities.equivalent();
+			//t.childrenEntities = s.services.equivalent();
 			t.attributes = s.attributes.equivalent();
 		}
 		
@@ -62,64 +62,8 @@ rule Calculate2Method
 		t:ModelMM!Method{
 			t.name = s.name;
 			t.body = s.toBody();
-						
 		}
-		
-operation GrammarMM!Calculate toBody(): ModelMM!Body{
-	var body : new ModelMM!Body;
-	var contents : String;
-	for (cond in self.conditions){
-		contents = cond.transformIf();
-	}
-	body.contenido = contents;
-	return body;
-}
-
-operation GrammarMM!If transformIf() : String{
-	var contents : String;
-	contents += "if ";
-	for (exp in self.expressions){
-		contents += exp.transformExpression();
-	}
-	contents += "\t";
-	for (st in self.statements){
-		if (st.isTypeOf(GrammarMM!Variable)){
-			contents += st.name;
-			contents += " = ";
-			contents += st.value;
-			contents += "\n";
-		}
-		if (st.isTypeOf(GrammarMM!Return)){
-			contents += "return ";
-			contents += st.value;
-			contents += "\n";
-		}
-	}
-	for (elf in self.elseIf){
-		for(exp in elf.expressions){
-			contents += exp.tranformExpression();
-		}
-	}
-	for (els in self.els){
-		
-	}
-	self.expressions.println();
-	return contents;
-}
-
-operation GrammarMM!Expression transformExpression() : String{
-	var contents : String;
-	
-	contents += self.elementLeft.element;
-	contents += " ";
-	contents += self.comparator;
-	contents += " ";
-	contents += self.elementRight.element;
-	contents += "\n";
-	
-	return contents;
-}
-		
+				
 rule StringAttr2Attr
 	transform
 		s:GrammarMM!StringValue
@@ -151,3 +95,146 @@ rule FloatAttr2Attr
 		t:ModelMM!Attribute{
 			t.name = s.name;
 		}
+		
+rule DateAttr2Attr
+	transform
+		s:GrammarMM!Date
+	to
+		t:ModelMM!Attribute{
+			t.name = s.name;
+		}
+		
+rule EnumAttr2Attr
+	transform
+		s:GrammarMM!Enum
+	to
+		t:ModelMM!Attribute{
+			t.name = s.name;
+		}
+
+rule ComplexAttr2Entity
+	transform
+		s:GrammarMM!Complex
+	to
+		t:ModelMM!Entity{
+			t.name = s.name;
+			t.attributes = s.attributes.equivalent();			
+		}
+
+		
+		
+operation GrammarMM!Calculate toBody(): ModelMM!Body{
+	var body : new ModelMM!Body;
+	var contents : String;
+	var level : Integer;
+	level = 0;
+	for (cond in self.conditions){
+		contents = cond.transformStatement(level);
+	}
+	body.contenido = contents;
+	body.contenido.println();
+	return body;
+}
+
+operation GrammarMM!Statement transformStatement(level : Integer) : String{
+	var contents : String;
+	
+	if (self.isTypeOf(GrammarMM!If)){
+		contents += self.transformIf();
+	}
+	if (self.isTypeOf(GrammarMM!Variable)){
+		contents += self.name;
+		contents += " = ";
+		contents += self.value;
+		contents += "\n";
+	}
+	if (self.isTypeOf(GrammarMM!Return)){
+		contents += "return ";
+		contents += self.value.transformOperation();
+		contents += "\n";
+	}
+	
+	return contents;
+}
+
+operation GrammarMM!If transformIf() : String{
+	var contents : String;
+	
+	contents += "if ";
+	
+	if(not self.expressions.isEmpty()){
+		for (exp in self.expressions){
+			contents += exp.transformExpression();
+		}
+	}
+	
+	if(not self.statements.isEmpty()){
+		for (st in self.statements){
+			contents += st.transformStatement(1);
+		}
+	}
+	
+	if(not self.esleIf.isEmpty()){
+		for (elf in self.esleIf){
+			if(not elf.expressions.isEmpty()){		
+				for(exp in elf.expressions){
+					contents += exp.transformExpression();
+				}
+			}
+			if(not elf.statements.isEmpty()){
+				for(st in elf.statements){
+					contents += st.transformStatement(1);
+				}
+			}
+		}
+	}
+	
+	if(self.els.isDefined()){
+		for (el in self.els){
+			if(not el.statements.isEmpty()){
+				for(st in el.statements){
+					contents += st.transformStatement(1);
+				}
+			}
+		}
+	}
+
+	return contents;
+}
+
+operation GrammarMM!Expression transformExpression() : String{
+	var contents : String;
+
+	if(self.elementLeft.isDefined()){
+		contents += self.elementLeft.element;
+		contents += " ";
+	}
+	if(self.comparator.isDefined()){
+		contents += self.comparator;
+		contents += " ";
+	}
+	if(self.elementRight.isDefined()){
+		contents += self.elementRight.element;
+	}
+	contents += "\n";
+	
+	return contents;
+}
+
+operation GrammarMM!Operation transformOperation() : String{
+	var contents : String;
+	
+	if(self.valueLeft.isDefined()){
+		contents += self.valueLeft;
+		contents += " ";
+	}
+	if(self.operator.isDefined()){
+		contents += self.operator;
+		contents += " ";
+	}
+	if(self.valueRight.isDefined()){
+		contents += self.valueRight;
+	}
+	
+	return contents;
+}
