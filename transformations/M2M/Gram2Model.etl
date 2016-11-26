@@ -110,6 +110,7 @@ rule EnumAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name;
+			t.value = s.items;
 		}
 
 rule ComplexAttr2Entity
