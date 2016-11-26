@@ -12,7 +12,7 @@ rule ServiceOp2Entity
 			bm.entities.add(t);
 			t.name = s.name;
 			t.childrenEntities = s.superEntities.equivalent();
-			//t.childrenEntities = s.services.equivalent();
+			t.childrenEntities.addAll(s.services.equivalent());
 			t.attributes = s.attributes.equivalent();
 		}
 		
