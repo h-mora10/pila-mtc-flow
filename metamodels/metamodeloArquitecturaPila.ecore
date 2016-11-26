@@ -89,7 +89,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="entities" lowerBound="1"
         upperBound="-1" eType="#//Entity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataTypes" lowerBound="1"
-        upperBound="-1" eType="#//DataType"/>
+        upperBound="-1" eType="#//DataType" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Entity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" lowerBound="1"
@@ -121,8 +121,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Float" eSuperTypes="#//DataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="Boolean" eSuperTypes="#//DataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//DataType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Array" eSuperTypes="#//DataType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Complex" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Date" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Enum" eSuperTypes="#//DataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessLogic">
     <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
         upperBound="-1" eType="#//Function" containment="true"/>
