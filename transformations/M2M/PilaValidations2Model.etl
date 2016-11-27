@@ -1,0 +1,16 @@
+pre{
+	var architecture: new ModelMM!Architecture;
+	var businessModel: new ModelMM!BusinessModel;
+	architecture.businessModel = businessModel;
+	var entityTipoPension = new ModelMM!Entity;
+	var entityTipoPensionado = new ModelMM!Entity;
+	var entityPagadorPensiones = new ModelMM!Entity;
+}
+
+rule PagadorPensiones2Attribute 
+	transform s : PilaValidationsMM!PagadorPensiones
+	to t : ModelMM!Attribute {
+	t.name = s.codigo.toString();
+	t.value = s.nombre;
+	entityPagadorPensiones.attributes.add(t);
+}
