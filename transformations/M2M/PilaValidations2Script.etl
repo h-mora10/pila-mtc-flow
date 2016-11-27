@@ -1,0 +1,41 @@
+pre{
+	var architecture: new ModelMM!Architecture;
+	var businessModel: new ModelMM!BusinessModel;
+	var entityTipoPension = new ModelMM!Entity;
+	var entityTipoPensionado = new ModelMM!Entity;
+	var entityPagadorPensiones = new ModelMM!Entity;
+}
+
+rule PagadorPensiones2Attribute 
+	transform s : PilaValidationsMM!PagadorPensiones
+	to t : ModelMM!Attribute {
+	t.name = s.codigo.toString();
+	t.value = s.nombre;
+	entityPagadorPensiones.attributes.add(t);
+}
+
+rule TipoPensionado2Attribute 
+	transform s : PilaValidationsMM!TipoPensionado
+	to t : ModelMM!Attribute {
+	t.name = s.codigo.toString();
+	t.value = s.nombre;
+	entityTipoPensionado.attributes.add(t);
+}
+
+rule TipoPension2Attribute 
+	transform s : PilaValidationsMM!TipoPension
+	to t : ModelMM!Attribute {
+	t.name = s.codigo.toString();
+	t.value = s.nombre;
+	entityTipoPension.attributes.add(t);
+}
+
+post {
+	entityPagadorPensiones.name = 'Pagador Pension';
+	entityTipoPensionado.name = 'Tipo Pensionado';
+	entityTipoPension.name = 'Tipo Pension';
+	businessModel.entities.add(entityPagadorPensiones);
+	businessModel.entities.add(entityTipoPensionado);
+	businessModel.entities.add(entityTipoPension);
+	architecture.businessModel = businessModel;
+}

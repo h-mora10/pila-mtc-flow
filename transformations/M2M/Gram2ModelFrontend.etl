@@ -1,0 +1,143 @@
+pre{		
+	var views = new Sequence;		
+}
+
+rule ServiceOperator2Architecture
+	transform
+		s:GrammarMM!ServiceOperator
+	to 
+		t:ModelMM!Architecture{		 		
+			t.views = s.getViews();			
+			t.name =s.name;		
+		}
+	
+rule StringAttr2Text
+	transform
+		s:GrammarMM!StringValue
+	to
+		t:ModelMM!Text{
+			t.name = s.name;
+			t.displayName = s.displayName;
+		}
+
+rule IntegerAttr2Number
+	transform
+		s:GrammarMM!IntegerValue
+	to
+		t:ModelMM!Number{
+			t.name = s.name;
+			t.displayName = s.displayName;
+		}
+
+rule BooleanAttr2Radio
+	transform
+		s:GrammarMM!BooleanValue
+	to
+		t:ModelMM!Radio{
+			t.name = s.name;
+			t.displayName = s.displayName;
+		}
+		
+rule FloatAttr2Number
+	transform
+		s:GrammarMM!FloatValue
+	to
+		t:ModelMM!Number{
+			t.name = s.name;
+			t.displayName = s.displayName;
+		}
+
+rule DateAttr2Date
+	transform
+		s:GrammarMM!Date
+	to
+		t:ModelMM!Date{
+			t.name = s.name;
+			t.displayName = s.displayName;
+		}
+
+rule EnumAttr2DropdownList
+	transform
+		s:GrammarMM!Enum
+	to
+		t:ModelMM!DropdownList{
+			t.name = s.name;
+			t.displayName = s.displayName;
+			t.items = s.getItems();
+		}
+				
+rule ComplexAttr2View
+	transform
+		s:GrammarMM!Complex
+	to
+		t:ModelMM!View{
+			t.name = s.name;			
+			t.gComponents = s.attributes.equivalent();
+		}
+
+rule Calculate2Button
+	transform
+		s:GrammarMM!Calculate
+	to
+		t:ModelMM!Button{
+			t.name = 'Calcular ' + s.name;
+			t.action = 'calculate' + s.name;			
+		}
+		
+operation GrammarMM!ServiceOperator getViews(): Sequence{	
+	for (superEntity in self.superEntities){
+		var view = new ModelMM!View;
+		view.name = superEntity.name;
+		view.gComponents = superEntity.attributes.equivalent();
+		
+		views.add(view);		
+		
+		for (entity in superEntity.entities){
+			var view2 = new ModelMM!View;
+			view2.name = entity.name;
+			view2.gComponents = entity.attributes.equivalent();			
+			
+			views.add(view2);
+		}
+		
+		for (pay in superEntity.pays){
+			var view3 = new ModelMM!View;
+			view3.name = pay.name;
+			view3.gComponents = pay.attributes.equivalent();			
+			
+			views.add(view3);
+		}		
+	}	
+	
+	for (service in self.services){
+		var view = new ModelMM!View;
+		view.name = service.name;
+		view.gComponents = service.calculate.equivalent();			
+		
+		views.add(view);
+	}
+	
+	return views;
+}
+
+operation GrammarMM!Enum getItems(): Sequence{
+	var items = new Sequence;
+	
+	var isFirts = new Boolean;
+	isFirts = true;	
+	for (item in self.items){
+		var newItem = new ModelMM!ListItem;
+		newItem.action = item;
+		
+		if (isFirts){
+			newItem.isSelected = true;
+			isFirts = false;			
+		}
+		
+		items.add(newItem);	
+	}
+	
+	return items;
+}
+		
+ 

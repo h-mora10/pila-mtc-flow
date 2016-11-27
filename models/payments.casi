@@ -10,26 +10,26 @@ OperadorServicio ServiceOperator {
 							
 			Atributo Complejo "novedad" DisplayName="Novedad" {
 				Atributo Date "fechaInicio" DisplayName="Fecha de inicio";			
-				Atributo Date "fechaFin" DisplayName="Fecha de finalización";			
+				Atributo Date "fechaFin" DisplayName="Fecha de finalizaciÃ³n";			
 				Atributo Entero "duracion" DisplayName="Duracion";					
 				Atributo Enum "tipo" DisplayName="Tipo" [1, 2, 3, 4, 5, 6, 7, 8]
 			};
 			
 			Atributo Enum "tipoPensionado" DisplayName="Tipo de pensionado" [1, 2, 3, 4, 5, 6, 7, 8, 9];
-			Atributo Enum "tipoPension" DisplayName="Tipo de pensión" [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 21];
-			Atributo Booleano "esAltoRiesgo" DisplayName="¿Es de alto riesgo?";	
-			Atributo Booleano "esCongresista" DisplayName="¿Es congresista?";
-			Atributo Booleano "esTrabajadorCTI" DisplayName="¿Es trabajador del CTI?";
-			Atributo Booleano "esAviador" DisplayName="¿Es aviador?";
+			Atributo Enum "tipoPension" DisplayName="Tipo de pensiÃ³n" [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 21];
+			Atributo Booleano "esAltoRiesgo" DisplayName="Â¿Es de alto riesgo?";	
+			Atributo Booleano "esCongresista" DisplayName="Â¿Es congresista?";
+			Atributo Booleano "esTrabajadorCTI" DisplayName="Â¿Es trabajador del CTI?";
+			Atributo Booleano "esAviador" DisplayName="Â¿Es aviador?";
 			Atributo Booleano "residenciaEnExterior" DisplayName="Residencia en el exterior";
-			Atributo Texto "tienGrupoFamiliarColombia" DisplayName="¿Tiene grupo familiar en Colombia?";
+			Atributo Texto "tienGrupoFamiliarColombia" DisplayName="Â¿Tiene grupo familiar en Colombia?";
 			Atributo Enum "codigoCIU" DisplayName="Codigo CIU" [8022, 8513, 0117, 1541, 1592, 1743, 2101, 2322, 1431, 2321]
 		};
 
 		Pagos Pago {
 			Atributo Entero "idPensionado" DisplayName="Pensionado";
 			Atributo Real "valorSalud" DisplayName="Total salud";
-			Atributo Real "valorPension" DisplayName="Total pensión";
+			Atributo Real "valorPension" DisplayName="Total pensiÃ³n";
 			Atributo Real "valorRiesgos" DisplayName="Total riesgos";
 			Atributo Real "valorTotal" DisplayName="Total"				
 		}				
