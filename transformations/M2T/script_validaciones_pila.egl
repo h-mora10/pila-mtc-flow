@@ -1,0 +1,42 @@
+[%	
+var root : PilaValidationsMM!PilaValidations:= PilaValidationsMM!PilaValidations.all.at(0);
+%]
+[%
+for (pagadorPensiones in root.pagadorpensiones) {
+%]
+INSERT INTO [%=pagadorPensiones.eClass.name%] VALUES ([%=pagadorPensiones.codigo%], '[%=pagadorPensiones.nombre%]');
+[%
+}
+%]
+COMMIT;
+
+[%
+for (tipoPensionado in root.tipopensionado) {
+%]
+INSERT INTO [%=tipoPensionado.eClass.name%] VALUES ([%=tipoPensionado.codigo%], '[%=tipoPensionado.nombre%]');
+[%
+}
+%]
+COMMIT;
+
+[%
+for (tipoPension in root.tipopension) {
+%]
+INSERT INTO [%=tipoPension.eClass.name%] VALUES ([%=tipoPension.codigo%], '[%=tipoPension.nombre%]');
+[%
+}
+%]
+COMMIT;
+
+[%
+var i = 1;
+for (tipoPensionado in root.tipopensionado) {
+	for (pagadorPensiones in tipoPensionado.pagadorpensiones) {
+%]
+INSERT INTO [%=tipoPensionado.eClass.name + pagadorPensiones.eClass.name%] VALUES ([%=i%], [%=tipoPensionado.codigo%], [%=pagadorPensiones.codigo%]);
+[%
+		i++;
+	}
+}
+%]
+COMMIT;
