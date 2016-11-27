@@ -77,7 +77,7 @@ rule StringAttr2Attr
 		s:GrammarMM!StringValue
 	to
 		t:ModelMM!Attribute{
-			t.name = s.name;
+			t.name = s.name.replace("\"","");
 			t.attType = bm.dataTypes[0];
 		}
 
@@ -86,7 +86,7 @@ rule IntegerAttr2Attr
 		s:GrammarMM!IntegerValue
 	to
 		t:ModelMM!Attribute{
-			t.name = s.name;
+			t.name = s.name.replace("\"","");
 			t.attType = bm.dataTypes[1];
 		}
 
@@ -95,7 +95,7 @@ rule BooleanAttr2Attr
 		s:GrammarMM!BooleanValue
 	to
 		t:ModelMM!Attribute{
-			t.name = s.name;
+			t.name = s.name.replace("\"","");
 			t.attType = bm.dataTypes[3];
 		}
 		
@@ -104,7 +104,7 @@ rule FloatAttr2Attr
 		s:GrammarMM!FloatValue
 	to
 		t:ModelMM!Attribute{
-			t.name = s.name;
+			t.name = s.name.replace("\"","");
 			t.attType = bm.dataTypes[2];
 		}
 		
@@ -113,7 +113,7 @@ rule DateAttr2Attr
 		s:GrammarMM!Date
 	to
 		t:ModelMM!Attribute{
-			t.name = s.name;
+			t.name = s.name.replace("\"","");
 			t.attType = bm.dataTypes[4];
 		}
 		
@@ -132,7 +132,7 @@ rule ComplexAttr2Entity
 		s:GrammarMM!Complex
 	to
 		t:ModelMM!Entity{
-			t.name = s.name;
+			t.name = s.name.replace("\"","").firstToUpperCase();
 			t.attributes = s.attributes.equivalent();			
 		}
 			
@@ -145,7 +145,7 @@ operation GrammarMM!Calculate toBody(): ModelMM!Body{
 		contents = cond.transformStatement(level);
 	}
 	body.content = contents;
-	body.content.println();
+	//body.content.println();
 	return body;
 }
 
