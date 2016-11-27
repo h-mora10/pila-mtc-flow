@@ -3,3 +3,78 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+[%
+var fkeys : new Map;
+for (ent in marq!Entity.allInstances()){
+	ent.name.print() + " - " + ent.childrenEntities.println();
+	
+	for (child in ent.childrenEntities){
+		if(not fkeys.containsKey(child.name)){
+			fkeys.put(child.name, new Sequence);
+		}
+		fkeys.get(child.name).add(ent.name);
+	}
+	for (att in ent.attributes.select(a|a.isTypeOf(marq!Entity))){
+		if(not fkeys.containsKey(att.name)){
+			fkeys.put(att.name, new Sequence);
+		}
+		fkeys.get(att.name).add(ent.name);
+		
+		for (grandpa in fkeys.get(ent.name)){
+			fkeys.get(att.name).add(grandpa);	
+		}
+	}
+	fkeys.println();
+%]
+class [%=ent.name%](models.Model):
+	[%
+	for(att in ent.attributes){
+		if(att.isTypeOf(marq!Attribute)){
+			if(att.attType.isTypeOf(marq!Enum)){
+	%]
+	[%=att.name.replace("\"","").toUpperCase()%] = []
+	[%	
+			}
+	%]
+	[%=att.findDataType()%]
+	[%
+		}
+	}
+	for(fk in fkeys.get(ent.name)){
+		if(fk.isDefined()){
+	%]
+	[%=fk.toLowerCase()%] = models.ForeignKey([%=fk%])
+	[%
+		}
+	}
+	%]
+	
+[%	
+}
+%]
+
+[%
+operation marq!Attribute findDataType() : String {
+	if(self.isDefined()){
+		if(self.attType.isTypeOf(marq!String)){
+			return self.name + " = models.CharField(max_length=250)";
+		}
+		else if(self.attType.isTypeOf(marq!Integer)){
+			return self.name + " = models.IntegerField()";
+		}
+		else if(self.attType.isTypeOf(marq!Float)){
+			return self.name + " = models.FloatField()";
+		}
+		else if(self.attType.isTypeOf(marq!Boolean)){
+			return self.name + " = models.BooleanField()";
+		}
+		else if(self.attType.isTypeOf(marq!Date)){
+			return self.name + " = models.DateField()";
+		}
+		else if(self.attType.isTypeOf(marq!Enum)){
+			return self.name.replace("\"","") + " = models.IntegerField(choices=" + self.name.replace("\"","").toUpperCase() + ")";
+		}
+	}
+	return self.toString();
+}
+%]
