@@ -13,6 +13,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/services"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/serviceTypes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Architecture/logic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Architecture/name"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//View">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//View/title"/>
@@ -68,6 +69,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/length"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/height"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//GraphicalComponent/displayName"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Service">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Service/serviceType"/>
@@ -78,7 +80,7 @@
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//BusinessModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessModel/entities"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessModel/dataTypes"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessModel/dataTypes"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Entity">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Entity/attributes"/>
@@ -89,6 +91,7 @@
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Attribute">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Attribute/attType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Attribute/value"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Method">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Method/entryParams"/>
@@ -103,8 +106,8 @@
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Float"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Boolean"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//String"/>
-    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Array"/>
-    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Complex"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Date"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Enum"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//BusinessLogic">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//BusinessLogic/functions"/>
     </genClasses>
@@ -119,6 +122,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Function/entryParams"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Function/returnParam"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Function/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodeloArquitecturaPila.ecore#//Function/body"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//ListItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//ListItem/isSelected"/>
@@ -129,13 +133,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Parameter/name"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Body">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Body/contenido"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//Body/content"/>
     </genClasses>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Text"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Radio"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Check"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Number"/>
-    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Date"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Date.1"/>
     <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//Select"/>
+    <genClasses ecoreClass="metamodeloArquitecturaPila.ecore#//FunctionBody">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodeloArquitecturaPila.ecore#//FunctionBody/content"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

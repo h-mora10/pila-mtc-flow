@@ -13,6 +13,7 @@
         upperBound="-1" eType="#//ServiceType" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="logic" lowerBound="1" upperBound="-1"
         eType="#//BusinessLogic" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="View">
     <eStructuralFeatures xsi:type="ecore:EReference" name="title" lowerBound="1" eType="#//TitleBar"
@@ -75,6 +76,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Integer"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Integer"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="displayName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Service">
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceType" eType="#//ServiceType"/>
@@ -89,7 +91,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="entities" lowerBound="1"
         upperBound="-1" eType="#//Entity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataTypes" lowerBound="1"
-        upperBound="-1" eType="#//DataType"/>
+        upperBound="-1" eType="#//DataType" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Entity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" lowerBound="1"
@@ -104,6 +106,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="attType" lowerBound="1"
         eType="#//DataType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Method">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entryParams" upperBound="-1"
@@ -120,8 +123,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Float" eSuperTypes="#//DataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="Boolean" eSuperTypes="#//DataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//DataType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Array" eSuperTypes="#//DataType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Complex" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Date" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Enum" eSuperTypes="#//DataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessLogic">
     <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
         upperBound="-1" eType="#//Function" containment="true"/>
@@ -138,6 +141,8 @@
         eType="#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="returnParam" eType="#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//FunctionBody"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ListItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSelected" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
@@ -149,7 +154,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Body">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contenido" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Radio" eSuperTypes="#//Input"/>
@@ -157,4 +162,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Date" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Select" eSuperTypes="#//ComplexComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionBody">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
 </ecore:EPackage>
