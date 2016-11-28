@@ -7,7 +7,7 @@ pre{
 }
 
 rule PagadorPensiones2Attribute 
-	transform s : PilaValidationsMM!PagadorPensiones
+	transform s : PilaValidationsMM!TipoPagadorPensiones
 	to t : ModelMM!Attribute {
 	t.name = s.codigo.toString();
 	t.value = s.nombre;

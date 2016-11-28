@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pilaValidations:PilaValidations
+<pilaValidationsV2:PilaValidations
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:pilaValidations="http://www.example.org/pilaValidations">
+    xmlns:pilaValidationsV2="http://www.example.org/pilaValidationsV2">
   <tipopension
       codigo="1"
       nombre="Vejez"/>
@@ -105,4 +105,34 @@
       codigo="9"
       nombre="Beneficiario UPC adicional"
       pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2"/>
-</pilaValidations:PilaValidations>
+  <tiponovedad
+      codigo="1"
+      nombre="Traslado"/>
+  <tiponovedad
+      codigo="2"
+      nombre="Variaci&#xf3;n transitoria de salario"/>
+  <tiponovedad
+      codigo="3"
+      nombre="Supenci&#xf3;n temporal"/>
+  <tiponovedad
+      codigo="4"
+      nombre="Licencia no remunerada"/>
+  <tiponovedad
+      codigo="5"
+      nombre="Comisi&#xf3;n por servicios"/>
+  <tiponovedad
+      codigo="6"
+      nombre="Incapacidad temporal por enfermedad"/>
+  <tiponovedad
+      codigo="7"
+      nombre="Licencia maternidad/paternidad"/>
+  <tiponovedad
+      codigo="8"
+      nombre="Vacaciones"/>
+  <tiponovedad
+      codigo="9"
+      nombre="Licencia remunerada"/>
+  <tiponovedad
+      codigo="10"
+      nombre="Aporte volunatario a pensiones"/>
+</pilaValidationsV2:PilaValidations>
