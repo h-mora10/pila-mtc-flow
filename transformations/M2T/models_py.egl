@@ -5,8 +5,9 @@ from django.db import models
 
 [%
 var fkeys : new Map;
+var hasEnums : new Map;
 for (ent in marq!Entity.allInstances()){
-	ent.name.print() + " - " + ent.childrenEntities.println();
+	ent.name.print() + " - " + ent.attributes.println();
 	
 	for (child in ent.childrenEntities){
 		if(not fkeys.containsKey(child.name)){
@@ -24,7 +25,6 @@ for (ent in marq!Entity.allInstances()){
 			fkeys.get(att.name).add(grandpa);	
 		}
 	}
-	fkeys.println();
 %]
 class [%=ent.name%](models.Model):
 	[%
@@ -44,6 +44,25 @@ class [%=ent.name%](models.Model):
 		if(fk.isDefined()){
 	%]
 	[%=fk.toLowerCase()%] = models.ForeignKey([%=fk%])
+	[%
+		}
+	}
+	
+	if(ent.attributes.select(a|a.isTypeOf(marq!Attribute)).select(b|b.attType.isTypeOf(marq!Enum)).size() > 0){
+	%]
+	
+	def __init__(self,*args,**kwargs):
+		super([%=ent.name%],self).__init__(*args,**kwargs)
+	[%}
+	for (att in ent.attributes.select(a|a.isTypeOf(marq!Attribute)).select(b|b.attType.isTypeOf(marq!Enum))){
+		if(marq!Entity.allInstances().select(e|e.name.toLowerCase() = att.name.replace("\"","").toLowerCase()).size()>0){
+			var refEntity = marq!Entity.allInstances().select(e|e.name.toLowerCase() = att.name.replace("\"","").toLowerCase()).first();
+	%]
+		opciones_[%=att.name.replace("\"","")%] = [%=refEntity.name%].objects().all()
+		for opcion_[%=att.name.replace("\"","")%] in opciones_[%=att.name.replace("\"","")%]:
+			self.[%=att.name.replace("\"","").toUpperCase()%].append((opcion_[%=att.name.replace("\"","")%].pk, 
+											opcion_[%=att.name.replace("\"","")%].[%=refEntity.attributes.first().name%]))
+		
 	[%
 		}
 	}
@@ -73,6 +92,10 @@ operation marq!Attribute findDataType() : String {
 		}
 		else if(self.attType.isTypeOf(marq!Enum)){
 			return self.name.replace("\"","") + " = models.IntegerField(choices=" + self.name.replace("\"","").toUpperCase() + ")";
+		}
+		else{
+			var fks = self.name.split("-");
+			return fks[0] + " = models.ForeignKey(" + fks[1] + ")";
 		}
 	}
 	return self.toString();
