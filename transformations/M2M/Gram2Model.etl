@@ -1,15 +1,17 @@
 pre{
-	var a: new ModelMM!Architecture;
-	var bm: new ModelMM!BusinessModel;
+	var a: ModelMM!Architecture;
+	var bm: ModelMM!BusinessModel;
 	
-	bm.dataTypes.add(new ModelMM!String);
-	bm.dataTypes.add(new ModelMM!Integer);
-	bm.dataTypes.add(new ModelMM!Float);
-	bm.dataTypes.add(new ModelMM!Boolean);
-	bm.dataTypes.add(new ModelMM!Date);
-	bm.dataTypes.add(new ModelMM!Enum);
+	var dataTypes = new Sequence;
 	
-	a.businessModel = bm;
+	dataTypes.add(new ModelMM!String);
+	dataTypes.add(new ModelMM!Integer);
+	dataTypes.add(new ModelMM!Float);
+	dataTypes.add(new ModelMM!Boolean);
+	dataTypes.add(new ModelMM!Date);
+	dataTypes.add(new ModelMM!Enum);
+	
+	PilaValidationsMM!PilaValidations.all.collect(t|t.getArchitecture());
 }
 
 rule ServiceOp2Entity
@@ -78,7 +80,7 @@ rule StringAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name.replace("\"","");
-			t.attType = bm.dataTypes[0];
+			t.attType = dataTypes[0];
 		}
 
 rule IntegerAttr2Attr
@@ -87,7 +89,7 @@ rule IntegerAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name.replace("\"","");
-			t.attType = bm.dataTypes[1];
+			t.attType = dataTypes[1];
 		}
 
 rule BooleanAttr2Attr
@@ -96,7 +98,7 @@ rule BooleanAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name.replace("\"","");
-			t.attType = bm.dataTypes[3];
+			t.attType = dataTypes[3];
 		}
 		
 rule FloatAttr2Attr
@@ -105,7 +107,7 @@ rule FloatAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name.replace("\"","");
-			t.attType = bm.dataTypes[2];
+			t.attType = dataTypes[2];
 		}
 		
 rule DateAttr2Attr
@@ -114,7 +116,7 @@ rule DateAttr2Attr
 	to
 		t:ModelMM!Attribute{
 			t.name = s.name.replace("\"","");
-			t.attType = bm.dataTypes[4];
+			t.attType = dataTypes[4];
 		}
 		
 rule EnumAttr2Attr
@@ -124,7 +126,7 @@ rule EnumAttr2Attr
 		t:ModelMM!Attribute{
 			t.name = s.name;
 			t.value = s.items;
-			t.attType = bm.dataTypes[5];
+			t.attType = dataTypes[5];
 		}
 
 rule ComplexAttr2Entity
@@ -172,12 +174,26 @@ operation GrammarMM!Statement transformStatement(level : Integer) : String{
 
 operation GrammarMM!If transformIf() : String{
 	var contents : String;
+	var hasLogicOp : Boolean = false;
+	var logicOpSeq : Sequence;
+	var logicOpIt : Integer = 0;
 	
 	contents += "if ";
+	
+	if(self.expressions.size()>1){
+		hasLogicOp = true;
+		logicOpSeq = self.logoperator;
+	}
 	
 	if(not self.expressions.isEmpty()){
 		for (exp in self.expressions){
 			contents += exp.transformExpression();
+			if(hasLogicOp and (logicOpIt < logicOpSeq.size())){
+				contents += " ";
+				contents += logicOpSeq.at(logicOpIt);
+				contents += " ";
+				logicOpIt++;
+			}
 		}
 	}
 	
@@ -250,4 +266,77 @@ operation GrammarMM!Operation transformOperation() : String{
 	}
 	
 	return contents;
+}
+
+operation PilaValidationsMM!PilaValidations getArchitecture () : ModelMM!Architecture {
+	a = new ModelMM!Architecture;
+	
+	bm = new ModelMM!BusinessModel;
+	bm.entities = self.getEntities();
+	bm.dataTypes = dataTypes;
+	
+	a.businessModel = bm;
+	
+	return a;
+}
+
+operation PilaValidationsMM!PilaValidations getEntities() : Sequence {
+	var entities = new Sequence;
+	
+	if (not self.pagadorpensiones.isEmpty()) {
+		var entity = new ModelMM!Entity;
+		entity.name = self.pagadorpensiones.get(0).eClass.name;
+			
+		var attribute = new ModelMM!Attribute;
+		attribute.name = 'descripcion';
+		attribute.attType = dataTypes[0];
+			
+		entity.attributes.add(attribute);
+		entities.add(entity);
+	}
+	
+	if (not self.tipopensionado.isEmpty()) {
+		var entity = new ModelMM!Entity;
+		entity.name = self.tipopensionado.get(0).eClass.name;
+			
+		var attribute = new ModelMM!Attribute;
+		attribute.name = 'descripcion';
+		attribute.attType = dataTypes[0];
+			
+		entity.attributes.add(attribute);
+		entities.add(entity);
+	}
+	
+	if (not self.tipopension.isEmpty()) {
+		var entity = new ModelMM!Entity;
+		entity.name = self.tipopension.get(0).eClass.name;
+			
+		var attribute = new ModelMM!Attribute;
+		attribute.name = 'descripcion';
+		attribute.attType = dataTypes[0];
+			
+		entity.attributes.add(attribute);
+		entities.add(entity);
+	}
+	
+	if (not self.tipopensionado.get(0).pagadorpensiones.isEmpty()) {
+		var entity = new ModelMM!Entity;
+		var nombre = self.tipopensionado.get(0).eClass.name + 
+		self.tipopensionado.get(0).pagadorpensiones.get(0).eClass.name;
+		entity.name = nombre;
+			
+		var attribute1 = new ModelMM!Attribute;
+		attribute1.name = 'tipo_pensionado' + '-' + self.tipopensionado.get(0).eClass.name;
+		
+		entity.attributes.add(attribute1);
+		
+		var attribute2 = new ModelMM!Attribute;
+		attribute2.name = 'tipo_pagador_pensiones' + '-' + self.tipopensionado.get(0).pagadorpensiones.get(0).eClass.name;
+		
+		entity.attributes.add(attribute2);
+		
+		entities.add(entity);
+	}
+	
+	return entities;
 }
