@@ -37,12 +37,14 @@
     </genClasses>
     <genClasses ecoreClass="Casi.ecore#//If">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Casi.ecore#//If/expressions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Casi.ecore#//If/logoperator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Casi.ecore#//If/statements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Casi.ecore#//If/esleIf"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Casi.ecore#//If/els"/>
     </genClasses>
     <genClasses ecoreClass="Casi.ecore#//ElIf">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Casi.ecore#//ElIf/expressions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Casi.ecore#//ElIf/logoperator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Casi.ecore#//ElIf/statements"/>
     </genClasses>
     <genClasses ecoreClass="Casi.ecore#//Expression">
