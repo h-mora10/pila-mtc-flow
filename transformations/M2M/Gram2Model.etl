@@ -144,26 +144,36 @@ operation GrammarMM!Calculate toBody(): ModelMM!Body{
 	var level : Integer;
 	level = 0;
 	for (cond in self.conditions){
-		contents = cond.transformStatement(level);
+		contents += cond.transformStatement(level);
 	}
 	body.content = contents;
-	//body.content.println();
+	body.content.println();
 	return body;
 }
 
 operation GrammarMM!Statement transformStatement(level : Integer) : String{
 	var contents : String;
+	level += 1;
 	
-	if (self.isTypeOf(GrammarMM!If)){
-		contents += self.transformIf();
+	var base : String = "";
+	var cont = 0;
+	while(cont < level){
+		base += "\t";
+		cont++;
 	}
+	
+	contents += base;
+	
 	if (self.isTypeOf(GrammarMM!Variable)){
 		contents += self.name;
 		contents += " = ";
 		contents += self.value;
 		contents += "\n";
 	}
-	if (self.isTypeOf(GrammarMM!Return)){
+	else if (self.isTypeOf(GrammarMM!If)){
+		contents += self.transformIf(level);
+	}
+	else if (self.isTypeOf(GrammarMM!Return)){
 		contents += "return ";
 		contents += self.value.transformOperation();
 		contents += "\n";
@@ -172,13 +182,22 @@ operation GrammarMM!Statement transformStatement(level : Integer) : String{
 	return contents;
 }
 
-operation GrammarMM!If transformIf() : String{
-	var contents : String;
+operation GrammarMM!If transformIf(level : Integer) : String{
+	var contents : String = "";
 	var hasLogicOp : Boolean = false;
 	var logicOpSeq : Sequence;
 	var logicOpIt : Integer = 0;
+	level.println();
+	self.expressions.println();
 	
-	contents += "if ";
+	var base : String = "";
+	var cont = 0;
+	while(cont < level){
+		base += "\t";
+		cont++;
+	}
+	
+	contents += base + "if ";
 	
 	if(self.expressions.size()>1){
 		hasLogicOp = true;
@@ -189,27 +208,49 @@ operation GrammarMM!If transformIf() : String{
 		for (exp in self.expressions){
 			contents += exp.transformExpression();
 			if(hasLogicOp and (logicOpIt < logicOpSeq.size())){
-				contents += " ";
-				contents += logicOpSeq.at(logicOpIt);
-				contents += " ";
+				contents += base + " ";
+				contents += base + logicOpSeq.at(logicOpIt);
+				contents += base + " ";
 				logicOpIt++;
 			}
 		}
 	}
 	
+	contents += ":\n";
+	
 	if(not self.statements.isEmpty()){
 		for (st in self.statements){
-			contents += st.transformStatement(1);
+			contents += base + st.transformStatement(1);
 		}
 	}
 	
 	if(not self.esleIf.isEmpty()){
 		for (elf in self.esleIf){
+			contents += base + "elif ";
+			
+			var hasLogicOpEIf : Boolean = false;
+			var logicOpSeqEIf : Sequence;
+			var logicOpItEIf : Integer = 0;
+	
+			if(elf.expressions.size()>1){
+				hasLogicOpEIf = true;
+				logicOpSeqEIf = self.logoperator;
+			}
+			
 			if(not elf.expressions.isEmpty()){		
 				for(exp in elf.expressions){
 					contents += exp.transformExpression();
+					if(hasLogicOpEIf and (logicOpItEIf < logicOpSeqEIf.size())){
+						contents += " ";
+						contents += logicOpSeqEIf.at(logicOpItEIf);
+						contents += " ";
+						logicOpItEIf++;
+					}
 				}
 			}
+			
+			contents += ":\n";
+			
 			if(not elf.statements.isEmpty()){
 				for(st in elf.statements){
 					contents += st.transformStatement(1);
@@ -227,6 +268,8 @@ operation GrammarMM!If transformIf() : String{
 			}
 		}
 	}
+	
+	//contents += "\n} ";
 
 	return contents;
 }
@@ -245,7 +288,7 @@ operation GrammarMM!Expression transformExpression() : String{
 	if(self.elementRight.isDefined()){
 		contents += self.elementRight.element;
 	}
-	contents += "\n";
+	//contents += "\n";
 	
 	return contents;
 }
@@ -315,6 +358,30 @@ operation PilaValidationsMM!PilaValidations getEntities() : Sequence {
 		attribute.name = 'descripcion';
 		attribute.attType = dataTypes[0];
 			
+		entity.attributes.add(attribute);
+		entities.add(entity);
+	}
+	
+	if (not self.tiponovedad.isEmpty()) {
+		var entity = new ModelMM!Entity;
+		entity.name = self.tiponovedad.get(0).eClass.name;
+		
+		var attribute = new ModelMM!Attribute;
+		attribute.name = 'descripcion';
+		attribute.attType = dataTypes[0];
+		
+		entity.attributes.add(attribute);
+		entities.add(entity);
+	}
+	
+	if (not self.codigociu.isEmpty()) {
+		var entity = new ModelMM!Entity;
+		entity.name = self.codigociu.get(0).eClass.name;
+		
+		var attribute = new ModelMM!Attribute;
+		attribute.name = 'descripcion';
+		attribute.attType = dataTypes[1];
+		
 		entity.attributes.add(attribute);
 		entities.add(entity);
 	}
