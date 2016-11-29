@@ -2,7 +2,7 @@ OperadorServicio ServiceOperator {
 	Atributo Texto "nombre" DisplayName="Nombre";				
 	SuperEntidad Aportante {
 		Atributo Texto "nombre" DisplayName="Nombre";
-		Atributo Enum "tipoPagador" DisplayName="Tipo de pagador" [1, 2, 3, 4];
+		Atributo Enum "tipoPagadorPensiones" DisplayName="Tipo de pagador" [1, 2, 3, 4];
 		Entidad Pensionado {				 					
 			Atributo Texto "nombre" DisplayName="Nombre";
 			Atributo Entero "edad" DisplayName="Edad";
@@ -12,7 +12,7 @@ OperadorServicio ServiceOperator {
 				Atributo Date "fechaInicio" DisplayName="Fecha de inicio";			
 				Atributo Date "fechaFin" DisplayName="Fecha de finalización";			
 				Atributo Entero "duracion" DisplayName="Duracion";					
-				Atributo Enum "tipo" DisplayName="Tipo" [1, 2, 3, 4, 5, 6, 7, 8]
+				Atributo Enum "tipoNovedad" DisplayName="Tipo" [1, 2, 3, 4, 5, 6, 7, 8]
 			};
 			
 			Atributo Enum "tipoPensionado" DisplayName="Tipo de pensionado" [1, 2, 3, 4, 5, 6, 7, 8, 9];
