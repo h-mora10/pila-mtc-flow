@@ -27,7 +27,6 @@ OperadorServicio ServiceOperator {
 		};
 
 		Pagos Pago {
-			Atributo Entero "idPensionado" DisplayName="Pensionado";
 			Atributo Real "valorSalud" DisplayName="Total salud";
 			Atributo Real "valorPension" DisplayName="Total pensión";
 			Atributo Real "valorRiesgos" DisplayName="Total riesgos";
@@ -38,113 +37,106 @@ OperadorServicio ServiceOperator {
 	Servicio Service {	
 		Atributo Texto "nombre" DisplayName="Nombre";	
 		Calculo AportePensiones {		
-			if Entidad == Pensionado{
+			var ultimaNovedad = -Null-;
 				
-				var ultimaNovedad = -Null-;
-				
-				if Entidad.novedad.size > 0{
-					var ultimaNovedad = novedad.ultimo;
-				}
-				
-				if Entidad.novedad.size == 0{
-					retorne Entidad.salario * 0.16;
-				} 
-				else_if ultimaNovedad == -NotNull- AND 
-						(Entidad.novedad.tipo == SuspensionTemporal OR
-						Entidad.novedad.tipo == LicenciaNoRemunerada OR
-						Entidad.novedad.tipo == ComisionServicios){														
-					if 	Entidad.novedad.duracion > 7{
-						retorne Entidad.salario * 0.16;
-					}
-					else_if Entidad.novedad.duracion > 3 AND Entidad.novedad.duracion <= 7{
-						retorne Entidad.salario * 0.12;
-					}
-					else_if Entidad.novedad.duracion >= 0 AND Entidad.novedad.duracion <= 3{
-						retorne 0;
-					}
-				}	
-				else_if Entidad.esAltoRiesgo == true{
-					retorne Entidad.salario * 0.26;
-				} 			
-				else_if Entidad.esCongresista == true{																			
-					retorne Entidad.salario * 0.255;					
-				}
-				else_if Entidad.esTrabajadorCTI == true{																			
-					retorne Entidad.salario * 0.35;					
-				}
-				else_if Entidad.esAviador == true{																			
-					retorne Entidad.salario * 0.21;					
-				}
+			if Entidad.novedad.size > 0{
+				var ultimaNovedad = novedad.ultimo;
 			}
+			
+			if Entidad.novedad.size == 0{
+				retorne Entidad.salario * 0.16;
+			} 
+			else_if ultimaNovedad == -NotNull- AND 
+					(Entidad.novedad.tipo == SuspensionTemporal OR
+					Entidad.novedad.tipo == LicenciaNoRemunerada OR
+					Entidad.novedad.tipo == ComisionServicios){														
+				if 	Entidad.novedad.duracion > 7{
+					retorne Entidad.salario * 0.16;
+				}
+				else_if Entidad.novedad.duracion > 3 AND Entidad.novedad.duracion <= 7{
+					retorne Entidad.salario * 0.12;
+				}
+				else_if Entidad.novedad.duracion >= 0 AND Entidad.novedad.duracion <= 3{
+					retorne 0;
+				}
+			}	
+			else_if Entidad.esAltoRiesgo == true{
+				retorne Entidad.salario * 0.26;
+			} 			
+			else_if Entidad.esCongresista == true{																			
+				retorne Entidad.salario * 0.255;					
+			}
+			else_if Entidad.esTrabajadorCTI == true{																			
+				retorne Entidad.salario * 0.35;					
+			}
+			else_if Entidad.esAviador == true{																			
+				retorne Entidad.salario * 0.21;					
+			}
+			
 		};
 		Calculo AporteSeguridadSocialEnSalud {		
-			if Entidad == Pensionado{				
-				
-				var ultimaNovedad = -Null-;
-				
-				if Entidad.novedad.size > 0{
-					var ultimaNovedad = novedad.ultimo;
-				}
-				
-				if Entidad.residenciaEnExterior == true AND
-						Entidad.tienGrupoFamiliarColombia == true {
-					retorne 0;	
-				}				
-				else_if Entidad.novedad.size == 0{
-					retorne Entidad.salario * 0.12;	
-				}				
-				else {
-					if 	ultimaNovedad == -NotNull- AND
-						(Entidad.novedad.tipo == SuspensionTemporal OR
-						Entidad.novedad.tipo == LicenciaNoRemunerada OR
-						Entidad.novedad.tipo == ComisionServicios) {
-						
-						var duracion = Entidad.novedad.duracion;
-						
-						if duracion >= 0 AND duracion <= 3 {
-							retorne 0;	
-						}
-						
-						if duracion > 3 AND duracion <= 7{
-							retorne Entidad.salario * 0.12;	
-						}
-						
-						if duracion > 7{
-							retorne Entidad.salario * 0.16;	
-						}
+			var ultimaNovedad = -Null-;
+			
+			if Entidad.novedad.size > 0{
+				var ultimaNovedad = novedad.ultimo;
+			}
+			
+			if Entidad.residenciaEnExterior == true AND
+					Entidad.tienGrupoFamiliarColombia == true {
+				retorne 0;	
+			}				
+			else_if Entidad.novedad.size == 0{
+				retorne Entidad.salario * 0.12;	
+			}				
+			else {
+				if 	ultimaNovedad == -NotNull- AND
+					(Entidad.novedad.tipo == SuspensionTemporal OR
+					Entidad.novedad.tipo == LicenciaNoRemunerada OR
+					Entidad.novedad.tipo == ComisionServicios) {
+					
+					var duracion = Entidad.novedad.duracion;
+					
+					if duracion >= 0 AND duracion <= 3 {
+						retorne 0;	
+					}
+					
+					if duracion > 3 AND duracion <= 7{
+						retorne Entidad.salario * 0.12;	
+					}
+					
+					if duracion > 7{
+						retorne Entidad.salario * 0.16;	
 					}
 				}
-			
 			}
+
 		};
 		Calculo AporteRiesgosLaborales {		
-			if Entidad == Pensionado{								
-				var codigoCIU = Entidad.codigoCIU;
-				
-				if codigoCIU in [8022, 8513]{
-				
-					retorne Entidad.salario * 0.00522;	
-				}
-				
-				if codigoCIU in [0117, 1541]{
-				
-					retorne Entidad.salario * 0.01044;	
-				}
-				
-				if codigoCIU in [1592, 1743]{
-				
-					retorne Entidad.salario * 0.02436;	
-				}
-				
-				if codigoCIU in [2101, 2322]{
-				
-					retorne Entidad.salario * 0.04350;	
-				}
-				
-				if codigoCIU in [1431, 2321]{
-				
-					retorne Entidad.salario * 0.06960;						
-				}		
+			var codigoCIU = Entidad.codigoCIU;
+			
+			if codigoCIU in [8022, 8513]{
+			
+				retorne Entidad.salario * 0.00522;	
+			}
+			
+			if codigoCIU in [0117, 1541]{
+			
+				retorne Entidad.salario * 0.01044;	
+			}
+			
+			if codigoCIU in [1592, 1743]{
+			
+				retorne Entidad.salario * 0.02436;	
+			}
+			
+			if codigoCIU in [2101, 2322]{
+			
+				retorne Entidad.salario * 0.04350;	
+			}
+			
+			if codigoCIU in [1431, 2321]{
+			
+				retorne Entidad.salario * 0.06960;						
 			}
 		}
 	}

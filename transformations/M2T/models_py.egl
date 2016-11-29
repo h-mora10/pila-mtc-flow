@@ -1,13 +1,15 @@
 # coding=utf-8
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 
 [%
 var fkeys : new Map;
 var hasEnums : new Map;
 for (ent in marq!Entity.allInstances()){
-	ent.name.print() + " - " + ent.attributes.println();
+	ent.name.println();
+	ent.childrenEntities.println();
 	
 	for (child in ent.childrenEntities){
 		if(not fkeys.containsKey(child.name)){
@@ -29,6 +31,11 @@ for (ent in marq!Entity.allInstances()){
 class [%=ent.name%](models.Model):
 	[%
 	for(att in ent.attributes){
+		if(ent.name.equals("ServiceOperator") or ent.name.equals("Aportante")){
+		%]
+	usuario_id = models.OneToOneField(User)	
+		[%
+		}
 		if(att.isTypeOf(marq!Attribute)){
 			if(att.attType.isTypeOf(marq!Enum)){
 	%]
@@ -66,6 +73,15 @@ class [%=ent.name%](models.Model):
 	[%
 		}
 	}
+	
+	for (meth in ent.methods){
+	%]	
+	@staticmethod
+	def calcular_[%=meth.name%]()
+		[%=meth.body.content.transformBody()%]
+	[%
+	}
+	
 	%]
 	
 [%	
@@ -99,5 +115,12 @@ operation marq!Attribute findDataType() : String {
 		}
 	}
 	return self.toString();
+}
+
+operation String transformBody () : String {
+	var cont = self.toString();
+	cont = cont.replace("-Null-","None");
+	
+	return cont;
 }
 %]
