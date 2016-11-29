@@ -1,0 +1,111 @@
+[%
+	var architecture = arcFront!Architecture.all.at(0);  	
+		
+	TemplateFactory.setTemplateRoot(".\\source\\docs");
+	TemplateFactory.setOutputRoot("..\\..\\generated\\docs");		
+			
+	architecture.views.generateCrudContent(true);
+	generatePayAndService(architecture);
+
+	operation Collection generateCrudContent(allowCreateUser : Boolean){		
+		for (view in self) {		
+			for (viewChild in view.childs){			
+				var name = viewChild.name.toLowerCase();
+				if ((not name.matches("service")) and (not name.matches("pago"))){								
+					var createHtml:Template:=TemplateFactory.load("html\\create.html.egl");
+					createHtml.populate("viewParent", view);
+					createHtml.populate("viewChild", viewChild);
+					createHtml.populate("childs", view.childs);
+					createHtml.populate("allowCreateUser", allowCreateUser);
+					createHtml.generate("html\\crear-" + name + ".html");		
+					
+					var updateHtml:Template:=TemplateFactory.load("html\\update.html.egl");
+					updateHtml.populate("viewParent", view);
+					updateHtml.populate("viewChild", viewChild);
+					updateHtml.populate("childs", view.childs);
+					updateHtml.populate("allowCreateUser", allowCreateUser);
+					updateHtml.generate("html\\actualizar-" + name + ".html");
+					
+					var queryHtml:Template:=TemplateFactory.load("html\\query.html.egl");
+					queryHtml.populate("viewParent", view);
+					queryHtml.populate("viewChild", viewChild);
+					queryHtml.populate("childs", view.childs);
+					queryHtml.populate("allowCreateUser", allowCreateUser);
+					queryHtml.generate("html\\consultar-" + name + ".html");
+					
+					var crudJS:Template:=TemplateFactory.load("assets\\js\\app\\services\\crud.js.egl");
+					crudJS.populate("viewParent", view);
+					crudJS.populate("viewChild", viewChild);
+					crudJS.populate("childs", view.childs);
+					crudJS.populate("allowCreateUser", allowCreateUser);
+					crudJS.generate("assets\\js\\app\\services\\" + name + ".js");
+					
+					var tableDynamicJS:Template:=TemplateFactory.load("assets\\js\\core\\demo\\tableDynamic.js.egl");
+					tableDynamicJS.populate("viewParent", view);
+					tableDynamicJS.populate("viewChild", viewChild);
+					tableDynamicJS.populate("childs", view.childs);
+					tableDynamicJS.populate("allowCreateUser", allowCreateUser);
+					tableDynamicJS.generate("assets\\js\\core\\demo\\" + name + "TableDynamic.js");
+					
+					view.childs.generateCrudContent(false);
+				}				
+			}		
+		}			
+	}
+	
+	operation Any generatePayAndService(architecture){
+		var service = new arcFront!View;
+		var pay = new arcFront!View;
+		var parent = new arcFront!View;
+		var pensionado = new arcFront!View;
+		for(view in architecture.views[0].childs){
+			for (viewChild in view.childs){
+				var name = viewChild.name.toLowerCase();								
+				if (name.matches("service")){	
+					service = viewChild;				
+					parent = view;					
+				}
+				else if (name.matches("pago")){
+					pay = viewChild;
+					parent = view;								
+				}
+				else if (name.matches("pensionado")){
+					pensionado = viewChild;
+					parent = view;													
+				}
+			}
+		}	
+		
+		var payHTML:Template:=TemplateFactory.load("html\\pay.html.egl");
+		payHTML.populate("parent", parent);
+		payHTML.populate("pensionado", pensionado);
+		payHTML.populate("childs", parent.childs);
+		payHTML.populate("pay", pay);
+		payHTML.populate("service", service);
+		payHTML.generate("html\\" + pay.name.toLowerCase() + ".html");
+		
+		var serviceHTML:Template:=TemplateFactory.load("html\\service.html.egl");
+		serviceHTML.populate("parent", parent);
+		serviceHTML.populate("pensionado", pensionado);
+		serviceHTML.populate("childs", parent.childs);
+		serviceHTML.populate("pay", pay);
+		serviceHTML.populate("service", service);
+		serviceHTML.generate("html\\pagar-servicio.html");
+		
+		var serviceJS:Template:=TemplateFactory.load("assets\\js\\app\\services\\service.js.egl");
+		serviceJS.populate("parent", parent);
+		serviceJS.populate("pensionado", pensionado);
+		serviceJS.populate("childs", parent.childs);
+		serviceJS.populate("pay", pay);
+		serviceJS.populate("service", service);
+		serviceJS.generate("assets\\js\\app\\services\\" + service.name.toLowerCase() + ".js");
+		
+		var serviceTableDynamicJS:Template:=TemplateFactory.load("assets\\js\\core\\demo\\serviceTableDynamic.js.egl");		
+		serviceTableDynamicJS.populate("parent", parent);
+		serviceTableDynamicJS.populate("pensionado", pensionado);
+		serviceTableDynamicJS.populate("childs", parent.childs);
+		serviceTableDynamicJS.populate("pay", pay);
+		serviceTableDynamicJS.populate("service", service);
+		serviceTableDynamicJS.generate("assets\\js\\core\\demo\\" + service.name.toLowerCase() + "TableDynamic.js");
+	}
+%]

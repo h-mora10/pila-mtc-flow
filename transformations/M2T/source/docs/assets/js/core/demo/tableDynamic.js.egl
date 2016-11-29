@@ -1,0 +1,198 @@
+(function(namespace, $) {
+	"use strict";
+
+	var DemoTableDynamic = function() {
+		// Create reference to this instance
+		var o = this;
+		// Initialize app when document is ready
+		$(document).ready(function() {
+			o.initialize();
+		});
+
+	};
+	var p = DemoTableDynamic.prototype;
+
+	// =========================================================================
+	// INIT
+	// =========================================================================
+
+	p.initialize = function() {
+		this._initDataTables();
+	};
+
+	// =========================================================================
+	// DATATABLES
+	// =========================================================================
+
+	p._initDataTables = function() {
+		if (!$.isFunction($.fn.dataTable)) {
+			return;
+		}
+
+		// Init the demo DataTables
+		this._createDataTable1();
+		this._createDataTable2();
+	};
+
+	p._createDataTable1 = function() {
+		$('#datatable1').DataTable({
+			"dom": 'lCfrtip',
+			"order": [],
+			"colVis": {
+				"buttonText": "Columns",
+				"overlayFade": 0,
+				"align": "right"
+			},
+			"language": {
+				"lengthMenu": '_MENU_ registros por página',
+				"search": '<i class="fa fa-search"></i>',
+				"paginate": {
+					"previous": '<i class="fa fa-angle-left"></i>',
+					"next": '<i class="fa fa-angle-right"></i>'
+				}
+			}
+		});
+
+		$('#datatable1 tbody').on('click', 'tr', function() {
+			$(this).toggleClass('selected');
+		});
+	};
+
+	p._createDataTable2 = function() {
+		loadCredentials();
+		var table = $('#datatable2').DataTable({
+			"dom": 'T<"clear">lfrtip',
+			"ajax": {
+				[%
+				if (viewChild.name.toLowerCase().matches("aportante")){
+				%]
+				url: URL_HOME + '/aportante/',
+				[%
+				}
+				else{
+				%]
+				url: URL_HOME + '/aportante/' + USER.idAportante + '/pensionado',
+				[%
+				}
+				%]
+				dataSrc: ''
+			},
+			"columns": [
+				{
+					"class": 'details-control',
+					"orderable": false,
+					"data": null,
+					"defaultContent": ''
+				},
+				[%
+				var count = 0;
+				var data = "{\"data\": \"pk\"},\n";
+				for(element in viewChild.gComponents){		
+					if (count <= 2){						
+						data += element.getElementForData(count, 3);				
+						count += 1;
+					}
+				}
+				%]
+				[%=data%]				
+			],
+			"tableTools": {
+				"sSwfPath": $('#datatable2').data('swftools')
+			},
+			"order": [[1, 'asc']],
+			"language": {
+				"lengthMenu": '_MENU_ registros por página',
+				"search": '<i class="fa fa-search"></i>',
+				"paginate": {
+					"previous": '<i class="fa fa-angle-left"></i>',
+					"next": '<i class="fa fa-angle-right"></i>'
+				}
+			}
+		});
+		
+		//Add event listener for opening and closing details
+		var o = this;
+		$('#datatable2 tbody').on('click', 'td.details-control', function() {
+			var tr = $(this).closest('tr');
+			var row = table.row(tr);
+
+			if (row.child.isShown()) {
+				// This row is already open - close it
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				// Open this row
+				row.child(o._formatDetails(row.data())).show();
+				tr.addClass('shown');
+			}
+		});
+	};
+
+	// =========================================================================
+	// DETAILS
+	// =========================================================================
+
+	p._formatDetails = function(d) {
+		// `d` is the original data object for the row
+
+		return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+				[%
+				var table = '';
+				for(element in viewChild.gComponents){
+					table += element.getElementForDetail();
+				}
+				%]
+[%=table%]				
+				'<tr>' +				
+				'<td>Acciones:</td>' +
+				'<td><a href="actualizar-[%=viewChild.name.toLowerCase()%].html?id=' + d.pk + '" style="font-weight: bold; color: #7eb73d;">Actualizar</a> - <a href="#" onclick="eliminar[%=viewChild.name.firstToUpperCase()%](' + d.pk + ')" style="font-weight: bold; color: #6c0020;">Eliminar</a></td>' +
+				'</tr>' +
+				'</table>';
+	};
+
+	// =========================================================================
+	namespace.DemoTableDynamic = new DemoTableDynamic;
+}(this.materialadmin, jQuery)); // pass in (namespace, jQuery):
+[%
+	operation arcFront!GraphicalComponent getElementForData(count : Integer, size: Integer) : String {						
+		var tab = '\t\t\t\t';		
+		var comma = '\n';
+		if (count < size - 1){
+			comma = ',\n';
+		}		
+		
+		var text = tab + '{"data": "' + self.name + '"}' + comma;				
+	
+		return text;
+	}
+	
+	operation arcFront!GraphicalComponent getElementForDetail() : String {			
+		var text = '';		
+		var tab = '\t\t\t\t';		
+		
+		if (self.isTypeOf(arcFront!Text) or self.isTypeOf(arcFront!Number)){
+			text = 	tab + "'<tr>' + \n" +
+					tab + "'<td>" + self.displayName + ":</td>' + \n" + 
+					tab + "'<td>' + d." + self.name + " + '</td>' + \n" + 
+					tab + "'</tr>' + \n";
+		}		
+		else if (self.isTypeOf(arcFront!DatePicker)){
+			text = tab + self.name + ": " + self.name + "Date.getDate() + '/' + (" + self.name + "Date.getMonth() + 1) + '/' +  " + self.name + "Date.getFullYear()";
+		}
+		else if (self.isTypeOf(arcFront!DropdownList)){
+			text = 	tab + "'<tr>' + \n" +
+					tab + "'<td>" + self.displayName + ":</td>' + \n" + 
+					tab + "'<td>' + d." + self.name + "Nombre + '</td>' + \n" + 
+					tab + "'</tr>' + \n";
+		}			
+		else if (self.isTypeOf(arcFront!Radio)){
+			text = 	tab + "'<tr>' + \n" +
+					tab + "'<td>" + self.displayName + ":</td>' + \n" + 
+					tab + "'<td>' + (d." + self.name + " === true ? 'SI' : 'NO') + '</td>' + \n" + 
+					tab + "'</tr>' + \n";
+		}		
+	
+		return text;
+	}
+%]

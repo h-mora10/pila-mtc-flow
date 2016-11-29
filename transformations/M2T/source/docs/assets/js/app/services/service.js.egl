@@ -1,0 +1,104 @@
+$(window).load(function () {
+    loadCredentials();
+    $('#labelUsername').html(USER.fields.username);
+    var idPensionado = getUrlParameter('idP');
+
+    GET('/pensionado/' + idPensionado + '/', function (response) {
+[%
+var cont = 1;
+for(element in pensionado.gComponents){
+	if (cont <= 3){
+		cont += 1;	
+%]    
+		[%=element.getElementForConsultar()%]        
+[%
+	}
+}
+%]  
+    });
+});
+
+function pagarServicio(idServicio) {
+    loadCredentials();
+    var idPensionado = getUrlParameter('idP');
+    var idAportante = USER.idAportante;
+
+    $('#step2Message').html('');
+
+    POST('/aportante/' + idAportante + '/pensionado/' + idPensionado + '/service/' + idServicio + '/', undefined, function (response) {
+        if (!response.mensaje){
+    	[%    	
+    	var elseStr = ''; 
+		for (element in service.gComponents){
+		%]        
+           [%=elseStr%] if (idServicio == [%=element.id%]){
+                $('#[%=element.name%]').val('$ ' + nf.format(response.valor_a_pagar));
+                $('#[%=element.name%]VP').val('$ ' + nf.format(response.valor_a_pagar));
+            }            
+        [%
+        	elseStr = 'else';
+        }
+        %]            
+        }
+        else {
+            $('#step2Message').html(response.message);
+        }
+    });
+};
+
+function calcularTotal() {
+	[%
+	var suma = '';
+	var simbolo = ' + ';
+	var count = 0;
+	for (element in service.gComponents){
+	%]
+		var valor[%=element.name.firstToUpperCase()%] = parseFloat($('#[%=element.name%]').val().replace(/[\.\$]/g, ''));
+	[%
+		if (count < service.gComponents.size() - 1){
+			simbolo = ' + ';
+		}
+		else{
+			simbolo = ';';
+		}
+	
+		suma += 'valor' + element.name.firstToUpperCase() + simbolo;
+		count += 1;
+	}
+	%]    
+
+    var total = [%=suma%]
+
+    $('#valorTotal').val('$ ' + nf.format(total));
+    $('#valorTotalR').val('$ ' + nf.format(total));
+};
+[%
+	operation arcFront!GraphicalComponent getElementForConsultar() : String {
+		var validations = val!PilaValidations.all.at(0);
+		var pagadoresPension = validations.pagadorpensiones;	
+		var text = '';
+		var tab = '\t';
+		
+		if (self.isTypeOf(arcFront!Text) or self.isTypeOf(arcFront!Number)){
+			text = tab + "$('#" + self.name + "').val(response." + self.name + ");";
+		}		
+		else if (self.isTypeOf(arcFront!DatePicker)){
+			text = tab + "var " + self.name + "Date = new Date(Date.parse(response." + self.name + ".replace(/-/g, '/')));\n" + 
+				   tab + "\t$('#" + self.name + "').val(" + self.name + "Date.getDate() + '/' + (" + self.name + "Date.getMonth() + 1) + '/' +  " + self.name + "Date.getFullYear());";
+		}
+		else if (self.isTypeOf(arcFront!DropdownList)){
+			text = tab + "$('#" + self.name + " > option[value=\"' + response." + self.name + " + '\"]').attr('selected', 'selected');";			
+		}			
+		else if (self.isTypeOf(arcFront!Radio)){
+			text = tab + "$('input:radio[name=\"" + self.name + "\"]').filter('[value=\"' + response." + self.name + " + '\"]').attr('checked', true);\n" + 
+			       tab + "if (response." + self.name + "){\n" + 
+			       tab + "    $('#lbl" + self.name + "SI').attr('class', 'btn ink-reaction btn-primary active');\n" + 
+			       tab + "}\n" + 
+			       tab + "else{\n" + 
+			       tab + "    $('#lbl" + self.name + "NO').attr('class', 'btn ink-reaction btn-primary active');\n" + 
+			       tab + "}";
+		}		
+	
+		return text;
+	}
+%]

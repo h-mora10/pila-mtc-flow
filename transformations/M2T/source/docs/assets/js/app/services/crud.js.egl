@@ -1,0 +1,240 @@
+$(window).load(function () {
+    loadCredentials();
+    $('#labelUsername').html(USER.fields.username);
+
+    var id = getUrlParameter('id');
+	
+	[%
+	if (viewChild.name.matches("Novedad")){
+	%]	
+	var idPensionado = getUrlParameter('idP');
+    GET('/pensionado/' + idPensionado + '/', function (res) {
+	    if (!res.message){
+	            for(var i = 0; i < res.novedades.length; i++) {
+	            	var response = res.novedades[i]; 
+	                if (response.pk == id) {
+    [%
+    }
+    else{
+    %]
+    GET('/[%=viewChild.name.toLowerCase()%]/consultar/' + id + '/', function (response) {    
+	[%
+	}
+	
+	for(element in viewChild.gComponents){
+	%]    
+        [%=element.getElementForConsultar()%]        
+    [%
+    }
+    
+    if (allowCreateUser){
+    %]    
+    		$('#usuario').val(response.usuario);
+    [%
+    }
+    
+    if (viewChild.name.matches("Novedad")){    
+    %]        
+				}
+			}
+		}
+    [%
+    }
+    %]
+    });
+});
+
+function crear[%=viewChild.name.firstToUpperCase()%]() {    
+    [%    
+    var data = "var data = {\n";
+    if (allowCreateUser){
+    	data += "\t\tusuario: $('#usuario').val(),\n" + 
+        		"\t\tpassword: $('#password').val(),\n";
+    }    
+      
+    var loadDates = '';
+    var count = 0;  
+    var dates = "";
+    var hasDates = false;
+	for(element in viewChild.gComponents){	    
+        data += element.getElementForCrear(count, viewChild.gComponents.size());
+        
+        if(element.isTypeOf(arcFront!DatePicker)){
+        	dates += "\tvar " + element.name + "Date = new Date(Date.parse($('#" + element.name + "').val().replace(/-/g, '/')));\n";
+        	 
+        	loadDates += "\t$( \"#" + element.name + "\" ).datepicker({\n" + 
+					    "\t\tdateFormat: \"dd/mm/yy\"\n" + 
+					    "\t});\n";
+			
+			hasDates = true;
+        }
+        
+        count += 1;
+    }    
+    data += "\t}";        
+    
+    if (hasDates){
+    	loadDates = "\n$( function() {\n" + loadDates + "});\n";
+    }
+    %]    
+    [%=dates%]    
+    [%=data%]
+    [%
+	if (viewChild.name.matches("Novedad")){
+	%]	    
+	var idPensionado = getUrlParameter('idP');
+    POST('/aportante/' + USER.idAportante + '/pensionado/' + idPensionado + '/novedad/', JSON.stringify(data), function (response) {
+    [%
+    }
+    else{
+    %]
+    POST('/[%=viewChild.name.toLowerCase()%]/crear/', JSON.stringify(data), function (response) {
+    [%
+    }
+    %]
+        if (response.mensaje){
+            $('#message').html(response.mensaje);
+        }
+        else if (response.length > 0){
+            $('#message').html('¡[%=viewChild.name.firstToUpperCase()%] creado exitosamente!');
+        }
+    });
+}
+[%=loadDates%]
+function actualizar[%=viewChild.name.firstToUpperCase()%]() {
+    var id = getUrlParameter('id');
+    [%
+    var data = "var data = {\n";
+    if (allowCreateUser){
+    	data += "\t\tpassword: \"\",\n";
+    } 
+    
+    var count = 0;      
+    var dates = "";
+	for(element in viewChild.gComponents){	    
+        data += element.getElementForCrear(count, viewChild.gComponents.size());
+        
+        if(element.isTypeOf(arcFront!DatePicker)){
+        	dates += "\tvar " + element.name + "Date = new Date(Date.parse($('#" + element.name + "').val().replace(/-/g, '/')));\n"; 
+        }
+        
+        count += 1;
+    }    
+    data += "\t}";        
+    %]    
+    [%=dates%]    
+    [%=data%]
+	[%
+	if(allowCreateUser){
+	%]
+	var password = $('#password').val();
+    if(password && password !== ""){
+        data.password = password;
+    }
+	[%
+	}
+		
+	if (viewChild.name.matches("Novedad")){
+	%]	    
+	var idPensionado = getUrlParameter('idP');
+    PUT('/aportante/' + USER.idAportante + '/pensionado/' + idPensionado + '/novedad/' + id + '/', JSON.stringify(data), function (response) {
+    [%
+    }
+    else{
+    %]
+    PUT('/[%=viewChild.name.toLowerCase()%]/actualizar/' + id + '/', JSON.stringify(data), function (response) {
+    [%
+    }
+    %]
+    
+        if (response.mensaje){
+            $('#message').html(response.mensaje);
+        }
+        else if (response.length > 0){
+            $('#message').html('¡[%=viewChild.name.firstToUpperCase()%] actualizado exitosamente!');
+        }
+    });
+}
+
+function eliminar[%=viewChild.name.firstToUpperCase()%](id, idP) {
+	[%		
+	if (viewChild.name.matches("Novedad")){
+	%]	  
+    DELETE('/aportante/' + USER.idAportante + '/pensionado/' + idP + '/novedad/' + id + '/', function (response) {
+    [%
+    }
+    else{
+    %]
+    DELETE('/[%=viewChild.name.toLowerCase()%]/eliminar/' + id + '/', function (response) {
+    [%
+    }
+    %]
+        if (response.mensaje){
+            $('#message').html(response.mensaje);
+        }
+        else if (response.length > 0){
+            $('#message').html('¡[%=viewChild.name.firstToUpperCase()%] eliminado exitosamente!');
+        }
+        location.reload();
+    });
+}
+[%
+	operation arcFront!GraphicalComponent getElementForConsultar() : String {
+		var validations = val!PilaValidations.all.at(0);
+		var pagadoresPension = validations.pagadorpensiones;	
+		var text = '';
+		var tab = '\t';
+		
+		if (self.isTypeOf(arcFront!Text) or self.isTypeOf(arcFront!Number)){
+			text = tab + "$('#" + self.name + "').val(response." + self.name + ");";
+		}		
+		else if (self.isTypeOf(arcFront!DatePicker)){
+			text = tab + "var " + self.name + "Date = new Date(Date.parse(response." + self.name + ".replace(/-/g, '/')));\n" + 
+				   tab + "\t$('#" + self.name + "').val(" + self.name + "Date.getDate() + '/' + (" + self.name + "Date.getMonth() + 1) + '/' +  " + self.name + "Date.getFullYear());";
+		}
+		else if (self.isTypeOf(arcFront!DropdownList)){
+			text = tab + "$('#" + self.name + " > option[value=\"' + response." + self.name + " + '\"]').attr('selected', 'selected');";			
+		}			
+		else if (self.isTypeOf(arcFront!Radio)){
+			text = tab + "$('input:radio[name=\"" + self.name + "\"]').filter('[value=\"' + response." + self.name + " + '\"]').attr('checked', true);\n" + 
+			       tab + "if (response." + self.name + "){\n" + 
+			       tab + "    $('#lbl" + self.name + "SI').attr('class', 'btn ink-reaction btn-primary active');\n" + 
+			       tab + "}\n" + 
+			       tab + "else{\n" + 
+			       tab + "    $('#lbl" + self.name + "NO').attr('class', 'btn ink-reaction btn-primary active');\n" + 
+			       tab + "}";
+		}		
+	
+		return text;
+	}		
+	
+	operation arcFront!GraphicalComponent getElementForCrear(count : Integer, size: Integer) : String {
+		var validations = val!PilaValidations.all.at(0);
+		var pagadoresPension = validations.pagadorpensiones;	
+		var text = '';		
+		var tab = '\t\t';
+		
+		var comma = '\n';
+		if (count < size - 1){
+			comma = ',\n';
+		}		
+		
+		if (self.isTypeOf(arcFront!Text)){
+			text = tab + self.name + ": $('#" + self.name + "').val()" + comma;
+		}
+		if (self.isTypeOf(arcFront!Number)){
+			text = tab + self.name + ": parseInt($('#" + self.name + "').val())" + comma;
+		}				
+		else if (self.isTypeOf(arcFront!DatePicker)){
+			text = tab + self.name + ": " + self.name + "Date.getDate() + '/' + (" + self.name + "Date.getMonth() + 1) + '/' +  " + self.name + "Date.getFullYear()" + comma;
+		}
+		else if (self.isTypeOf(arcFront!DropdownList)){
+			text = tab + self.name + ": parseInt($('#" + self.name + " option:selected').val())" + comma;
+		}			
+		else if (self.isTypeOf(arcFront!Radio)){
+			text = tab + self.name + ": ($(\"input[name='" + self.name + "']\").groupVal() == 'true')" + comma;
+		}		
+	
+		return text;
+	}
+%]

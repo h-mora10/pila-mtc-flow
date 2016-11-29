@@ -1,122 +1,52 @@
-pre{		
-	var views = new Sequence;		
+pre{	
+	var architecture = new ModelMM!Architecture;
+	var serviceOperator = GrammarMM!ServiceOperator.all.at(0);
+	architecture.views = serviceOperator.getViews();			
 }
-
-rule ServiceOperator2Architecture
-	transform
-		s:GrammarMM!ServiceOperator
-	to 
-		t:ModelMM!Architecture{		 		
-			t.views = s.getViews();			
-			t.name =s.name;		
-		}
-	
-rule StringAttr2Text
-	transform
-		s:GrammarMM!StringValue
-	to
-		t:ModelMM!Text{
-			t.name = s.name;
-			t.displayName = s.displayName;
-		}
-
-rule IntegerAttr2Number
-	transform
-		s:GrammarMM!IntegerValue
-	to
-		t:ModelMM!Number{
-			t.name = s.name;
-			t.displayName = s.displayName;
-		}
-
-rule BooleanAttr2Radio
-	transform
-		s:GrammarMM!BooleanValue
-	to
-		t:ModelMM!Radio{
-			t.name = s.name;
-			t.displayName = s.displayName;
-		}
-		
-rule FloatAttr2Number
-	transform
-		s:GrammarMM!FloatValue
-	to
-		t:ModelMM!Number{
-			t.name = s.name;
-			t.displayName = s.displayName;
-		}
-
-rule DateAttr2Date
-	transform
-		s:GrammarMM!Date
-	to
-		t:ModelMM!Date{
-			t.name = s.name;
-			t.displayName = s.displayName;
-		}
-
-rule EnumAttr2DropdownList
-	transform
-		s:GrammarMM!Enum
-	to
-		t:ModelMM!DropdownList{
-			t.name = s.name;
-			t.displayName = s.displayName;
-			t.items = s.getItems();
-		}
-				
-rule ComplexAttr2View
-	transform
-		s:GrammarMM!Complex
-	to
-		t:ModelMM!View{
-			t.name = s.name;			
-			t.gComponents = s.attributes.equivalent();
-		}
-
-rule Calculate2Button
-	transform
-		s:GrammarMM!Calculate
-	to
-		t:ModelMM!Button{
-			t.name = 'Calcular ' + s.name;
-			t.action = 'calculate' + s.name;			
-		}
 		
 operation GrammarMM!ServiceOperator getViews(): Sequence{	
-	for (superEntity in self.superEntities){
-		var view = new ModelMM!View;
-		view.name = superEntity.name;
-		view.gComponents = superEntity.attributes.equivalent();
+	var views = new Sequence;
+	
+	var viewParent = new ModelMM!View;
+	viewParent.name = self.name;
+	viewParent.gComponents = self.attributes.getGraphicalComponents();	
+	
+	var viewChild1 = new ModelMM!View;
+	for (superEntity in self.superEntities){		
+		viewChild1.name = superEntity.name;
+		viewChild1.gComponents = superEntity.attributes.getGraphicalComponents();
+		viewChild1.childs = superEntity.getViewChilds();
 		
-		views.add(view);		
+		viewParent.childs.add(viewChild1);		
 		
 		for (entity in superEntity.entities){
-			var view2 = new ModelMM!View;
-			view2.name = entity.name;
-			view2.gComponents = entity.attributes.equivalent();			
+			var viewChild2 = new ModelMM!View;
+			viewChild2.name = entity.name;
+			viewChild2.gComponents = entity.attributes.getGraphicalComponents();			
+			viewChild1.childs.addAll(entity.getViewChilds());			
 			
-			views.add(view2);
+			viewChild1.childs.add(viewChild2);
 		}
 		
 		for (pay in superEntity.pays){
-			var view3 = new ModelMM!View;
-			view3.name = pay.name;
-			view3.gComponents = pay.attributes.equivalent();			
+			var viewChild3 = new ModelMM!View;
+			viewChild3.name = pay.name;
+			viewChild3.gComponents = pay.attributes.getGraphicalComponents();			
+			viewChild3.childs = pay.getViewChilds();
 			
-			views.add(view3);
+			viewChild1.childs.add(viewChild3);
 		}		
 	}	
 	
 	for (service in self.services){
-		var view = new ModelMM!View;
-		view.name = service.name;
-		view.gComponents = service.calculate.equivalent();			
+		var viewChild4 = new ModelMM!View;
+		viewChild4.name = service.name;
+		viewChild4.gComponents = service.calculate.getGraphicalComponents();		
 		
-		views.add(view);
+		viewChild1.childs.add(viewChild4);
 	}
 	
+	views.add(viewParent);
 	return views;
 }
 
@@ -138,6 +68,86 @@ operation GrammarMM!Enum getItems(): Sequence{
 	}
 	
 	return items;
+}
+
+operation Collection getGraphicalComponents(): Sequence{
+	var graphicalComponents = new Sequence;
+	
+	var idCalculate = 1;
+	for (attribute in self){
+		if (attribute.isTypeOf(GrammarMM!StringValue)){
+			var text = new ModelMM!Text;
+			text.name = attribute.name.substring(1, attribute.name.length() - 1);
+			text.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(text);
+		}
+		else if (attribute.isTypeOf(GrammarMM!IntegerValue)){
+			var number = new ModelMM!Number;
+			number.name = attribute.name.substring(1, attribute.name.length() - 1);
+			number.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(number);
+		}
+		else if (attribute.isTypeOf(GrammarMM!BooleanValue)){
+			var radio = new ModelMM!Radio;
+			radio.name = attribute.name.substring(1, attribute.name.length() - 1);
+			radio.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(radio);
+		}
+		else if (attribute.isTypeOf(GrammarMM!FloatValue)){
+			var number = new ModelMM!Number;
+			number.name = attribute.name.substring(1, attribute.name.length() - 1);
+			number.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(number);
+		}
+		else if (attribute.isTypeOf(GrammarMM!Date)){
+			var datePicker = new ModelMM!DatePicker;
+			datePicker.name = attribute.name.substring(1, attribute.name.length() - 1);
+			datePicker.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(datePicker);
+		}
+		else if (attribute.isTypeOf(GrammarMM!Enum)){
+			var dropdownList = new ModelMM!DropdownList;
+			dropdownList.name = attribute.name.substring(1, attribute.name.length() - 1);
+			dropdownList.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			dropdownList.items = attribute.getItems();
+			
+			graphicalComponents.add(dropdownList);
+		}	
+		else if (attribute.isTypeOf(GrammarMM!Calculate)){
+			var button = new ModelMM!Button;			
+			button.name = attribute.name.toLowerCase();
+			button.displayName = attribute.name;			
+			button.id = idCalculate + "";
+			
+			idCalculate += 1;	
+			
+			graphicalComponents.add(button);
+		}					
+	}
+	
+	return graphicalComponents;
+}
+
+operation Any getViewChilds(): Sequence{
+	var views = new Sequence;
+	
+	for (attribute in self.attributes){
+		if (attribute.isTypeOf(GrammarMM!Complex) and attribute.name.matches("\"novedad\"")){
+					
+			var view = new ModelMM!View;
+			view.name = attribute.name.substring(1, attribute.name.length() - 1).firstToUpperCase();			
+			view.gComponents = attribute.attributes.getGraphicalComponents();
+			
+			views.add(view);								
+		}							
+	}
+	
+	return views;
 }
 		
  

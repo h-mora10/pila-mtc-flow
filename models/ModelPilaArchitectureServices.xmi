@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodeloArquitecturaPila:Architecture xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:metamodeloArquitecturaPila="http://www.example.org/metamodeloArquitecturaPila">
+  <services serviceType="//@serviceTypes.0" dispatcher="//@logic.0/@functions.0" name="create_aportante"/>
+  <services serviceType="//@serviceTypes.1" dispatcher="//@logic.0/@functions.1" name="read_aportante"/>
+  <services serviceType="//@serviceTypes.2" dispatcher="//@logic.0/@functions.2" name="delete_aportante"/>
+  <services serviceType="//@serviceTypes.3" dispatcher="//@logic.0/@functions.3" name="update_aportante"/>
+  <services serviceType="//@serviceTypes.0" dispatcher="//@logic.1/@functions.0" name="create_pensionado"/>
+  <services serviceType="//@serviceTypes.1" dispatcher="//@logic.1/@functions.1" name="read_pensionado"/>
+  <services serviceType="//@serviceTypes.2" dispatcher="//@logic.1/@functions.2" name="delete_pensionado"/>
+  <services serviceType="//@serviceTypes.3" dispatcher="//@logic.1/@functions.3" name="update_pensionado"/>
+  <services serviceType="//@serviceTypes.0" dispatcher="//@logic.2/@functions.0" name="create_pago"/>
+  <services serviceType="//@serviceTypes.1" dispatcher="//@logic.2/@functions.1" name="read_pago"/>
+  <services serviceType="//@serviceTypes.2" dispatcher="//@logic.2/@functions.2" name="delete_pago"/>
+  <services serviceType="//@serviceTypes.3" dispatcher="//@logic.2/@functions.3" name="update_pago"/>
+  <services serviceType="//@serviceTypes.0" dispatcher="//@logic.3/@functions.0" name="create_novedad"/>
+  <services serviceType="//@serviceTypes.1" dispatcher="//@logic.3/@functions.1" name="read_novedad"/>
+  <services serviceType="//@serviceTypes.2" dispatcher="//@logic.3/@functions.2" name="delete_novedad"/>
+  <services serviceType="//@serviceTypes.3" dispatcher="//@logic.3/@functions.3" name="update_novedad"/>
+  <serviceTypes xsi:type="metamodeloArquitecturaPila:Create" name="create"/>
+  <serviceTypes xsi:type="metamodeloArquitecturaPila:Read" name="read"/>
+  <serviceTypes xsi:type="metamodeloArquitecturaPila:Delete" name="delete"/>
+  <serviceTypes xsi:type="metamodeloArquitecturaPila:Update" name="update"/>
+  <logic name="Aportante">
+    <functions name="create_aportante">
+      <body content="&quot;nombre&quot;;&quot;tipoPagador&quot;;"/>
+    </functions>
+    <functions name="read_aportante">
+      <body content="&quot;nombre&quot;;&quot;tipoPagador&quot;;"/>
+    </functions>
+    <functions name="delete_aportante">
+      <body content="&quot;nombre&quot;;&quot;tipoPagador&quot;;"/>
+    </functions>
+    <functions name="update_aportante">
+      <body content="&quot;nombre&quot;;&quot;tipoPagador&quot;;"/>
+    </functions>
+  </logic>
+  <logic name="Pensionado">
+    <functions name="create_pensionado">
+      <body content="&quot;nombre&quot;;&quot;edad&quot;;&quot;salario&quot;;&quot;novedad&quot;;&quot;tipoPensionado&quot;;&quot;tipoPension&quot;;&quot;esAltoRiesgo&quot;;&quot;esCongresista&quot;;&quot;esTrabajadorCTI&quot;;&quot;esAviador&quot;;&quot;residenciaEnExterior&quot;;&quot;tienGrupoFamiliarColombia&quot;;&quot;codigoCIU&quot;;"/>
+    </functions>
+    <functions name="read_pensionado">
+      <body content="&quot;nombre&quot;;&quot;edad&quot;;&quot;salario&quot;;&quot;novedad&quot;;&quot;tipoPensionado&quot;;&quot;tipoPension&quot;;&quot;esAltoRiesgo&quot;;&quot;esCongresista&quot;;&quot;esTrabajadorCTI&quot;;&quot;esAviador&quot;;&quot;residenciaEnExterior&quot;;&quot;tienGrupoFamiliarColombia&quot;;&quot;codigoCIU&quot;;"/>
+    </functions>
+    <functions name="delete_pensionado">
+      <body content="&quot;nombre&quot;;&quot;edad&quot;;&quot;salario&quot;;&quot;novedad&quot;;&quot;tipoPensionado&quot;;&quot;tipoPension&quot;;&quot;esAltoRiesgo&quot;;&quot;esCongresista&quot;;&quot;esTrabajadorCTI&quot;;&quot;esAviador&quot;;&quot;residenciaEnExterior&quot;;&quot;tienGrupoFamiliarColombia&quot;;&quot;codigoCIU&quot;;"/>
+    </functions>
+    <functions name="update_pensionado">
+      <body content="&quot;nombre&quot;;&quot;edad&quot;;&quot;salario&quot;;&quot;novedad&quot;;&quot;tipoPensionado&quot;;&quot;tipoPension&quot;;&quot;esAltoRiesgo&quot;;&quot;esCongresista&quot;;&quot;esTrabajadorCTI&quot;;&quot;esAviador&quot;;&quot;residenciaEnExterior&quot;;&quot;tienGrupoFamiliarColombia&quot;;&quot;codigoCIU&quot;;"/>
+    </functions>
+  </logic>
+  <logic name="Pago">
+    <functions name="create_pago">
+      <body content="&quot;idPensionado&quot;;&quot;valorSalud&quot;;&quot;valorPension&quot;;&quot;valorRiesgos&quot;;&quot;valorTotal&quot;;"/>
+    </functions>
+    <functions name="read_pago">
+      <body content="&quot;idPensionado&quot;;&quot;valorSalud&quot;;&quot;valorPension&quot;;&quot;valorRiesgos&quot;;&quot;valorTotal&quot;;"/>
+    </functions>
+    <functions name="delete_pago">
+      <body content="&quot;idPensionado&quot;;&quot;valorSalud&quot;;&quot;valorPension&quot;;&quot;valorRiesgos&quot;;&quot;valorTotal&quot;;"/>
+    </functions>
+    <functions name="update_pago">
+      <body content="&quot;idPensionado&quot;;&quot;valorSalud&quot;;&quot;valorPension&quot;;&quot;valorRiesgos&quot;;&quot;valorTotal&quot;;"/>
+    </functions>
+  </logic>
+  <logic name="Novedad">
+    <functions name="create_novedad">
+      <body content="&quot;fechaInicio&quot;;&quot;fechaFin&quot;;&quot;duracion&quot;;&quot;tipo&quot;;"/>
+    </functions>
+    <functions name="read_novedad">
+      <body content="&quot;fechaInicio&quot;;&quot;fechaFin&quot;;&quot;duracion&quot;;&quot;tipo&quot;;"/>
+    </functions>
+    <functions name="delete_novedad">
+      <body content="&quot;fechaInicio&quot;;&quot;fechaFin&quot;;&quot;duracion&quot;;&quot;tipo&quot;;"/>
+    </functions>
+    <functions name="update_novedad">
+      <body content="&quot;fechaInicio&quot;;&quot;fechaFin&quot;;&quot;duracion&quot;;&quot;tipo&quot;;"/>
+    </functions>
+  </logic>
+  <logic xsi:type="metamodeloArquitecturaPila:Function" name="Service">
+    <body content="AportePensiones;AporteSeguridadSocialEnSalud;AporteRiesgosLaborales;"/>
+  </logic>
+</metamodeloArquitecturaPila:Architecture>

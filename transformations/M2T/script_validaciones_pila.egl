@@ -1,10 +1,13 @@
 [%	
 var root : PilaValidationsMM!PilaValidations:= PilaValidationsMM!PilaValidations.all.at(0);
 %]
-INSERT INTO auth_user VALUES (1, 'pbkdf2_sha256$24000$RBCv5ODlCnDt$c/iExyQ9p5xu/8Uv9+Db7RmoOkca0u/cCJFbF+4SGH0=', current_timestamp, 1, null, null, admin@mail.com, 1, 1, current_timestamp, 'admin');
+INSERT INTO auth_user 
+(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username) 
+VALUES 
+(1, 'pbkdf2_sha256$24000$RBCv5ODlCnDt$c/iExyQ9p5xu/8Uv9+Db7RmoOkca0u/cCJFbF+4SGH0=', current_timestamp, true, '', '', 'admin@mail.com', true, true, current_timestamp, 'admin');
 COMMIT;
 
-INSERT INTO pila_operadorservicio(1, 'Operador Servicio', 1);
+INSERT INTO pila_operadorservicio VALUES (1, 'Operador Servicio', 1);
 COMMIT;
 
 INSERT INTO auth_group VALUES (1, 'aportante');
@@ -12,10 +15,19 @@ INSERT INTO auth_group VALUES (2, 'operador');
 INSERT INTO auth_group VALUES (3, 'admin');
 COMMIT;
 
+INSERT INTO auth_user_groups VALUES (1, 1, 2);
+INSERT INTO auth_user_groups VALUES (2, 1, 3);
+COMMIT;
+
+INSERT INTO pila_servicio VALUES (1, 'Pensiones', 1);
+INSERT INTO pila_servicio VALUES (2, 'Salud', 1);
+INSERT INTO pila_servicio VALUES (3, 'Riesgos Laborales', 1);
+COMMIT;
+
 [%
 for (pagadorPensiones in root.pagadorpensiones) {
 %]
-INSERT INTO [%=pagadorPensiones.eClass.name%] VALUES ([%=pagadorPensiones.codigo%], '[%=pagadorPensiones.nombre%]');
+INSERT INTO pila_[%=pagadorPensiones.eClass.name.toLowerCase()%] VALUES ([%=pagadorPensiones.codigo%], '[%=pagadorPensiones.nombre%]');
 [%
 }
 %]
@@ -24,7 +36,7 @@ COMMIT;
 [%
 for (tipoPensionado in root.tipopensionado) {
 %]
-INSERT INTO [%=tipoPensionado.eClass.name%] VALUES ([%=tipoPensionado.codigo%], '[%=tipoPensionado.nombre%]');
+INSERT INTO pila_[%=tipoPensionado.eClass.name.toLowerCase()%] VALUES ([%=tipoPensionado.codigo%], '[%=tipoPensionado.nombre%]');
 [%
 }
 %]
@@ -33,7 +45,7 @@ COMMIT;
 [%
 for (tipoPension in root.tipopension) {
 %]
-INSERT INTO [%=tipoPension.eClass.name%] VALUES ([%=tipoPension.codigo%], '[%=tipoPension.nombre%]');
+INSERT INTO pila_[%=tipoPension.eClass.name.toLowerCase()%] VALUES ([%=tipoPension.codigo%], '[%=tipoPension.nombre%]');
 [%
 }
 %]
@@ -44,7 +56,7 @@ var i = 1;
 for (tipoPensionado in root.tipopensionado) {
 	for (pagadorPensiones in tipoPensionado.pagadorpensiones) {
 %]
-INSERT INTO [%=tipoPensionado.eClass.name + pagadorPensiones.eClass.name%] VALUES ([%=i%], [%=tipoPensionado.codigo%], [%=pagadorPensiones.codigo%]);
+INSERT INTO pila_[%=tipoPensionado.eClass.name.toLowerCase() + pagadorPensiones.eClass.name.toLowerCase()%] (id, tipo_pensionado_id, tipo_pagador_pensiones_id) VALUES ([%=i%], [%=tipoPensionado.codigo%], [%=pagadorPensiones.codigo%]);
 [%
 		i++;
 	}
@@ -55,7 +67,16 @@ COMMIT;
 [%
 for (tipoNovedad in root.tiponovedad) {
 %]
-INSERT INTO [%=tipoNovedad.eClass.name%] VALUES ([%=tipoNovedad.codigo%], '[%=tipoNovedad.nombre%]');
+INSERT INTO pila_[%=tipoNovedad.eClass.name.toLowerCase()%] VALUES ([%=tipoNovedad.codigo%], '[%=tipoNovedad.nombre%]');
+[%
+}
+%]
+COMMIT;
+
+[%
+for (codigoCIU in root.codigociu) {
+%]
+INSERT INTO pila_[%=codigoCIU.eClass.name.toLowerCase()%] VALUES ([%=codigoCIU.codigo%], [%=codigoCIU.nombre%]);
 [%
 }
 %]
