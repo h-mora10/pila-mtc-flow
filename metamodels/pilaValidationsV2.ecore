@@ -29,9 +29,15 @@
         upperBound="-1" eType="#//TipoPensionado" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tiponovedad" lowerBound="1"
         upperBound="-1" eType="#//TipoNovedad" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="codigociu" lowerBound="1"
+        upperBound="-1" eType="#//CodigoCIU" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TipoNovedad">
   	<eStructuralFeatures xsi:type="ecore:EAttribute" name="codigo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CodigoCIU">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="codigo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
 </ecore:EPackage>

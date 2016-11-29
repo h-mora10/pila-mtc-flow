@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
-    modelDirectory="/co.edu.uniandes.pilaValidationsV2/src" modelPluginID="co.edu.uniandes.pilaValidationsV2"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/co.edu.uniandes.pilaValidationsV2/src" modelPluginID="co.edu.uniandes.pilaValidationsV2"
     modelName="PilaValidationsV2" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
   <foreignModel>pilaValidationsV2.ecore</foreignModel>
-  <genPackages prefix="PilaValidationsV2" disposableProviderFactory="true" ecorePackage="pilaValidationsV2.ecore#/"/>
+  <genPackages prefix="PilaValidationsV2" disposableProviderFactory="true" ecorePackage="pilaValidationsV2.ecore#/">
+    <genClasses ecoreClass="pilaValidationsV2.ecore#//TipoPensionado">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoPensionado/codigo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoPensionado/nombre"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//TipoPensionado/pagadorpensiones"/>
+    </genClasses>
+    <genClasses ecoreClass="pilaValidationsV2.ecore#//TipoPagadorPensiones">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoPagadorPensiones/codigo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoPagadorPensiones/nombre"/>
+    </genClasses>
+    <genClasses ecoreClass="pilaValidationsV2.ecore#//TipoPension">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoPension/codigo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoPension/nombre"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//TipoPension/tipopensionado"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//TipoPension/pagadorpensiones"/>
+    </genClasses>
+    <genClasses ecoreClass="pilaValidationsV2.ecore#//PilaValidations">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//PilaValidations/tipopension"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//PilaValidations/pagadorpensiones"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//PilaValidations/tipopensionado"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pilaValidationsV2.ecore#//PilaValidations/tiponovedad"/>
+    </genClasses>
+    <genClasses ecoreClass="pilaValidationsV2.ecore#//TipoNovedad">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoNovedad/codigo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//TipoNovedad/nombre"/>
+    </genClasses>
+    <genClasses ecoreClass="pilaValidationsV2.ecore#//CodigoCIU">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//CodigoCIU/codigo"/>
+      <genFeatures createChild="true" ecoreFeature="ecore:EAttribute pilaValidationsV2.ecore#//CodigoCIU/nombre"/>
+    </genClasses>
+  </genPackages>
 </genmodel:GenModel>

@@ -135,4 +135,34 @@
   <tiponovedad
       codigo="10"
       nombre="Aporte volunatario a pensiones"/>
+  <codigociu
+      codigo="8022"
+      nombre="8022"/>
+  <codigociu
+      codigo="8513"
+      nombre="8513"/>
+  <codigociu
+      codigo="0117"
+      nombre="0117"/>
+  <codigociu
+      codigo="1541"
+      nombre="1541"/>
+  <codigociu
+      codigo="1592"
+      nombre="1592"/>
+  <codigociu
+      codigo="1743"
+      nombre="1743"/>
+  <codigociu
+      codigo="2101"
+      nombre="2101"/>
+  <codigociu
+      codigo="2322"
+      nombre="2322"/>
+  <codigociu
+      codigo="1431"
+      nombre="1431"/>
+  <codigociu
+      codigo="2321"
+      nombre="2321"/>
 </pilaValidationsV2:PilaValidations>

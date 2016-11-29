@@ -1,6 +1,17 @@
 [%	
 var root : PilaValidationsMM!PilaValidations:= PilaValidationsMM!PilaValidations.all.at(0);
 %]
+INSERT INTO auth_user VALUES (1, 'pbkdf2_sha256$24000$RBCv5ODlCnDt$c/iExyQ9p5xu/8Uv9+Db7RmoOkca0u/cCJFbF+4SGH0=', current_timestamp, 1, null, null, admin@mail.com, 1, 1, current_timestamp, 'admin');
+COMMIT;
+
+INSERT INTO pila_operadorservicio(1, 'Operador Servicio', 1);
+COMMIT;
+
+INSERT INTO auth_group VALUES (1, 'aportante');
+INSERT INTO auth_group VALUES (2, 'operador');
+INSERT INTO auth_group VALUES (3, 'admin');
+COMMIT;
+
 [%
 for (pagadorPensiones in root.pagadorpensiones) {
 %]
@@ -37,6 +48,15 @@ INSERT INTO [%=tipoPensionado.eClass.name + pagadorPensiones.eClass.name%] VALUE
 [%
 		i++;
 	}
+}
+%]
+COMMIT;
+
+[%
+for (tipoNovedad in root.tiponovedad) {
+%]
+INSERT INTO [%=tipoNovedad.eClass.name%] VALUES ([%=tipoNovedad.codigo%], '[%=tipoNovedad.nombre%]');
+[%
 }
 %]
 COMMIT;
