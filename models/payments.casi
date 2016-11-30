@@ -39,104 +39,94 @@ OperadorServicio ServiceOperator {
 		Calculo AportePensiones {		
 			var ultimaNovedad = -Null-;
 				
-			if Entidad.novedad.size > 0{
-				var ultimaNovedad = novedad.ultimo;
+			if novedades.size > 0{
+				var ultimaNovedad = novedades.ultimo;
 			}
 			
-			if Entidad.novedad.size == 0{
-				retorne Entidad.salario * 0.16;
+			if novedades.size == 0{
+				retorne Pensionado.salario * 0.16;
 			} 
-			else_if ultimaNovedad == -NotNull- AND 
-					(Entidad.novedad.tipo == SuspensionTemporal OR
-					Entidad.novedad.tipo == LicenciaNoRemunerada OR
-					Entidad.novedad.tipo == ComisionServicios){														
-				if 	Entidad.novedad.duracion > 7{
-					retorne Entidad.salario * 0.16;
+			else_if ultimaNovedad == -NotNull- AND (ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios){														
+				if 	ultimaNovedad.duracion > 7{
+					retorne Pensionado.salario * 0.16;
 				}
-				else_if Entidad.novedad.duracion > 3 AND Entidad.novedad.duracion <= 7{
-					retorne Entidad.salario * 0.12;
+				else_if ultimaNovedad.duracion > 3 AND ultimaNovedad.duracion <= 7{
+					retorne Pensionado.salario * 0.12;
 				}
-				else_if Entidad.novedad.duracion >= 0 AND Entidad.novedad.duracion <= 3{
+				else_if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3{
 					retorne 0;
 				}
 			}	
-			else_if Entidad.esAltoRiesgo == true{
-				retorne Entidad.salario * 0.26;
+			else_if Pensionado.esAltoRiesgo == true{
+				retorne Pensionado.salario * 0.26;
 			} 			
-			else_if Entidad.esCongresista == true{																			
-				retorne Entidad.salario * 0.255;					
+			else_if Pensionado.esCongresista == true{																			
+				retorne Pensionado.salario * 0.255;					
 			}
-			else_if Entidad.esTrabajadorCTI == true{																			
-				retorne Entidad.salario * 0.35;					
+			else_if Pensionado.esTrabajadorCTI == true{																			
+				retorne Pensionado.salario * 0.35;					
 			}
-			else_if Entidad.esAviador == true{																			
-				retorne Entidad.salario * 0.21;					
+			else_if Pensionado.esAviador == true{																			
+				retorne Pensionado.salario * 0.21;					
 			}
 			
 		};
 		Calculo AporteSeguridadSocialEnSalud {		
 			var ultimaNovedad = -Null-;
 			
-			if Entidad.novedad.size > 0{
-				var ultimaNovedad = novedad.ultimo;
+			if novedades.size > 0{
+				var ultimaNovedad = novedades.ultimo;
 			}
 			
-			if Entidad.residenciaEnExterior == true AND
-					Entidad.tienGrupoFamiliarColombia == true {
+			if Pensionado.residenciaEnExterior == true AND Pensionado.tienGrupoFamiliarColombia == true {
 				retorne 0;	
 			}				
-			else_if Entidad.novedad.size == 0{
-				retorne Entidad.salario * 0.12;	
+			else_if novedades.size == 0{
+				retorne Pensionado.salario * 0.12;	
 			}				
 			else {
-				if 	ultimaNovedad == -NotNull- AND
-					(Entidad.novedad.tipo == SuspensionTemporal OR
-					Entidad.novedad.tipo == LicenciaNoRemunerada OR
-					Entidad.novedad.tipo == ComisionServicios) {
+				if ultimaNovedad == -NotNull- AND (ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios) {
 					
-					var duracion = Entidad.novedad.duracion;
-					
-					if duracion >= 0 AND duracion <= 3 {
+					if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3 {
 						retorne 0;	
 					}
 					
-					if duracion > 3 AND duracion <= 7{
-						retorne Entidad.salario * 0.12;	
+					else_if ultimaNovedad.duracion > 3 AND ultimaNovedad.duracion <= 7{
+						retorne Pensionado.salario * 0.12;	
 					}
 					
-					if duracion > 7{
-						retorne Entidad.salario * 0.16;	
+					else_if ultimaNovedad.duracion > 7{
+						retorne Pensionado.salario * 0.16;	
 					}
 				}
 			}
 
 		};
 		Calculo AporteRiesgosLaborales {		
-			var codigoCIU = Entidad.codigoCIU;
 			
-			if codigoCIU in [8022, 8513]{
+			if Pensionado.codigoCIU >= 8022 AND Pensionado.codigoCIU <= 8513{
 			
-				retorne Entidad.salario * 0.00522;	
+				retorne Pensionado.salario * 0.00522;	
 			}
 			
-			if codigoCIU in [0117, 1541]{
+			if Pensionado.codigoCIU >= 0117 AND Pensionado.codigoCIU <= 1541{
 			
-				retorne Entidad.salario * 0.01044;	
+				retorne Pensionado.salario * 0.01044;	
 			}
 			
-			if codigoCIU in [1592, 1743]{
+			if Pensionado.codigoCIU >= 1592 AND Pensionado.codigoCIU <= 1743{
 			
-				retorne Entidad.salario * 0.02436;	
+				retorne Pensionado.salario * 0.02436;	
 			}
 			
-			if codigoCIU in [2101, 2322]{
+			if Pensionado.codigoCIU >= 2101 AND Pensionado.codigoCIU <= 2322{
 			
-				retorne Entidad.salario * 0.04350;	
+				retorne Pensionado.salario * 0.04350;	
 			}
 			
-			if codigoCIU in [1431, 2321]{
+			if Pensionado.codigoCIU >= 1431 AND Pensionado.codigoCIU <= 2321{
 			
-				retorne Entidad.salario * 0.06960;						
+				retorne Pensionado.salario * 0.06960;						
 			}
 		}
 	}
