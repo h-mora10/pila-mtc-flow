@@ -12,6 +12,7 @@ pre{
 	dataTypes.add(new ModelMM!Enum);
 	
 	PilaValidationsMM!PilaValidations.all.collect(t|t.getArchitecture());
+	a.views = GrammarMM!ServiceOperator.all.at(0).getViews();
 }
 
 rule ServiceOp2Entity
@@ -142,19 +143,19 @@ operation GrammarMM!Calculate toBody(): ModelMM!Body{
 	var body : new ModelMM!Body;
 	var contents : String;
 	var level : Integer;
-	level = 0;
+	level = 1;
 	for (cond in self.conditions){
 		contents += cond.transformStatement(level);
 	}
 	body.content = contents;
-	body.content.println();
+	//body.content.println();
 	return body;
 }
 
 operation GrammarMM!Statement transformStatement(level : Integer) : String{
 	var contents : String;
 	level += 1;
-	
+	contents += "\n"; 
 	var base : String = "";
 	var cont = 0;
 	while(cont < level){
@@ -165,7 +166,7 @@ operation GrammarMM!Statement transformStatement(level : Integer) : String{
 	contents += base;
 	
 	if (self.isTypeOf(GrammarMM!Variable)){
-		contents += self.name;
+		contents += self.name.tolowercase();
 		contents += " = ";
 		contents += self.value;
 		contents += "\n";
@@ -187,8 +188,6 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 	var hasLogicOp : Boolean = false;
 	var logicOpSeq : Sequence;
 	var logicOpIt : Integer = 0;
-	level.println();
-	self.expressions.println();
 	
 	var base : String = "";
 	var cont = 0;
@@ -197,20 +196,22 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 		cont++;
 	}
 	
-	contents += base + "if ";
+	contents += "if ";
 	
 	if(self.expressions.size()>1){
 		hasLogicOp = true;
 		logicOpSeq = self.logoperator;
+		logicOpSeq.println();
 	}
 	
 	if(not self.expressions.isEmpty()){
 		for (exp in self.expressions){
+			exp.transformExpression().println();
 			contents += exp.transformExpression();
 			if(hasLogicOp and (logicOpIt < logicOpSeq.size())){
-				contents += base + " ";
-				contents += base + logicOpSeq.at(logicOpIt);
-				contents += base + " ";
+				contents += " ";
+				contents += logicOpSeq.at(logicOpIt);
+				contents += " ";
 				logicOpIt++;
 			}
 		}
@@ -220,12 +221,14 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 	
 	if(not self.statements.isEmpty()){
 		for (st in self.statements){
-			contents += base + st.transformStatement(1);
+			contents += base + st.transformStatement(level);
 		}
 	}
 	
 	if(not self.esleIf.isEmpty()){
+		contents += "\t";
 		for (elf in self.esleIf){
+			contents += "\n";
 			contents += base + "elif ";
 			
 			var hasLogicOpEIf : Boolean = false;
@@ -234,7 +237,8 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 	
 			if(elf.expressions.size()>1){
 				hasLogicOpEIf = true;
-				logicOpSeqEIf = self.logoperator;
+				logicOpSeqEIf = elf.logoperator;
+				logicOpSeqEIf.println();
 			}
 			
 			if(not elf.expressions.isEmpty()){		
@@ -253,17 +257,20 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 			
 			if(not elf.statements.isEmpty()){
 				for(st in elf.statements){
-					contents += st.transformStatement(1);
+					contents += st.transformStatement(level);
 				}
 			}
 		}
 	}
 	
 	if(self.els.isDefined()){
+		contents += "\n";
+		contents += base + "else";
+		contents += ":\n";
 		for (el in self.els){
 			if(not el.statements.isEmpty()){
 				for(st in el.statements){
-					contents += st.transformStatement(1);
+					contents += st.transformStatement(level);
 				}
 			}
 		}
@@ -278,7 +285,7 @@ operation GrammarMM!Expression transformExpression() : String{
 	var contents : String;
 
 	if(self.elementLeft.isDefined()){
-		contents += self.elementLeft.element;
+		contents += self.elementLeft.element.toLowerCase();
 		contents += " ";
 	}
 	if(self.comparator.isDefined()){
@@ -286,9 +293,8 @@ operation GrammarMM!Expression transformExpression() : String{
 		contents += " ";
 	}
 	if(self.elementRight.isDefined()){
-		contents += self.elementRight.element;
+		contents += self.elementRight.element.toLowerCase();
 	}
-	//contents += "\n";
 	
 	return contents;
 }
@@ -297,7 +303,7 @@ operation GrammarMM!Operation transformOperation() : String{
 	var contents : String;
 	
 	if(self.valueLeft.isDefined()){
-		contents += self.valueLeft;
+		contents += self.valueLeft.toLowerCase();
 		contents += " ";
 	}
 	if(self.operator.isDefined()){
@@ -305,7 +311,7 @@ operation GrammarMM!Operation transformOperation() : String{
 		contents += " ";
 	}
 	if(self.valueRight.isDefined()){
-		contents += self.valueRight;
+		contents += self.valueRight.toLowerCase();
 	}
 	
 	return contents;
@@ -406,4 +412,150 @@ operation PilaValidationsMM!PilaValidations getEntities() : Sequence {
 	}
 	
 	return entities;
+}
+
+operation GrammarMM!ServiceOperator getViews(): Sequence{	
+	var views = new Sequence;
+	
+	var viewParent = new ModelMM!View;
+	viewParent.name = self.name;
+	viewParent.gComponents = self.attributes.getGraphicalComponents();	
+	
+	var viewChild1 = new ModelMM!View;
+	for (superEntity in self.superEntities){		
+		viewChild1.name = superEntity.name;
+		viewChild1.gComponents = superEntity.attributes.getGraphicalComponents();
+		viewChild1.childs = superEntity.getViewChilds();
+		
+		viewParent.childs.add(viewChild1);		
+		
+		for (entity in superEntity.entities){
+			var viewChild2 = new ModelMM!View;
+			viewChild2.name = entity.name;
+			viewChild2.gComponents = entity.attributes.getGraphicalComponents();			
+			viewChild1.childs.addAll(entity.getViewChilds());			
+			
+			viewChild1.childs.add(viewChild2);
+		}
+		
+		for (pay in superEntity.pays){
+			var viewChild3 = new ModelMM!View;
+			viewChild3.name = pay.name;
+			viewChild3.gComponents = pay.attributes.getGraphicalComponents();			
+			viewChild3.childs = pay.getViewChilds();
+			
+			viewChild1.childs.add(viewChild3);
+		}		
+	}	
+	
+	for (service in self.services){
+		var viewChild4 = new ModelMM!View;
+		viewChild4.name = service.name;
+		viewChild4.gComponents = service.calculate.getGraphicalComponents();		
+		
+		viewChild1.childs.add(viewChild4);
+	}
+	
+	views.add(viewParent);
+	return views;
+}
+
+operation GrammarMM!Enum getItems(): Sequence{
+	var items = new Sequence;
+	
+	var isFirts = new Boolean;
+	isFirts = true;	
+	for (item in self.items){
+		var newItem = new ModelMM!ListItem;
+		newItem.action = item;
+		
+		if (isFirts){
+			newItem.isSelected = true;
+			isFirts = false;			
+		}
+		
+		items.add(newItem);	
+	}
+	
+	return items;
+}
+
+operation Collection getGraphicalComponents(): Sequence{
+	var graphicalComponents = new Sequence;
+	
+	var idCalculate = 1;
+	for (attribute in self){
+		if (attribute.isTypeOf(GrammarMM!StringValue)){
+			var text = new ModelMM!Text;
+			text.name = attribute.name.substring(1, attribute.name.length() - 1);
+			text.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(text);
+		}
+		else if (attribute.isTypeOf(GrammarMM!IntegerValue)){
+			var number = new ModelMM!Number;
+			number.name = attribute.name.substring(1, attribute.name.length() - 1);
+			number.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(number);
+		}
+		else if (attribute.isTypeOf(GrammarMM!BooleanValue)){
+			var radio = new ModelMM!Radio;
+			radio.name = attribute.name.substring(1, attribute.name.length() - 1);
+			radio.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(radio);
+		}
+		else if (attribute.isTypeOf(GrammarMM!FloatValue)){
+			var number = new ModelMM!Number;
+			number.name = attribute.name.substring(1, attribute.name.length() - 1);
+			number.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(number);
+		}
+		else if (attribute.isTypeOf(GrammarMM!Date)){
+			var datePicker = new ModelMM!DatePicker;
+			datePicker.name = attribute.name.substring(1, attribute.name.length() - 1);
+			datePicker.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			
+			graphicalComponents.add(datePicker);
+		}
+		else if (attribute.isTypeOf(GrammarMM!Enum)){
+			var dropdownList = new ModelMM!DropdownList;
+			dropdownList.name = attribute.name.substring(1, attribute.name.length() - 1);
+			dropdownList.displayName = attribute.displayName.substring(1, attribute.displayName.length() - 1);
+			dropdownList.items = attribute.getItems();
+			
+			graphicalComponents.add(dropdownList);
+		}	
+		else if (attribute.isTypeOf(GrammarMM!Calculate)){
+			var button = new ModelMM!Button;			
+			button.name = attribute.name.toLowerCase();
+			button.displayName = attribute.name;			
+			button.id = idCalculate + "";
+			
+			idCalculate += 1;	
+			
+			graphicalComponents.add(button);
+		}					
+	}
+	
+	return graphicalComponents;
+}
+
+operation Any getViewChilds(): Sequence{
+	var views = new Sequence;
+	
+	for (attribute in self.attributes){
+		if (attribute.isTypeOf(GrammarMM!Complex) and attribute.name.matches("\"novedad\"")){
+					
+			var view = new ModelMM!View;
+			view.name = attribute.name.substring(1, attribute.name.length() - 1).firstToUpperCase();			
+			view.gComponents = attribute.attributes.getGraphicalComponents();
+			
+			views.add(view);								
+		}							
+	}
+	
+	return views;
 }
