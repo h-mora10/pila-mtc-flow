@@ -5,58 +5,94 @@
     xmlns:pilaValidationsV2="http://www.example.org/pilaValidationsV2">
   <tipopension
       codigo="1"
-      nombre="Vejez"/>
+      nombre="Vejez"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2"
+      pagadorpensiones="//@pagadorpensiones.1 //@pagadorpensiones.2"/>
   <tipopension
       codigo="2"
-      nombre="Sobrevivencia vitalicia riesgo com&#xfa;n"/>
+      nombre="Sobrevivencia vitalicia riesgo com&#xfa;n"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <tipopension
       codigo="3"
-      nombre="Sobrevivencia temporal riesgo com&#xfa;n"/>
+      nombre="Sobrevivencia temporal riesgo com&#xfa;n"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <tipopension
       codigo="4"
-      nombre="Sobrevivencia temporal riesgo com&#xfa;n. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos"/>
+      nombre="Sobrevivencia temporal riesgo com&#xfa;n. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <tipopension
       codigo="5"
-      nombre="Sobrevivencia vitalicia por riesgo laboral"/>
+      nombre="Sobrevivencia vitalicia por riesgo laboral"
+      tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5"
+      pagadorpensiones="//@pagadorpensiones.2"/>
   <tipopension
       codigo="6"
-      nombre="Sobrevivencia temporal riesgo laboral"/>
+      nombre="Sobrevivencia temporal riesgo laboral"
+      tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5"
+      pagadorpensiones="//@pagadorpensiones.2"/>
   <tipopension
       codigo="7"
-      nombre="Sobrevivencia temporal riesgo laboral. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos"/>
+      nombre="Sobrevivencia temporal riesgo laboral. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos"
+      tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5"
+      pagadorpensiones="//@pagadorpensiones.2"/>
   <tipopension
       codigo="8"
-      nombre="Invalidez riesgo com&#xfa;n"/>
+      nombre="Invalidez riesgo com&#xfa;n"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <tipopension
       codigo="9"
-      nombre="Invalidez riesgo laboral"/>
+      nombre="Invalidez riesgo laboral"
+      tipopensionado="//@tipopensionado.3"
+      pagadorpensiones="//@pagadorpensiones.2"/>
   <tipopension
       codigo="10"
-      nombre="Jubilaci&#xf3;n"/>
+      nombre="Jubilaci&#xf3;n"
+      tipopensionado="//@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <tipopension
       codigo="11"
-      nombre="Jubilaci&#xf3;n para compartir"/>
+      nombre="Jubilaci&#xf3;n para compartir"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
   <tipopension
       codigo="12"
-      nombre="Sanci&#xf3;n"/>
+      nombre="Sanci&#xf3;n"
+      tipopensionado="//@tipopensionado.4 //@tipopensionado.5"
+      pagadorpensiones="//@pagadorpensiones.0"/>
   <tipopension
       codigo="13"
-      nombre="Convencional"/>
+      nombre="Convencional"
+      tipopensionado="//@tipopensionado.4 //@tipopensionado.5"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
   <tipopension
       codigo="14"
-      nombre="Convencional para compartir"/>
+      nombre="Convencional para compartir"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.4 //@tipopensionado.5"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
   <tipopension
       codigo="15"
-      nombre="Gracia"/>
+      nombre="Gracia"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1"
+      pagadorpensiones="//@pagadorpensiones.2"/>
   <tipopension
       codigo="16"
-      nombre="Por convenio internacional"/>
+      nombre="Por convenio internacional"
+      tipopensionado="//@tipopensionado.0"
+      pagadorpensiones="//@pagadorpensiones.1"/>
   <tipopension
       codigo="20"
-      nombre="Sentencia judicial"/>
+      nombre="Sentencia judicial"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <tipopension
       codigo="21"
-      nombre="Conciliaciones"/>
+      nombre="Conciliaciones"
+      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
+      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
   <pagadorpensiones
       codigo="1"
       nombre="Empleador"/>
@@ -142,8 +178,8 @@
       codigo="8513"
       nombre="8513"/>
   <codigociu
-      codigo="0117"
-      nombre="0117"/>
+      codigo="117"
+      nombre="117"/>
   <codigociu
       codigo="1541"
       nombre="1541"/>
