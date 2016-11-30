@@ -25,6 +25,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="gComponents" upperBound="-1"
         eType="#//GraphicalComponent" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childs" upperBound="-1"
+        eType="#//View" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TitleBar">
     <eStructuralFeatures xsi:type="ecore:EReference" name="titleComponents" upperBound="-1"
@@ -128,6 +130,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="BusinessLogic">
     <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
         upperBound="-1" eType="#//Function" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ServiceType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
@@ -160,7 +163,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Radio" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Check" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//Input"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Date" eSuperTypes="#//Input"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DatePicker" eSuperTypes="#//Input"/>
   <eClassifiers xsi:type="ecore:EClass" name="Select" eSuperTypes="#//ComplexComponent"/>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionBody">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
