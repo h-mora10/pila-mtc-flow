@@ -46,16 +46,18 @@ OperadorServicio ServiceOperator {
 			if novedades.size == 0{
 				retorne Pensionado.salario * 0.16;
 			} 
-			else_if ultimaNovedad == -NotNull- AND (ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios){														
-				if 	ultimaNovedad.duracion > 7{
-					retorne Pensionado.salario * 0.16;
-				}
-				else_if ultimaNovedad.duracion > 3 AND ultimaNovedad.duracion <= 7{
-					retorne Pensionado.salario * 0.12;
-				}
-				else_if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3{
-					retorne 0;
-				}
+			else_if ultimaNovedad == -NotNull-{
+				if ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios {
+					if 	ultimaNovedad.duracion > 7{
+						retorne Pensionado.salario * 0.16;
+					}
+					else_if ultimaNovedad.duracion > 3 AND ultimaNovedad.duracion <= 7{
+						retorne Pensionado.salario * 0.12;
+					}
+					else_if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3{
+						retorne 0;
+					}	
+				} 														
 			}	
 			else_if Pensionado.esAltoRiesgo == true{
 				retorne Pensionado.salario * 0.26;
@@ -69,7 +71,6 @@ OperadorServicio ServiceOperator {
 			else_if Pensionado.esAviador == true{																			
 				retorne Pensionado.salario * 0.21;					
 			}
-			
 		};
 		Calculo AporteSeguridadSocialEnSalud {		
 			var ultimaNovedad = -Null-;
@@ -85,18 +86,19 @@ OperadorServicio ServiceOperator {
 				retorne Pensionado.salario * 0.12;	
 			}				
 			else {
-				if ultimaNovedad == -NotNull- AND (ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios) {
-					
-					if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3 {
-						retorne 0;	
-					}
-					
-					else_if ultimaNovedad.duracion > 3 AND ultimaNovedad.duracion <= 7{
-						retorne Pensionado.salario * 0.12;	
-					}
-					
-					else_if ultimaNovedad.duracion > 7{
-						retorne Pensionado.salario * 0.16;	
+				if ultimaNovedad == -NotNull-{
+					if ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios {
+						if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3 {
+							retorne 0;	
+						}
+						
+						else_if ultimaNovedad.duracion > 3 AND ultimaNovedad.duracion <= 7{
+							retorne Pensionado.salario * 0.12;	
+						}
+						
+						else_if ultimaNovedad.duracion > 7{
+							retorne Pensionado.salario * 0.16;	
+						}	
 					}
 				}
 			}
