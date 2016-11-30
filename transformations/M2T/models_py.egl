@@ -77,8 +77,9 @@ class [%=ent.name%](models.Model):
 	for (meth in ent.methods){
 	%]	
 	@staticmethod
-	def calcular_[%=meth.name%]()
-		[%=meth.body.content.transformBody()%]
+	def calcular_[%=meth.name%](pensionado):
+		novedades = Novedad.objects.filter(pensionado_id=pensionado.pk).order_by('pk')
+	[%=meth.body.transformBody()%]
 	[%
 	}
 	
@@ -117,9 +118,15 @@ operation marq!Attribute findDataType() : String {
 	return self.toString();
 }
 
-operation String transformBody () : String {
-	var cont = self.toString();
+operation marq!Body transformBody () : String {
+	var cont = self.content;
 	cont = cont.replace("-Null-","None");
+	cont = cont.replace("-notnull-","not None");
+	cont = cont.replace("AND","and");
+	cont = cont.replace("OR","or");
+	cont = cont.replace("true","True");
+	cont = cont.replace("false","False");
+	cont = cont.replace("novedades.ultimo","novedades.reverse()[0]");
 	
 	return cont;
 }
