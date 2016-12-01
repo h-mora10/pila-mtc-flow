@@ -1,0 +1,18 @@
+from django.contrib import admin
+
+[%
+for (ent in marq!Entity.allInstances()){
+%]
+from .models import [%=ent.name%]
+[%
+}
+%]
+
+
+[%
+for (ent in marq!Entity.allInstances()){
+%]
+admin.site.register([%=ent.name%])
+[%
+}
+%]

@@ -1,6 +1,6 @@
 [% 
 	var t:Template:= TemplateFactory.load('models_py.egl');
-	var ts:Template := TemplateFactory.load('script_validaciones_pila.egl');
+	var ad:Template:= TemplateFactory.load('admin_py.egl');
 	t.generate('../../generated/pila/models.py');
-	ts.generate('../../generated/pila/script.sql');
+	ad.generate('../../generated/pila/admin.py');
 %]
