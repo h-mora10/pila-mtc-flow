@@ -1,0 +1,4 @@
+[%
+	var ts:Template := TemplateFactory.load('init_sql.egl');
+	ts.generate('scripts/init.sql');
+%]

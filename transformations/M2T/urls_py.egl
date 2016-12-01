@@ -1,0 +1,57 @@
+from django.conf.urls import url
+
+from . import views
+
+urlpatterns = [
+    url(r'^login/$', views.pila_login),
+    url(r'^usuarios/(?P<id>\d+)/$', views.consultar_tipo_usuario),
+    url(r'^aportante/(?P<id>\d+)/pensionado/$', views.read_pensionado),
+    url(r'^aportante/(?P<id_aportante>\d+)/pensionado/(?P<id_pensionado>\d+)/service/(?P<id_service>\d+)/$',
+        views.calcular_pago_servicio),
+[% for (service in Services) {
+    if (service.serviceType.isTypeOf(Models!Read))
+    {
+    	if(service.name.toLowerCase().split("_")[1] <> "novedad" and service.name.toLowerCase().split("_")[1] <> "pago" and service.name.toLowerCase().split("_")[1] <> "pensionado" and service.name.toLowerCase().split("_")[1] <> "service")
+    	{
+%]
+ 	url(r'^[%=service.name.toLowerCase().split("_")[1]%]/consultar/$', views.[%=service.name.toLowerCase()%]),
+ 	url(r'^[%=service.name.toLowerCase().split("_")[1]%]/consultar/(?P<id>\d+)/$', views.[%=service.name.toLowerCase()%]),
+[%		}
+    }
+    else if(service.serviceType.isTypeOf(Models!Create))
+    {
+    	if(service.name.toLowerCase().split("_")[1] == "novedad")
+    	{ %]
+    url(r'^aportante/(?P<id_aportante>\d+)/pensionado/(?P<id_pensionado>\d+)/novedad/$', views.[%=service.name.toLowerCase()%]),
+    	[% }
+    	else if(service.name.toLowerCase().split("_")[1] <> "service")
+    	{ %]
+    url(r'^[%=service.name.toLowerCase().split("_")[1]%]/crear/$', views.[%=service.name.toLowerCase()%]),
+    	[% }
+	}
+    else if(service.serviceType.isTypeOf(Models!Update))
+    { 
+    	if(service.name.toLowerCase().split("_")[1] == "novedad")
+    	{ %]
+    url(r'^aportante/(?P<id_aportante>\d+)/pensionado/(?P<id_pensionado>\d+)/novedad/(?P<id>\d+)/$',
+        views.[%=service.name.toLowerCase()%]),
+        [% }
+		else if(service.name.toLowerCase().split("_")[1] <> "service" and service.name.toLowerCase().split("_")[1] <> "pago")
+		{ %]
+    url(r'^[%=service.name.toLowerCase().split("_")[1]%]/actualizar/(?P<id>\d+)/$', views.[%=service.name.toLowerCase()%]),
+		[%	}
+	}
+    else if(service.serviceType.isTypeOf(Models!Delete))
+    {
+    	if(service.name.toLowerCase().split("_")[1] == "novedad")
+    	{ %]
+    url(r'^aportante/(?P<id_aportante>\d+)/pensionado/(?P<id_pensionado>\d+)/novedad/(?P<id>\d+)/$',
+        views.[%=service.name.toLowerCase()%]),
+        [% }
+        else if(service.name.toLowerCase().split("_")[1] <> "service" and service.name.toLowerCase().split("_")[1] <> "pago")
+        { %]
+    url(r'^[%=service.name.toLowerCase().split("_")[1]%]/eliminar/(?P<id>\d+)/$', views.[%=service.name.toLowerCase()%]),
+    	[%	}
+	} 
+}%]
+]

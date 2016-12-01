@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.mtcflow.model:MTC xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.mtcflow.model="http://com.mtcflow.mtc/1.1">
+  <files name="payments.casi" URI="models/payments.casi"/>
+  <files name="front"/>
+  <files name="model"/>
+  <files name="script"/>
+  <files name="service"/>
+  <metamodels name="GrammarMM" URI="" alias="GrammarMM" metamodelURI="http://www.edu.co/uniandes/miso/payments/Casi"/>
+  <metamodels name="ModelMM" URI="" alias="ModelMM" metamodelURI="http://www.example.org/metamodeloArquitecturaPila"/>
+  <metamodels name="PilaValidationsMM" alias="PilaValidationsMM" metamodelURI="http://www.example.org/pilaValidationsV2"/>
+  <models name="Payments" URI="Payments.xmi" metamodels="//@metamodels.0"/>
+  <models name="Architecture" URI="ModelPilaArchitecture.xmi" metamodels="//@metamodels.1"/>
+  <models name="PilaValidations" URI="PilaValidations.xmi" metamodels="//@metamodels.2"/>
+  <inputModels model="//@models.0" modelAlias="GrammarMM" transformation="//@transformations.1"/>
+  <inputModels model="//@models.2" modelAlias="PilaValidationsMM" transformation="//@transformations.1"/>
+  <inputModels model="//@models.1" modelAlias="arcFront" transformation="//@transformations.2"/>
+  <inputModels model="//@models.2" modelAlias="val" transformation="//@transformations.2"/>
+  <inputModels model="//@models.1" modelAlias="marq" transformation="//@transformations.3"/>
+  <inputModels model="//@models.2" modelAlias="PilaValidationsMM" transformation="//@transformations.4"/>
+  <inputModels model="//@models.1" modelAlias="Models" transformation="//@transformations.5"/>
+  <transformations xsi:type="com.mtcflow.model:T2MTransformation" name="Gen XMI" URI="generate.xtext"/>
+  <transformations xsi:type="com.mtcflow.model:M2MTransformation" name="Gram2Model" URI="Gram2Model.etl"/>
+  <transformations xsi:type="com.mtcflow.model:M2TTransformation" name="View" URI="TransformacionFrontend.egl" implementationClass="" target="C:\Users\jd.cepeda\Documents\Proyecto Automatización\Ciclo 4\Transformaciones\Segunda Instancia\PilaMTC\transformations\M2T"/>
+  <transformations xsi:type="com.mtcflow.model:M2TTransformation" name="Model" URI="generator.egl" implementationClass="" target="generated"/>
+  <transformations xsi:type="com.mtcflow.model:M2TTransformation" name="SQL" URI="init.egl" target="generated"/>
+  <transformations xsi:type="com.mtcflow.model:M2TTransformation" name="Services" URI="services.egl" target="generated"/>
+  <outputModels modelAlias="payments.casi" model="//@models.0" transformation="//@transformations.0"/>
+  <outputModels modelAlias="ModelMM" model="//@models.1" transformation="//@transformations.1"/>
+  <inputFiles file="//@files.0" transformation="//@transformations.0"/>
+  <outputFiles transformation="//@transformations.2" file="//@files.1"/>
+  <outputFiles transformation="//@transformations.3" file="//@files.2"/>
+  <outputFiles transformation="//@transformations.4" file="//@files.3"/>
+  <outputFiles transformation="//@transformations.5" file="//@files.4"/>
+</com.mtcflow.model:MTC>

@@ -1,0 +1,12 @@
+[% 	
+	var architecture = Models!Architecture.all.at(0);
+	var srv = architecture.services;
+	
+	var models : Template:=  TemplateFactory.load('urls_py.egl');
+	models.populate("Services", srv);
+	models.generate("pila/pila/urls.py");
+
+	var models : Template:=  TemplateFactory.load('views_py.egl');
+	models.populate("Services", srv);
+	models.generate("pila/pila/views.py");
+%]

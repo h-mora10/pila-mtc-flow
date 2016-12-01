@@ -1,0 +1,342 @@
+# coding=utf-8
+import json
+import traceback
+from datetime import datetime
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User, Group
+from django.core import serializers
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from . import models
+
+
+# Create your views here.
+@csrf_exempt
+def pila_login(request):
+	try:
+		if request.method == 'POST':
+			data = json.loads(request.body)
+
+			nombre_usuario = data['usuario']
+			contrasenia = data['password']
+
+			usuario = authenticate(username=nombre_usuario, password=contrasenia)
+
+			if usuario is not None:
+				login(request, usuario)
+
+				return HttpResponse(serializers.serialize("json", [usuario]))
+			else:
+				return JsonResponse({"mensaje": "Ocurrió un error al intentar hacer login"})
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error al intentar hacer login"})
+
+
+@csrf_exempt
+def consultar_tipo_usuario(request, id):
+	try:
+		if request.method == 'POST':
+			respuesta = {
+				"id_aportante": "",
+				"id_operador_servicio": ""
+			}
+			usuario = User.objects.get(pk=id)
+			grupos = usuario.groups.all()
+
+			if len(grupos) == 1:
+				if str(grupos[0]).upper() == "APORTANTE":
+					aportante = models.Aportante.objects.get(usuario_id=usuario.pk)
+					respuesta['id_aportante'] = aportante.pk
+				elif str(grupos[0]).upper() == "OPERADOR":
+					operador_servicio = models.OperadorServicio.objects.get(pk=usuario.pk)
+					respuesta['id_operador_servicio'] = operador_servicio.pk
+
+			return JsonResponse(respuesta, safe=False)
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error consultando el tipo del usuario " + str(id)})
+
+
+[% for(service in Services){
+	if (service.serviceType.isTypeOf(Models!Create)){
+		if(service.dispatcher.name == "create_aportante")
+		{ %]
+@csrf_exempt
+def [%=service.dispatcher.name%](request):
+	try:
+		if request.method == 'POST':
+			data = json.loads(request.body)
+			
+			nombre_usuario = data['usuario']
+			contrasenia = data['password']
+			[% var items = service.dispatcher.body.content.split(";");%]
+			[%	for(item in items){ %]
+			[%=item.substring(1, item.length() -1)%] = data[[%=item%]]
+			[% } %]
+			usuario = User.objects.create_user(username=nombre_usuario, password=contrasenia)
+			grupo = Group.objects.get(name__iexact="[%=service.dispatcher.name.split("_")[1].toUpperCase%]")
+			grupo.user_set.add(usuario)
+
+			operador_servicio = models.OperadorServicio.objects.get(pk=1)
+			
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%]
+			aportante.usuario_id = usuario
+			[%	for(item in items){ %]
+			[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%] = [%=item%]
+			[% } %]
+			aportante.operador_servicio = operador_servicio
+			[%=service.dispatcher.name.split("_")[1]%].save()
+
+			return HttpResponse(serializers.serialize("json", [[%=service.dispatcher.name.split("_")[1]%]]))
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error creando [%=service.dispatcher.name.split("_")[1]%]"})
+
+
+		[% }
+		
+		else if(service.dispatcher.name == "create_service")
+		{ %]
+@csrf_exempt
+def calcular_pago_servicio(request, id_aportante, id_pensionado, id_service):
+	valor_a_pagar = 0
+	try:
+		if request.method == 'POST':
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase%].objects.get(pk=id_[%=service.dispatcher.name.split("_")[1]%])
+			pensionado = models.Pensionado.objects.get(pk=id_pensionado)
+
+			[% var items = service.dispatcher.body.content.split(";");%]
+			[% var i = 0;	for(item in items){ 
+				if(i==0){%]
+			if [%=service.dispatcher.name.split("_")[1]%].pk == [%=i++%]:
+				valor_a_pagar = [%=service.dispatcher.name.split("_")[1]%].calcular_pago_[%=item%](pensionado)
+			[%	}else{ %]
+			elif [%=service.dispatcher.name.split("_")[1]%].pk == [%=i++%]:
+				valor_a_pagar = [%=service.dispatcher.name.split("_")[1]%].calcular_pago_[%=item%](pensionado)
+			[%	}} %]
+
+		if valor_a_pagar is None:
+			valor_a_pagar = 0
+		elif valor_a_pagar > 0:
+			valor_a_pagar = round(valor_a_pagar, 2)
+
+		respuesta = {
+			'valor_a_pagar': valor_a_pagar
+		}
+
+		return JsonResponse(respuesta, safe=False)
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error calculando el pago del servicio"})
+
+
+		[% }
+		else
+		{ %]
+@csrf_exempt
+def [%=service.dispatcher.name%](request[% if (service.dispatcher.name == "create_novedad" or service.dispatcher.name == "create_pago"){%], id_aportante, id_pensionado[%}%]):
+	try:
+		if request.method == 'POST':
+			data = json.loads(request.body)
+			
+			[% if (service.dispatcher.name == "create_pensionado") {%]
+			aportante = models.Aportante.objects.get(pk=data['aportante'])
+			[% } else {%]
+			aportante = models.Aportante.objects.get(pk=id_aportante)
+			[% }%]
+			
+			[% if (service.dispatcher.name == "create_pago"){%]
+			pensionado = models.Pensionado.objects.get(pk=id_pensionado)
+
+			validacion_pago = models.TipoPensionadoTipoPagadorPensiones.objects.filter(
+			tipo_pensionado_id=pensionado.tipo_pensionado,
+			tipo_pagador_pensiones_id=aportante.tipo_pagador_pensiones)
+
+			if validacion_pago is not None and len(validacion_pago) > 0:
+			[% } else if(service.dispatcher.name == "create_pensionado"){ %]
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%]()
+			[%=service.dispatcher.name.split("_")[1]%].aportante = aportante
+			[% } else if(service.dispatcher.name == "create_novedad"){ %]
+			pensionado = models.Pensionado.objects.get(pk=id_pensionado)
+			
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%]()
+			[%=service.dispatcher.name.split("_")[1]%].aportante = aportante
+			[%=service.dispatcher.name.split("_")[1]%].pensionado = pensionado
+			[% } %]
+			[% var items = service.dispatcher.body.content.split(";");%]
+			[% if(service.dispatcher.name == "create_pago"){%]
+				[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%]()
+			[%	for(item in items){ %]
+				[% if(item.substring(1, item.length() -1).startsWith("fecha")){%]
+				[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%] = datetime.strptime(data[[%=item%]], "%d/%m/%Y")
+				[% } else {%]
+				[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%] = data[[%=item%]]
+				[% } %]
+			[% } %]
+			[%} else{%]
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%]()
+			[%	for(item in items){ %]
+				[% if(item.substring(1, item.length() -1).startsWith("fecha")){%]
+			[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%] = datetime.strptime(data[[%=item%]], "%d/%m/%Y")
+				[% } else {%]
+			[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%] = data[[%=item%]]
+				[% } %]
+			[% } } %]
+			
+			[%=service.dispatcher.name.split("_")[1]%].save()
+
+			return HttpResponse(serializers.serialize("json", [[%=service.dispatcher.name.split("_")[1]%]]))
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error creando [%=service.dispatcher.name.split("_")[1]%]"})
+
+
+		[% }
+	}
+	else if (service.serviceType.isTypeOf(Models!Read)){
+		if(service.dispatcher.name <> "read_pago" and service.dispatcher.name <> "read_novedad" and service.dispatcher.name <> "read_service")
+		{
+%]
+@csrf_exempt
+def [%=service.dispatcher.name%](request[% if (service.dispatcher.name == "read_pensionado"){%], id[%}%]):
+	try:
+		if request.method == 'GET':
+			[% if(service.dispatcher.name == "read_pensionado"){ %]
+			respuesta = []
+			[%=service.dispatcher.name.split("_")[1]%]s = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%].objects.filter(aportante_id=id)
+			
+			for [%=service.dispatcher.name.split("_")[1]%] in [%=service.dispatcher.name.split("_")[1]%]s:
+				novedades = models.Novedad.objects.filter(pensionado_id=pensionado.pk).values('pk', 
+																'fecha_inicio',
+                                                                'fecha_fin',
+                                                                'duracion',
+                                                                'tipo_novedad')
+				[% var items = service.dispatcher.body.content.split(";");
+				for(item in items){ %]
+					[% if(item.substring(1, item.length() -1) == "tipoPensionado"){%]
+				[%=item.substring(1, item.length() -1)%] = models.[%=item.substring(1, item.length() -1).firstToUpperCase()%].objects.get(pk=[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%])
+				[%  } %]
+					[% if(item.substring(1, item.length() -1) == "tipoPension"){%]
+				[%=item.substring(1, item.length() -1)%] = models.[%=item.substring(1, item.length() -1).firstToUpperCase()%].objects.get(pk=[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%])
+				[%  } 
+				} %]
+				
+				for novedad in novedades:
+					n = models.Novedad.objects.get(pk=novedad['pk'])
+					novedad['fecha_inicio'] = str(n.fecha_inicio)
+					novedad['fecha_fin'] = str(n.fecha_fin)
+					tipo_novedad = models.TipoNovedad.objects.get(pk=novedad['tipo_novedad'])
+					novedad['tipo_novedad_nombre'] = tipo_novedad.descripcion
+
+				novedades = json.loads(json.dumps(list(novedades)))
+				
+				respuesta.append({
+					'pk': [%=service.dispatcher.name.split("_")[1]%].pk,
+				[% var items = service.dispatcher.body.content.split(";");
+					for(item in items){ %]
+						[% if(item.substring(1, item.length() -1) == "codigoCIU") {%]
+					'[%=item.substring(1, item.length() -1)%]' : str([%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%]).zfill(4),
+						[% } else{%]
+					'[%=item.substring(1, item.length() -1)%]' : [%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%],
+						[% }%]
+				[% } %]
+					'novedades': novedades
+			})
+			[% } else if(service.dispatcher.name == "read_aportante"){ %]          
+			[%=service.dispatcher.name.split("_")[1]%]s = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase%].objects.all().values('pk', 
+																'usuario_id', 
+									[% var items = service.dispatcher.body.content.split(";");
+									for(item in items){ %]
+																'[%=item.substring(1, item.length() -1)%]',
+									[% } %]							'operador_servicio')
+									[% var items = service.dispatcher.body.content.split(";");
+									
+									for(item in items){ if(item.substring(1, item.length() -1) == "tipoPagadorPensiones"){%]
+			for [%=service.dispatcher.name.split("_")[1]%] in [%=service.dispatcher.name.split("_")[1]%]s:
+				[%=item.substring(1, item.length() -1)%]_pensiones = models.[%=item.substring(1, item.length() -1).firstToUpperCase%]Pensiones.objects.get(pk=[%=service.dispatcher.name.split("_")[1]%]['[%=item.substring(1, item.length() -1)%]_pensiones'])
+				[%=service.dispatcher.name.split("_")[1]%]['[%=item.substring(1, item.length() -1)%]_pensiones_nombre'] = [%=item.substring(1, item.length() -1)%]_pensiones.descripcion
+				
+			[%=service.dispatcher.name.split("_")[1]%]s = json.loads(json.dumps(list([%=service.dispatcher.name.split("_")[1]%]s)))
+									[% } } %]
+			[% } %]
+			
+			[%if(service.dispatcher.name == "read_aportante"){%]
+			return JsonResponse(aportantes, safe=False)
+			[%} else {%]
+			return JsonResponse(respuesta, safe=False)
+			[%}%]
+
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error buscando [%=service.dispatcher.name.split("_")[1]%]"})
+
+
+[%		}
+	}
+	else if (service.serviceType.isTypeOf(Models!Update)){
+		if(service.dispatcher.name <> "update_pago" and service.dispatcher.name <> "update_service")
+		{
+%]
+@csrf_exempt
+def [%=service.dispatcher.name%](request[% if (service.dispatcher.name == "update_novedad"){%], id_aportante, id_pensionado[%}%], id):
+	try:
+		if request.method == 'PUT':
+			data = json.loads(request.body)
+			[% if (service.dispatcher.name == "update_aportante"){ %]
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%].objects.get(pk=id)
+			usuario = User.objects.get(pk=aportante.usuario_id.id)
+
+			if data['password']:
+				usuario.set_password(data['password'])
+				usuario.save()
+			[% }%]
+            
+			[% var items = service.dispatcher.body.content.split(";");%]
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase()%].objects.get(pk=id)
+			[%	for(item in items){ %]
+			if data['[%=item.substring(1, item.length() -1)%]']:
+				[%=service.dispatcher.name.split("_")[1]%].[%=item.substring(1, item.length() -1)%] = data['[%=item.substring(1, item.length() -1)%]']
+			[% } %]
+
+			[%=service.dispatcher.name.split("_")[1]%].save()
+
+			return HttpResponse(serializers.serialize("json", [[%=service.dispatcher.name.split("_")[1]%]]))          
+
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error actualizando [%=service.dispatcher.name.split("_")[1]%]"})
+
+
+[%		}
+	}
+	else if (service.serviceType.isTypeOf(Models!Delete)){
+		if(service.dispatcher.name <> "delete_pago" and service.dispatcher.name <> "delete_service")
+		{
+%]
+@csrf_exempt
+def [%=service.dispatcher.name%](request[% if (service.dispatcher.name == "delete_novedad"){%], id_aportante, id_pensionado[%}%], id):
+	try:
+		if request.method == 'DELETE':
+		[%	if(service.dispatcher.name == "delete_aportante")
+			{%]
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase%].objects.get(pk=id)
+			usuario = User.objects.get(pk=[%=service.dispatcher.name.split("_")[1]%].usuario_id.id)
+			usuario.delete()
+			[%}%]
+			[%=service.dispatcher.name.split("_")[1]%] = models.[%=service.dispatcher.name.split("_")[1].firstToUpperCase%].objects.get(pk=id)
+			[%=service.dispatcher.name.split("_")[1]%].delete()
+
+			return JsonResponse({"mensaje": "ok"})
+	except:
+		traceback.print_exc()
+		return JsonResponse({"mensaje": "Ocurrió un error eliminando [%=service.dispatcher.name.split("_")[1]%]"})
+
+
+[%		}  
+	}	
+}
+%]
