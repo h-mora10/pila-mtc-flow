@@ -52,7 +52,9 @@ operation GrammarMM!ServiceOperator getModelEntities() : ModelMM!Entity {
 	var root = new ModelMM!Entity;
 	root.name = self.name;
 	root.childrenEntities = self.getServiceOperatorEntities();
-	root.attributes = self.attributes.equivalent();
+	for(a in self.attributes){
+		root.attributes.add(a.toModelAttribute());
+	}
 	root.childrenEntities.addAll(self.getServiceOperatorServices());
 	
 	return root; 
@@ -600,7 +602,6 @@ operation Any getViewChilds(): Sequence{
 	return views;
 }
 
-
 //BUSINESS LOGICS 
 
 rule SuperEnt2BuzLogic
@@ -608,13 +609,10 @@ rule SuperEnt2BuzLogic
 		s:GrammarMM!SuperEntity
 	to
 		t:ModelMM!BusinessLogic{
-			"SuperEntity".println();
 			t.functions = s.getSuperEntityFunctions();
 			t.name = s.name;
 			a.logic.add(t);
 			a.services.addAll(s.getSuperEntityServices());
-			a.logic.println();
-			a.services.println();
 		}
 	
 rule BusinessEnt2BuzLogic
