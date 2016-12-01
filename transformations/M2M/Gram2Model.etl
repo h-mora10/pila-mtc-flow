@@ -27,135 +27,175 @@ pre{
 	servicesTypes.add(up);
 	
 	PilaValidationsMM!PilaValidations.all.collect(t|t.getArchitecture());
-	a.views = GrammarMM!ServiceOperator.all.at(0).getViews();
 	a.serviceTypes = servicesTypes;
 	
 }
 
-rule ServiceOp2Entity
-	transform
-		s:GrammarMM!ServiceOperator
-	to
-		t:ModelMM!Entity{
-			bm.entities.add(t);
-			t.name = s.name;
-			t.childrenEntities = s.superEntities.equivalent();
-			t.childrenEntities.addAll(s.services.equivalent());
-			t.attributes = s.attributes.equivalent();
-		}
+operation PilaValidationsMM!PilaValidations getArchitecture () : ModelMM!Architecture {
+	
+	a = new ModelMM!Architecture;
+	
+	bm = new ModelMM!BusinessModel;
 		
-rule SuperEnt2Entity
-	transform
-		s:GrammarMM!SuperEntity
-	to
-		t:ModelMM!Entity{
-			t.name = s.name;
-			t.childrenEntities = s.entities.equivalent();
-			t.childrenEntities.add(s.pays.equivalent());
-			t.attributes = s.attributes.equivalent();
-		}
-		
-rule BusinessEnt2Entity
-	transform
-		s:GrammarMM!BusinessEntity
-	to
-		t:ModelMM!Entity{
-			t.name = s.name;
-			t.attributes = s.attributes.equivalent();
-		}
-		
-rule Pay2Entity
-	transform
-		s:GrammarMM!Pay
-	to
-		t:ModelMM!Entity{
-			t.name = s.name;
-			t.attributes = s.attributes.equivalent();
-		}
-		
-rule Service2Entity
-	transform
-		s:GrammarMM!Service
-	to
-		t:ModelMM!Entity{
-			t.name = s.name;
-			t.attributes = s.displayName.equivalent();
-			t.methods = s.calculate.equivalent();
-		}
-		
-rule Calculate2Method
-	transform
-		s:GrammarMM!Calculate
-	to
-		t:ModelMM!Method{
-			t.name = s.name;
-			t.body = s.toBody();
-		}
-				
-rule StringAttr2Attr
-	transform
-		s:GrammarMM!StringValue
-	to
-		t:ModelMM!Attribute{
-			t.name = s.name.replace("\"","");
-			t.attType = dataTypes[0];
-		}
+	bm.entities.add(GrammarMM!ServiceOperator.all.at(0).getModelEntities());
+	bm.entities.addAll(self.getEntities());
+	bm.dataTypes = dataTypes;
+	
+	a.businessModel = bm;
+	a.views = GrammarMM!ServiceOperator.all.at(0).getViews();
+	
+	return a;
+}
 
-rule IntegerAttr2Attr
-	transform
-		s:GrammarMM!IntegerValue
-	to
-		t:ModelMM!Attribute{
-			t.name = s.name.replace("\"","");
-			t.attType = dataTypes[1];
-		}
+operation GrammarMM!ServiceOperator getModelEntities() : ModelMM!Entity {
+	
+	var root = new ModelMM!Entity;
+	root.name = self.name;
+	root.childrenEntities = self.getServiceOperatorEntities();
+	for(a in self.attributes){
+		root.attributes.add(a.toModelAttribute());
+	}
+	root.childrenEntities.addAll(self.getServiceOperatorServices());
+	
+	return root; 
+}
 
-rule BooleanAttr2Attr
-	transform
-		s:GrammarMM!BooleanValue
-	to
-		t:ModelMM!Attribute{
-			t.name = s.name.replace("\"","");
-			t.attType = dataTypes[3];
+operation GrammarMM!ServiceOperator getServiceOperatorEntities() : Sequence {
+	
+	var seSeq = self.superEntities.select(e|e.isTypeOf(GrammarMM!SuperEntity));
+	var seModelSeq = new Sequence;
+	
+	for(se in seSeq){
+		var ent = new ModelMM!Entity;
+		ent.name = se.name;
+		ent.childrenEntities = se.getSuperEntityChildren();
+		for(a in se.attributes){
+			ent.attributes.add(a.toModelAttribute());
 		}
-		
-rule FloatAttr2Attr
-	transform
-		s:GrammarMM!FloatValue
-	to
-		t:ModelMM!Attribute{
-			t.name = s.name.replace("\"","");
-			t.attType = dataTypes[2];
-		}
-		
-rule DateAttr2Attr
-	transform
-		s:GrammarMM!Date
-	to
-		t:ModelMM!Attribute{
-			t.name = s.name.replace("\"","");
-			t.attType = dataTypes[4];
-		}
-		
-rule EnumAttr2Attr
-	transform
-		s:GrammarMM!Enum
-	to
-		t:ModelMM!Attribute{
-			t.name = s.name;
-			t.value = s.items;
-			t.attType = dataTypes[5];
-		}
+		ent.childrenEntities.addAll(se.getSuperEntityPayments());
+		seModelSeq.add(ent);	
+	}
+	
+	return seModelSeq;
+}
 
-rule ComplexAttr2Entity
-	transform
-		s:GrammarMM!Complex
-	to
-		t:ModelMM!Entity{
-			t.name = s.name.replace("\"","").firstToUpperCase();
-			t.attributes = s.attributes.equivalent();			
+operation GrammarMM!SuperEntity getSuperEntityChildren(): Sequence {
+	
+	var beSeq = self.entities.select(e|e.isTypeOf(GrammarMM!BusinessEntity));
+	var beModelSeq = new Sequence;
+	
+	for (be in beSeq){
+		var ent = new ModelMM!Entity;
+		ent.name = be.name;
+		for(a in be.attributes){
+			ent.attributes.add(a.toModelAttribute());
 		}
-			
+		beModelSeq.add(ent);
+	}
+	
+	return beModelSeq;
+}
+
+operation GrammarMM!SuperEntity getSuperEntityPayments(): Sequence {
+	
+	var paSeq = self.pays.select(e|e.isTypeOf(GrammarMM!Pay));
+	var paModelSeq = new Sequence;
+	
+	for (pa in paSeq){
+		var ent = new ModelMM!Entity;
+		ent.name = pa.name;
+		for(a in pa.attributes){
+			ent.attributes.add(a.toModelAttribute());
+		}
+		paModelSeq.add(ent);
+	}
+	
+	return paModelSeq;
+}
+
+operation GrammarMM!ServiceOperator getServiceOperatorServices() : Sequence {
+	
+	var seSeq = self.services.select(e|e.isTypeOf(GrammarMM!Service));
+	var seModelSeq = new Sequence;
+	
+	for(se in seSeq){
+		var ent = new ModelMM!Entity;
+		ent.name = se.name;
+		ent.methods = se.getServiceMethods();
+		for(a in se.displayName){
+			ent.attributes.add(a.toModelAttribute());
+		}
+		seModelSeq.add(ent);	
+	}
+	
+	return seModelSeq;
+}
+
+operation GrammarMM!Service getServiceMethods() : Sequence {
+	
+	var meSeq = self.calculate.select(e|e.isTypeOf(GrammarMM!Calculate));
+	var meModelSeq = new Sequence;
+	
+	for(me in meSeq){
+		var met = new ModelMM!Method;
+		met.name = me.name;
+		met.body = me.toBody();
+		meModelSeq.add(met);	
+	}
+	
+	return meModelSeq;
+}
+
+operation GrammarMM!Attribute toModelAttribute() : Any {
+	if(self.isTypeOf(GrammarMM!StringValue)){
+		var a : new ModelMM!Attribute;
+		a.name = self.name.replace("\"","");
+		a.attType = dataTypes[0];
+		return a;
+	}
+	else if(self.isTypeOf(GrammarMM!IntegerValue)){
+		var a : new ModelMM!Attribute;
+		a.name = self.name.replace("\"","");
+		a.attType = dataTypes[1];
+		return a;
+	}
+	else if(self.isTypeOf(GrammarMM!FloatValue)){
+		var a : new ModelMM!Attribute;
+		a.name = self.name.replace("\"","");
+		a.attType = dataTypes[2];
+		return a;
+	}
+	else if(self.isTypeOf(GrammarMM!BooleanValue)){
+		var a : new ModelMM!Attribute;
+		a.name = self.name.replace("\"","");
+		a.attType = dataTypes[3];
+		return a;
+	}
+	else if(self.isTypeOf(GrammarMM!Date)){
+		var a : new ModelMM!Attribute;
+		a.name = self.name.replace("\"","");
+		a.attType = dataTypes[4];
+		return a;
+	}
+	else if(self.isTypeOf(GrammarMM!Enum)){
+		var a : new ModelMM!Attribute;
+		a.name = self.name;
+		a.value = self.items;
+		a.attType = dataTypes[5];
+		return a;
+	}
+	else if(self.isTypeOf(GrammarMM!Complex)){
+		var e : new ModelMM!Entity;
+		e.name = self.name.replace("\"","").firstToUpperCase();
+		for(a in self.attributes){
+			e.attributes.add(a.toModelAttribute());
+		}
+		return e;
+	}
+	
+	return new ModelMM!Attribute;
+}
+		
 operation GrammarMM!Calculate toBody(): ModelMM!Body{
 	var body : new ModelMM!Body;
 	var contents : String;
@@ -165,7 +205,7 @@ operation GrammarMM!Calculate toBody(): ModelMM!Body{
 		contents += cond.transformStatement(level);
 	}
 	body.content = contents;
-	//body.content.println();
+	
 	return body;
 }
 
@@ -218,12 +258,10 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 	if(self.expressions.size()>1){
 		hasLogicOp = true;
 		logicOpSeq = self.logoperator;
-		logicOpSeq.println();
 	}
 	
 	if(not self.expressions.isEmpty()){
 		for (exp in self.expressions){
-			exp.transformExpression().println();
 			contents += exp.transformExpression();
 			if(hasLogicOp and (logicOpIt < logicOpSeq.size())){
 				contents += " ";
@@ -255,7 +293,6 @@ operation GrammarMM!If transformIf(level : Integer) : String{
 			if(elf.expressions.size()>1){
 				hasLogicOpEIf = true;
 				logicOpSeqEIf = elf.logoperator;
-				logicOpSeqEIf.println();
 			}
 			
 			if(not elf.expressions.isEmpty()){		
@@ -332,17 +369,7 @@ operation GrammarMM!Operation transformOperation() : String{
 	return contents;
 }
 
-operation PilaValidationsMM!PilaValidations getArchitecture () : ModelMM!Architecture {
-	a = new ModelMM!Architecture;
-	
-	bm = new ModelMM!BusinessModel;
-	bm.entities = self.getEntities();
-	bm.dataTypes = dataTypes;
-	
-	a.businessModel = bm;
-	
-	return a;
-}
+
 
 operation PilaValidationsMM!PilaValidations getEntities() : Sequence {
 	var entities = new Sequence;
@@ -575,7 +602,6 @@ operation Any getViewChilds(): Sequence{
 	return views;
 }
 
-
 //BUSINESS LOGICS 
 
 rule SuperEnt2BuzLogic
@@ -626,11 +652,10 @@ rule Service2Function
 	transform
 		s:GrammarMM!Service
 	to
-		t:ModelMM!BusinessLogic{
-			t.name = s.name.firstToUpperCase();
-			t.functions = s.getCalculateFunctions();
+		t:ModelMM!Function{
+			t.name = s.name;
+			t.body = s.getCalculateBody();
 			a.logic.add(t);
-			a.services.addAll(s.getCalculateServices());
 		}
 
 //FUNCTIONS
@@ -687,19 +712,6 @@ operation GrammarMM!Complex getComplexFunctions() : Sequence{
 	return functions;
 }
 
-operation GrammarMM!Service getCalculateFunctions() : Sequence{
-	var functions : new Sequence;
-	
-	for (st in a.serviceTypes){
-		var f = new ModelMM!Function;
-		f.name = st.name + "_" + self.name.toLowerCase();
-		f.body = self.getCalculateBody();
-		functions.add(f);
-	}
-	
-	return functions;
-}
-
 //SERVICES
 
 operation GrammarMM!SuperEntity getSuperEntityServices() : Sequence{
@@ -750,20 +762,6 @@ operation GrammarMM!Complex getComplexServices() : Sequence{
 	for (st in a.serviceTypes){
 		var s = new ModelMM!Service;
 		s.name = st.name + "_" + self.name.substring(1, self.name.length() -1).toLowerCase();
-		s.dispatcher = s.findDispatcher();
-		s.serviceType = st;
-		services.add(s);
-	}
-	
-	return services;
-}
-
-operation GrammarMM!Service getCalculateServices() : Sequence{
-	var services : new Sequence;
-	
-	for (st in a.serviceTypes){
-		var s = new ModelMM!Service;
-		s.name = st.name + "_" + self.name.toLowerCase();
 		s.dispatcher = s.findDispatcher();
 		s.serviceType = st;
 		services.add(s);

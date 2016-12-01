@@ -120,8 +120,8 @@ operation marq!Attribute findDataType() : String {
 
 operation marq!Body transformBody () : String {
 	var cont = self.content;
-	cont = cont.replace("-Null-","None");
-	cont = cont.replace("-notnull-","not None");
+	cont = cont.replace("= -Null-","= None");
+	cont = cont.replace("== -notnull-","is not None");
 	cont = cont.replace("AND","and");
 	cont = cont.replace("OR","or");
 	cont = cont.replace("true","True");
