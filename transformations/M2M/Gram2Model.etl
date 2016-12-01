@@ -10,6 +10,7 @@ pre{
 	dataTypes.add(new ModelMM!Boolean);
 	dataTypes.add(new ModelMM!Date);
 	dataTypes.add(new ModelMM!Enum);
+	dataTypes.add(new ModelMM!Other);
 	
 	var servicesTypes = new Sequence;
 	
@@ -442,11 +443,13 @@ operation PilaValidationsMM!PilaValidations getEntities() : Sequence {
 			
 		var attribute1 = new ModelMM!Attribute;
 		attribute1.name = 'tipo_pensionado' + '-' + self.tipopensionado.get(0).eClass.name;
+		attribute1.attType = dataTypes[6];
 		
 		entity.attributes.add(attribute1);
 		
 		var attribute2 = new ModelMM!Attribute;
 		attribute2.name = 'tipo_pagador_pensiones' + '-' + self.tipopensionado.get(0).pagadorpensiones.get(0).eClass.name;
+		attribute2.attType = dataTypes[6];
 		
 		entity.attributes.add(attribute2);
 		
