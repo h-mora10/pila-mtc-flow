@@ -28,11 +28,15 @@ for (ent in marq!Entity.allInstances()){
 %]
 class [%=ent.name%](models.Model):
 	[%
+	var user = false;
 	for(att in ent.attributes){
-		if(ent.name.equals("ServiceOperator") or ent.name.equals("Aportante")){
-		%]
+		if(user == false){
+			if(ent.name.equals("ServiceOperator") or ent.name.equals("Aportante")){
+			%]
 	usuario_id = models.OneToOneField(User)	
-		[%
+			[%
+				user = true;
+			}
 		}
 		if(att.isTypeOf(marq!Attribute)){
 			if(att.attType.isTypeOf(marq!Enum)){
