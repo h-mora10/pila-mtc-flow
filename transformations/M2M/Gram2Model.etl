@@ -38,6 +38,8 @@ operation PilaValidationsMM!PilaValidations getArchitecture () : ModelMM!Archite
 	
 	bm = new ModelMM!BusinessModel;
 		
+	GrammarMM!ServiceOperator.all.println();
+		
 	bm.entities.add(GrammarMM!ServiceOperator.all.at(0).getModelEntities());
 	bm.entities.addAll(self.getEntities());
 	bm.dataTypes = dataTypes;
@@ -655,10 +657,11 @@ rule Service2Function
 	transform
 		s:GrammarMM!Service
 	to
-		t:ModelMM!Function{
-			t.name = s.name;
-			t.body = s.getCalculateBody();
+		t:ModelMM!BusinessLogic{
+			t.name = s.name.firstToUpperCase();
+			t.functions = s.getCalculateFunctions();
 			a.logic.add(t);
+			a.services.addAll(s.getCalculateServices());
 		}
 
 //FUNCTIONS
@@ -709,6 +712,19 @@ operation GrammarMM!Complex getComplexFunctions() : Sequence{
 		var f = new ModelMM!Function;
 		f.name = st.name + "_" + self.name.substring(1, self.name.length() -1).toLowerCase();
 		f.body = self.getComplexBody();
+		functions.add(f);
+	}
+	
+	return functions;
+}
+
+operation GrammarMM!Service getCalculateFunctions() : Sequence{
+	var functions : new Sequence;
+	
+	for (st in a.serviceTypes){
+		var f = new ModelMM!Function;
+		f.name = st.name + "_" + self.name.toLowerCase();
+		f.body = self.getCalculateBody();
 		functions.add(f);
 	}
 	
@@ -773,7 +789,19 @@ operation GrammarMM!Complex getComplexServices() : Sequence{
 	return services;
 }
 
-
+operation GrammarMM!Service getCalculateServices() : Sequence{
+	var services : new Sequence;
+	
+	for (st in a.serviceTypes){
+		var s = new ModelMM!Service;
+		s.name = st.name + "_" + self.name.toLowerCase();
+		s.dispatcher = s.findDispatcher();
+		s.serviceType = st;
+		services.add(s);
+	}
+	
+	return services;
+}
 
 //Bodies
 operation GrammarMM!SuperEntity getSuperEntBody(): ModelMM!FunctionBody{
