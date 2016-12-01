@@ -63,7 +63,7 @@ class [%=ent.name%](models.Model):
 		if(marq!Entity.allInstances().select(e|e.name.toLowerCase() = att.name.replace("\"","").toLowerCase()).size()>0){
 			var refEntity = marq!Entity.allInstances().select(e|e.name.toLowerCase() = att.name.replace("\"","").toLowerCase()).first();
 	%]
-		opciones_[%=att.name.replace("\"","")%] = [%=refEntity.name%].objects().all()
+		opciones_[%=att.name.replace("\"","")%] = [%=refEntity.name%].objects.all()
 		for opcion_[%=att.name.replace("\"","")%] in opciones_[%=att.name.replace("\"","")%]:
 			self.[%=att.name.replace("\"","").toUpperCase()%].append((opcion_[%=att.name.replace("\"","")%].pk, 
 											opcion_[%=att.name.replace("\"","")%].[%=refEntity.attributes.first().name%]))
