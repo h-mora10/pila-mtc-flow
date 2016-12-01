@@ -111,7 +111,7 @@ OperadorServicio ServiceOperator {
 				retorne Pensionado.salario * 0.00522;	
 			}
 			
-			if Pensionado.codigoCIU >= 0117 AND Pensionado.codigoCIU <= 1541{
+			if Pensionado.codigoCIU >= 117 AND Pensionado.codigoCIU <= 1541{
 			
 				retorne Pensionado.salario * 0.01044;	
 			}
