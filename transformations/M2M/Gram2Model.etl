@@ -38,8 +38,6 @@ operation PilaValidationsMM!PilaValidations getArchitecture () : ModelMM!Archite
 	
 	bm = new ModelMM!BusinessModel;
 		
-	GrammarMM!ServiceOperator.all.println();
-		
 	bm.entities.add(GrammarMM!ServiceOperator.all.at(0).getModelEntities());
 	bm.entities.addAll(self.getEntities());
 	bm.dataTypes = dataTypes;
@@ -348,7 +346,31 @@ operation GrammarMM!Expression transformExpression() : String{
 		contents += " ";
 	}
 	if(self.elementRight.isDefined()){
-		contents += self.elementRight.element.toLowerCase();
+		if(self.elementLeft.isDefined()){
+			if(self.elementLeft.element.equals("ultimaNovedad.tipo")){
+				if (not PilaValidationsMM!PilaValidations.all.get(0).tiponovedad.isEmpty()) {
+					var tiposNov = PilaValidationsMM!PilaValidations.all.get(0).tiponovedad;
+					for(novedad in tiposNov){
+						var nameTar = novedad.nombre.trim();
+						nameTar = nameTar.replace(" ","");
+						
+						var nameSrc = self.elementRight.element.trim();
+						nameSrc = nameSrc.replace(" ","");
+						nameSrc = nameSrc.replace("\"","");
+											
+						if(nameSrc.toLowerCase().equals(nameTar.toLowerCase())){
+							contents += novedad.codigo;	
+						}
+					}
+				}
+			}
+			else{
+				contents += self.elementRight.element.toLowerCase();	
+			}
+		}
+		else{
+			contents += self.elementRight.element.toLowerCase();
+		}
 	}
 	
 	return contents;
