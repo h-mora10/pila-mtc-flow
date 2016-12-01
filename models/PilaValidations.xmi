@@ -1,204 +1,54 @@
 <?xml version="1.0" encoding="ASCII"?>
-<pilaValidationsV2:PilaValidations
-    xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:pilaValidationsV2="http://www.example.org/pilaValidationsV2">
-  <tipopension
-      codigo="1"
-      nombre="Vejez"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2"
-      pagadorpensiones="//@pagadorpensiones.1 //@pagadorpensiones.2"/>
-  <tipopension
-      codigo="2"
-      nombre="Sobrevivencia vitalicia riesgo com&#xfa;n"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <tipopension
-      codigo="3"
-      nombre="Sobrevivencia temporal riesgo com&#xfa;n"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <tipopension
-      codigo="4"
-      nombre="Sobrevivencia temporal riesgo com&#xfa;n. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <tipopension
-      codigo="5"
-      nombre="Sobrevivencia vitalicia por riesgo laboral"
-      tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5"
-      pagadorpensiones="//@pagadorpensiones.2"/>
-  <tipopension
-      codigo="6"
-      nombre="Sobrevivencia temporal riesgo laboral"
-      tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5"
-      pagadorpensiones="//@pagadorpensiones.2"/>
-  <tipopension
-      codigo="7"
-      nombre="Sobrevivencia temporal riesgo laboral. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos"
-      tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5"
-      pagadorpensiones="//@pagadorpensiones.2"/>
-  <tipopension
-      codigo="8"
-      nombre="Invalidez riesgo com&#xfa;n"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <tipopension
-      codigo="9"
-      nombre="Invalidez riesgo laboral"
-      tipopensionado="//@tipopensionado.3"
-      pagadorpensiones="//@pagadorpensiones.2"/>
-  <tipopension
-      codigo="10"
-      nombre="Jubilaci&#xf3;n"
-      tipopensionado="//@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <tipopension
-      codigo="11"
-      nombre="Jubilaci&#xf3;n para compartir"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
-  <tipopension
-      codigo="12"
-      nombre="Sanci&#xf3;n"
-      tipopensionado="//@tipopensionado.4 //@tipopensionado.5"
-      pagadorpensiones="//@pagadorpensiones.0"/>
-  <tipopension
-      codigo="13"
-      nombre="Convencional"
-      tipopensionado="//@tipopensionado.4 //@tipopensionado.5"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
-  <tipopension
-      codigo="14"
-      nombre="Convencional para compartir"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.4 //@tipopensionado.5"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
-  <tipopension
-      codigo="15"
-      nombre="Gracia"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1"
-      pagadorpensiones="//@pagadorpensiones.2"/>
-  <tipopension
-      codigo="16"
-      nombre="Por convenio internacional"
-      tipopensionado="//@tipopensionado.0"
-      pagadorpensiones="//@pagadorpensiones.1"/>
-  <tipopension
-      codigo="20"
-      nombre="Sentencia judicial"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <tipopension
-      codigo="21"
-      nombre="Conciliaciones"
-      tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
-  <pagadorpensiones
-      codigo="1"
-      nombre="Empleador"/>
-  <pagadorpensiones
-      codigo="2"
-      nombre="Administrador de pensiones"/>
-  <pagadorpensiones
-      codigo="3"
-      nombre="Pagador de pensiones"/>
-  <pagadorpensiones
-      codigo="4"
-      nombre="Pensiones de entidades de los reg&#xed;menes especiales y de excepci&#xf3;n"/>
-  <tipopensionado
-      codigo="1"
-      nombre="Pensionado de r&#xe9;gimen de prima media. Tope m&#xe1;ximo de pensi&#xf3;n 25 smlmv"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2"/>
-  <tipopensionado
-      codigo="2"
-      nombre="Pensionado de r&#xe9;gimen de prima media. Sin tope m&#xe1;ximo de pensi&#xf3;n"
-      pagadorpensiones="//@pagadorpensiones.1 //@pagadorpensiones.2"/>
-  <tipopensionado
-      codigo="3"
-      nombre="Pensionado de r&#xe9;gimen de ahorro individual. No aplica tope m&#xe1;ximo de pensi&#xf3;n"
-      pagadorpensiones="//@pagadorpensiones.1"/>
-  <tipopensionado
-      codigo="4"
-      nombre="Pensionado de Riesgos Laborales. Tope m&#xe1;ximo de 25 smlmv"
-      pagadorpensiones="//@pagadorpensiones.2"/>
-  <tipopensionado
-      codigo="5"
-      nombre="Pensionado por el empleador, con tope m&#xe1;ximo de pensi&#xf3;n 25 smlmv"
-      pagadorpensiones="//@pagadorpensiones.0"/>
-  <tipopensionado
-      codigo="6"
-      nombre="Pensionado por el empleador sin tope m&#xe1;ximo de pensi&#xf3;n"
-      pagadorpensiones="//@pagadorpensiones.0"/>
-  <tipopensionado
-      codigo="7"
-      nombre="Pensionado de entidades de los reg&#xed;menes especial y de excepci&#xf3;n, con tope m&#xe1;ximo de pensi&#xf3;n 25 smlmv"
-      pagadorpensiones="//@pagadorpensiones.3"/>
-  <tipopensionado
-      codigo="8"
-      nombre="Pensionado de entidades de los reg&#xed;menes especial y de excepci&#xf3;n sin tope m&#xe1;ximo de pensi&#xf3;n"
-      pagadorpensiones="//@pagadorpensiones.3"/>
-  <tipopensionado
-      codigo="9"
-      nombre="Beneficiario UPC adicional"
-      pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2"/>
-  <tiponovedad
-      codigo="1"
-      nombre="Traslado"/>
-  <tiponovedad
-      codigo="2"
-      nombre="Variaci&#xf3;n transitoria de salario"/>
-  <tiponovedad
-      codigo="3"
-      nombre="Supenci&#xf3;n temporal"/>
-  <tiponovedad
-      codigo="4"
-      nombre="Licencia no remunerada"/>
-  <tiponovedad
-      codigo="5"
-      nombre="Comisi&#xf3;n por servicios"/>
-  <tiponovedad
-      codigo="6"
-      nombre="Incapacidad temporal por enfermedad"/>
-  <tiponovedad
-      codigo="7"
-      nombre="Licencia maternidad/paternidad"/>
-  <tiponovedad
-      codigo="8"
-      nombre="Vacaciones"/>
-  <tiponovedad
-      codigo="9"
-      nombre="Licencia remunerada"/>
-  <tiponovedad
-      codigo="10"
-      nombre="Aporte volunatario a pensiones"/>
-  <codigociu
-      codigo="8022"
-      nombre="8022"/>
-  <codigociu
-      codigo="8513"
-      nombre="8513"/>
-  <codigociu
-      codigo="117"
-      nombre="117"/>
-  <codigociu
-      codigo="1541"
-      nombre="1541"/>
-  <codigociu
-      codigo="1592"
-      nombre="1592"/>
-  <codigociu
-      codigo="1743"
-      nombre="1743"/>
-  <codigociu
-      codigo="2101"
-      nombre="2101"/>
-  <codigociu
-      codigo="2322"
-      nombre="2322"/>
-  <codigociu
-      codigo="1431"
-      nombre="1431"/>
-  <codigociu
-      codigo="2321"
-      nombre="2321"/>
+<pilaValidationsV2:PilaValidations xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:pilaValidationsV2="http://www.example.org/pilaValidationsV2">
+  <tipopension codigo="1" nombre="Vejez" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2" pagadorpensiones="//@pagadorpensiones.1 //@pagadorpensiones.2"/>
+  <tipopension codigo="2" nombre="Sobrevivencia vitalicia riesgo com&#xfa;n" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <tipopension codigo="3" nombre="Sobrevivencia temporal riesgo com&#xfa;n" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <tipopension codigo="4" nombre="Sobrevivencia temporal riesgo com&#xfa;n. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <tipopension codigo="5" nombre="Sobrevivencia vitalicia por riesgo laboral" tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5" pagadorpensiones="//@pagadorpensiones.2"/>
+  <tipopension codigo="6" nombre="Sobrevivencia temporal riesgo laboral" tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5" pagadorpensiones="//@pagadorpensiones.2"/>
+  <tipopension codigo="7" nombre="Sobrevivencia temporal riesgo laboral. C&#xf3;nyuge o compa&#xf1;era(o) menor de 30 a&#xf1;os sin hijos" tipopensionado="//@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5" pagadorpensiones="//@pagadorpensiones.2"/>
+  <tipopension codigo="8" nombre="Invalidez riesgo com&#xfa;n" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <tipopension codigo="9" nombre="Invalidez riesgo laboral" tipopensionado="//@tipopensionado.3" pagadorpensiones="//@pagadorpensiones.2"/>
+  <tipopension codigo="10" nombre="Jubilaci&#xf3;n" tipopensionado="//@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <tipopension codigo="11" nombre="Jubilaci&#xf3;n para compartir" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
+  <tipopension codigo="12" nombre="Sanci&#xf3;n" tipopensionado="//@tipopensionado.4 //@tipopensionado.5" pagadorpensiones="//@pagadorpensiones.0"/>
+  <tipopension codigo="13" nombre="Convencional" tipopensionado="//@tipopensionado.4 //@tipopensionado.5" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
+  <tipopension codigo="14" nombre="Convencional para compartir" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.4 //@tipopensionado.5" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.2"/>
+  <tipopension codigo="15" nombre="Gracia" tipopensionado="//@tipopensionado.0 //@tipopensionado.1" pagadorpensiones="//@pagadorpensiones.2"/>
+  <tipopension codigo="16" nombre="Por convenio internacional" tipopensionado="//@tipopensionado.0" pagadorpensiones="//@pagadorpensiones.1"/>
+  <tipopension codigo="20" nombre="Sentencia judicial" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.2 //@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <tipopension codigo="21" nombre="Conciliaciones" tipopensionado="//@tipopensionado.0 //@tipopensionado.1 //@tipopensionado.3 //@tipopensionado.4 //@tipopensionado.5 //@tipopensionado.6 //@tipopensionado.7" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2 //@pagadorpensiones.3"/>
+  <pagadorpensiones codigo="1" nombre="Empleador"/>
+  <pagadorpensiones codigo="2" nombre="Administrador de pensiones"/>
+  <pagadorpensiones codigo="3" nombre="Pagador de pensiones"/>
+  <pagadorpensiones codigo="4" nombre="Pensiones de entidades de los reg&#xed;menes especiales y de excepci&#xf3;n"/>
+  <tipopensionado codigo="1" nombre="Pensionado de r&#xe9;gimen de prima media. Tope m&#xe1;ximo de pensi&#xf3;n 25 smlmv" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2"/>
+  <tipopensionado codigo="2" nombre="Pensionado de r&#xe9;gimen de prima media. Sin tope m&#xe1;ximo de pensi&#xf3;n" pagadorpensiones="//@pagadorpensiones.1 //@pagadorpensiones.2"/>
+  <tipopensionado codigo="3" nombre="Pensionado de r&#xe9;gimen de ahorro individual. No aplica tope m&#xe1;ximo de pensi&#xf3;n" pagadorpensiones="//@pagadorpensiones.1"/>
+  <tipopensionado codigo="4" nombre="Pensionado de Riesgos Laborales. Tope m&#xe1;ximo de 25 smlmv" pagadorpensiones="//@pagadorpensiones.2"/>
+  <tipopensionado codigo="5" nombre="Pensionado por el empleador, con tope m&#xe1;ximo de pensi&#xf3;n 25 smlmv" pagadorpensiones="//@pagadorpensiones.0"/>
+  <tipopensionado codigo="6" nombre="Pensionado por el empleador sin tope m&#xe1;ximo de pensi&#xf3;n" pagadorpensiones="//@pagadorpensiones.0"/>
+  <tipopensionado codigo="7" nombre="Pensionado de entidades de los reg&#xed;menes especial y de excepci&#xf3;n, con tope m&#xe1;ximo de pensi&#xf3;n 25 smlmv" pagadorpensiones="//@pagadorpensiones.3"/>
+  <tipopensionado codigo="8" nombre="Pensionado de entidades de los reg&#xed;menes especial y de excepci&#xf3;n sin tope m&#xe1;ximo de pensi&#xf3;n" pagadorpensiones="//@pagadorpensiones.3"/>
+  <tipopensionado codigo="9" nombre="Beneficiario UPC adicional" pagadorpensiones="//@pagadorpensiones.0 //@pagadorpensiones.1 //@pagadorpensiones.2"/>
+  <tiponovedad codigo="1" nombre="Traslado"/>
+  <tiponovedad codigo="2" nombre="Variaci&#xf3;n transitoria de salario"/>
+  <tiponovedad codigo="3" nombre="Suspensi&#xf3;n temporal"/>
+  <tiponovedad codigo="4" nombre="Licencia no remunerada"/>
+  <tiponovedad codigo="5" nombre="Comisi&#xf3;n por servicios"/>
+  <tiponovedad codigo="6" nombre="Incapacidad temporal por enfermedad"/>
+  <tiponovedad codigo="7" nombre="Licencia maternidad/paternidad"/>
+  <tiponovedad codigo="8" nombre="Vacaciones"/>
+  <tiponovedad codigo="9" nombre="Licencia remunerada"/>
+  <tiponovedad codigo="10" nombre="Aporte volunatario a pensiones"/>
+  <codigociu codigo="8022" nombre="8022"/>
+  <codigociu codigo="8513" nombre="8513"/>
+  <codigociu codigo="117" nombre="117"/>
+  <codigociu codigo="1541" nombre="1541"/>
+  <codigociu codigo="1592" nombre="1592"/>
+  <codigociu codigo="1743" nombre="1743"/>
+  <codigociu codigo="2101" nombre="2101"/>
+  <codigociu codigo="2322" nombre="2322"/>
+  <codigociu codigo="1431" nombre="1431"/>
+  <codigociu codigo="2321" nombre="2321"/>
 </pilaValidationsV2:PilaValidations>
