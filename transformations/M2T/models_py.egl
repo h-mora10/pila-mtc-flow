@@ -8,8 +8,6 @@ from django.db import models
 var fkeys : new Map;
 var hasEnums : new Map;
 for (ent in marq!Entity.allInstances()){
-	ent.name.println();
-	ent.childrenEntities.println();
 	
 	for (child in ent.childrenEntities){
 		if(not fkeys.containsKey(child.name)){
