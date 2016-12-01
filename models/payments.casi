@@ -47,7 +47,7 @@ OperadorServicio ServiceOperator {
 				retorne Pensionado.salario * 0.16;
 			} 
 			else_if ultimaNovedad == -NotNull-{
-				if ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios {
+				if ultimaNovedad.tipo == "SuspensiónTemporal" OR ultimaNovedad.tipo == "LicenciaNoRemunerada" OR ultimaNovedad.tipo == "ComisiónPorServicios" {
 					if 	ultimaNovedad.duracion > 7{
 						retorne Pensionado.salario * 0.16;
 					}
@@ -87,7 +87,7 @@ OperadorServicio ServiceOperator {
 			}				
 			else {
 				if ultimaNovedad == -NotNull-{
-					if ultimaNovedad.tipo == SuspensionTemporal OR ultimaNovedad.tipo == LicenciaNoRemunerada OR ultimaNovedad.tipo == ComisionServicios {
+					if ultimaNovedad.tipo == "SuspensiónTemporal" OR ultimaNovedad.tipo == "LicenciaNoRemunerada" OR ultimaNovedad.tipo == "ComisiónPorServicios" {
 						if ultimaNovedad.duracion >= 0 AND ultimaNovedad.duracion <= 3 {
 							retorne 0;	
 						}
